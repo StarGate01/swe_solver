@@ -10,12 +10,13 @@
 
 #include "FStructs.hpp"
 
+#define G_CONST 9.81f
+
 class A2DD
 {
 
 static:
     fresult compute(qvector ql, qvector qr);
-
 };
 
 
