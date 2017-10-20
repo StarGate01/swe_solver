@@ -12,11 +12,18 @@
 
 #define G_CONST 9.81f
 
-class A2DD
+class FCore
 {
 
-static:
-    fresult compute(qvector ql, qvector qr);
+public:
+    static struct fresult compute(qvector ql, qvector qr);
+
+
+private:
+    static double h_func(qvector ql, qvector qr);
+    static double u_func(qvector ql, qvector qr);
+    static struct vector2 f_func(qvector q);
+
 };
 
 

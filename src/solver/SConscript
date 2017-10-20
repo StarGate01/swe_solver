@@ -1,0 +1,14 @@
+#!/usr/bin/python
+
+Import('env')
+
+import os
+
+# List of all source files
+sourceFiles = ['main.cpp', 'FCore.cpp']
+
+# Add source files to scons env
+for f in sourceFiles:
+    env.srcFiles_corecli.append(env.Object(f))
+
+Export('env')
