@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "*.vstemplate": "xml",
+        "iostream": "cpp",
+        "string": "cpp",
+        "cassert": "cpp",
+        "fstream": "cpp",
+        "cstring": "cpp"
+    }
+}
