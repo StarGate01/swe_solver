@@ -8,7 +8,7 @@
 #ifndef FSTRUCTS_HPP_
 #define FSTRUCTS_HPP_
 
-struct 2vector
+struct vector2
 {
     double x;
     double y;
@@ -24,8 +24,8 @@ struct fresult
 {
     double adq_positive;
     double adq_negative;
-    double lambda_l;
-    double lambda_r;
+    double lambda_1;
+    double lambda_2;
 };
 
 #endif /* FSTRUCTS_HPP_ */
