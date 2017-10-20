@@ -9,6 +9,6 @@ sourceFiles = ['main.cpp', 'FCore.cpp']
 
 # Add source files to scons env
 for f in sourceFiles:
-    env.srcFiles.append(env.Object(f))
+    env.srcFiles_corecli.append(env.Object(f))
 
 Export('env')
