@@ -25,10 +25,10 @@
             "name": "GDB WSL Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWE1D/build/SWE1D",
+            "program": "/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/TsunamiSimulation/assignment1/project/build/SWE1D",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/SWE1D/build",
+            "cwd": "/mnt/c/Users/Christoph/Documents/Studium/5_WS1718/TSISIM/Tutorium/TsunamiSimulation/assignment1/project/build",
             "environment": [],
             "externalConsole": true,
             "windows": {
