@@ -8,6 +8,11 @@
 #ifndef FSTRUCTS_HPP_
 #define FSTRUCTS_HPP_
 
+struct 2vector
+{
+    double x;
+    double y;
+};
 
 struct qvector
 {
