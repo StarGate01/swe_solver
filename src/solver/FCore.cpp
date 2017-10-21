@@ -3,6 +3,7 @@
  * @brief Implementation file of the F-Wave solver
  */
 
+
 #include "FCore.hpp"
 #include <math.h>
 
@@ -33,7 +34,9 @@ struct fresult FCore::compute(qvector ql, qvector qr)
 
     res.lambda_1 = u_func(ql, qr) - sqrt(G_CONST * h_func(ql, qr));
     res.lambda_2 = u_func(ql, qr) + sqrt(G_CONST * h_func(ql, qr));
+         //Debug
     
+
     struct vector2 r1 = {1, res.lambda_1};
     struct vector2 r2 = {1, res.lambda_2};
     
@@ -51,18 +54,30 @@ struct fresult FCore::compute(qvector ql, qvector qr)
     };
 
     if(res.lambda_1 < 0)
-        res.adq_negative += alpha.x * r1
+    {
+        res.adq_negative.x += alpha.x * r1.x;
+        res.adq_negative.y += alpha.x * r1.y;
+    }
     else if(res.lambda_1 > 0)
-        res.adq_positive += alpha.x * r1
-    
+    {
+        res.adq_positive.x += alpha.x * r1.x;
+        res.adq_positive.y += alpha.x * r1.y;
+    }
+ 
     if(res.lambda_2 < 0)
-        res.adq_negative += alpha.x * r2
+    {
+        res.adq_negative.x += alpha.x * r2.x;
+        res.adq_negative.y += alpha.x * r2.y;
+    }
     else if(res.lambda_2 > 0)
-        res.adq_positive += alpha.x * r2
-
+    {
+        res.adq_positive.x += alpha.x * r2.x;
+        res.adq_positive.y += alpha.x * r2.y;  
+    }
+             
     if(res.lambda_1 < 0 && res.lambda_2)
         res.lambda_2 = 0;
-    else if(res.lambda_1 > 0 && res.lambda2 > 0)
+    else if(res.lambda_1 > 0 && res.lambda_2 > 0)
         res.lambda_1 = 0;
 
     return res;
