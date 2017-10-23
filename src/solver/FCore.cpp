@@ -34,9 +34,17 @@ struct vector2 FCore::f_func(qvector q)
 
 struct fresult FCore::compute(qvector ql, qvector qr)
 {
+    //Special case ql=qr={0,0}
+    if(ql.h == 0 && ql.hu == 0 && qr.h == 0 && qr.hu == 0)
+    {
+        struct vector2 zerovector = {0.0, 0.0};
+        struct fresult res = {zerovector, zerovector, 0.0, 0.0};
+        return res;
+    }
+
     struct fresult res = {0};
 
-    assert(h_func(ql, qr) > ZERO_PRECISION);        /**< Assert h_func(ql, qr) positive*/
+    assert(h_func(ql, qr) >= 0);        /**< Assert h_func(ql, qr) positive*/
 
     double lambda_sqrt = sqrt(G_CONST * h_func(ql, qr));
     res.lambda_1 = u_func(ql, qr) - lambda_sqrt;
