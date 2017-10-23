@@ -10,6 +10,6 @@ for f in sourceFiles:
     env.srcFiles.append(env.Object(f))
 
 # Declare cxx test suites
-env.CxxTest('FDummyTestSuite', ['unit_tests/FDummyTests.t.h', 'solver/FDummy.cpp'])
+env.CxxTest('FCoreTests', ['unit_tests/FCoreTests.t.h', 'solver/FCore.cpp'])
 
 Export('env')
