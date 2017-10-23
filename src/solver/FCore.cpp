@@ -5,32 +5,11 @@
 
 
 #include "FCore.hpp"
-//#include <math.h>
+#include "FCalc.hpp"
+#include "FConst.hpp"
 #include <cmath>
 #include <assert.h>
 
-double FCore::h_func(qvector ql, qvector qr)
-{
-    return 0.5 * (ql.h + qr.h);
-}
-
-double FCore::u_func(qvector ql, qvector qr)
-{
-    assert(ql.h > ZERO_PRECISION && qr.h > ZERO_PRECISION);     /**< Assert h values are positive */
-
-    double ul = ql.hu / ql.h;
-    double ur = qr.hu / qr.h;
-    return (ul * sqrt(ql.h) + ur * sqrt(qr.h)) / (sqrt(ql.h) + sqrt(qr.h));
-}
-
-struct vector2 FCore::f_func(qvector q)
-{
-    struct vector2 result = {
-        q.hu, 
-        q.hu * q.hu + 0.5 * G_CONST * q.h * q.h
-    };
-    return result;
-}
 
 struct fresult FCore::compute(qvector ql, qvector qr)
 {
@@ -44,17 +23,17 @@ struct fresult FCore::compute(qvector ql, qvector qr)
 
     struct fresult res = {0};
 
-    assert(h_func(ql, qr) >= 0);        /**< Assert h_func(ql, qr) positive*/
+    assert(FCalc::h_func(ql, qr) >= 0);        /**< Assert h_func(ql, qr) positive*/
 
-    double lambda_sqrt = sqrt(G_CONST * h_func(ql, qr));
-    res.lambda_1 = u_func(ql, qr) - lambda_sqrt;
-    res.lambda_2 = u_func(ql, qr) + lambda_sqrt;
+    double lambda_sqrt = sqrt(G_CONST * FCalc::h_func(ql, qr));
+    res.lambda_1 = FCalc::u_func(ql, qr) - lambda_sqrt;
+    res.lambda_2 = FCalc::u_func(ql, qr) + lambda_sqrt;
 
     struct vector2 r1 = {1, res.lambda_1};
     struct vector2 r2 = {1, res.lambda_2};
     
-    struct vector2 fqr = f_func(qr);
-    struct vector2 fql = f_func(ql);
+    struct vector2 fqr = FCalc::f_func(qr);
+    struct vector2 fql = FCalc::f_func(ql);
     
     struct vector2 df = {
         fqr.x - fql.x, 
