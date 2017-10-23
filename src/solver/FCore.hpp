@@ -65,7 +65,6 @@ private:
      * @return The flux
      */
     static struct vector2 f_func(qvector q);
-
 };
 
 
