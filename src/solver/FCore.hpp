@@ -11,7 +11,8 @@
 /**
  * The earth's gravitational acceleration in m/s
  */
-#define G_CONST 9.81f
+#define G_CONST 9.81
+#define ZERO_PRECISION 0.00001
 
 /**
  * @brief Static implementation of the F-Wave solver
@@ -36,7 +37,6 @@ public:
 
 
 private:
-
     /**
      * Computes the height.
      * 
