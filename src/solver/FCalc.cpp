@@ -3,10 +3,9 @@
  * @brief Implementation of FCalc.hpp
 */
 
-
-#include "FCalc.hpp"
 #include <assert.h>
 #include <cmath>
+#include "FCalc.hpp"
 
 double FCalc::h_func(qvector ql, qvector qr)
 {
@@ -15,7 +14,7 @@ double FCalc::h_func(qvector ql, qvector qr)
 
 double FCalc::u_func(qvector ql, qvector qr)
 {
-    assert(ql.h > ZERO_PRECISION && qr.h > ZERO_PRECISION);     /**< Assert h values of ql and qr are positive */
+    assert(ql.h > ZERO_PRECISION && qr.h > ZERO_PRECISION); //Assert h values of ql and qr are positive
 
     double ul = ql.hu / ql.h;
     double ur = qr.hu / qr.h;

@@ -1,6 +1,6 @@
 /**
  * @file FCore.hpp
- * @brief Header file of the F-Wave solver
+ * @brief Core functionality of the F-Wave solver
  */
 
 #ifndef FCORE_HPP_
@@ -12,7 +12,7 @@
 /**
  * @brief Static implementation of the F-Wave solver
  * 
- * This class provides the neccessary functionality to compute the left and right going net-updates 
+ * This class provides the necessary functionality to compute the left and right going net-updates 
  *      and wave speeds of the left and right going waves given the left and right state.
  */
 class FCore
@@ -29,6 +29,7 @@ public:
      * @return The resulting net-updates and wave speeds
      */
     static struct fresult compute(qvector ql, qvector qr);
+
 };
 
 

@@ -1,6 +1,6 @@
 /**
  * @file FConst.hpp
- * @brief Definition of FConst.hpp
+ * @brief Several constants for the F-Wave solver
 */
 
 #ifndef FCONST_HPP_
