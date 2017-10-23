@@ -17,6 +17,6 @@ public:
     {
         struct qvector ql = {1.0, 2.0};
         struct qvector qr = {3.0, 4.0};
-        TS_ASSERT_EQUALS(FCalc::h_func(ql, qr), 0.5*ql.h*qr.h);
+        TS_ASSERT_EQUALS(FCalc::h_func(ql, qr), 0.5*(ql.h+qr.h);
     }
 };
