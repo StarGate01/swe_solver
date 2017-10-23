@@ -1,11 +1,15 @@
-#!/usr/bin/python
-
 Import('env')
 
 import os
-# env.Append(CPPPATH=['solver'])
-env.srcFiles_corecli = ['src/solver/main.cpp', 'src/solver/FCore.cpp']
 
-# env.CxxTest('FDummyTestSuite', ['unit_tests/FDummyTests.t.h', 'solver/FDummy.cpp'])
-env.CxxTest('FCoreTestSuite', ['unit_tests/FCoreTests.t.h', 'solver/FCoreTests.cpp'])
+# List of all source files
+sourceFiles = ['solver/main.cpp', 'solver/FCore.cpp']
+
+# Add source files to scons env
+for f in sourceFiles:
+    env.srcFiles.append(env.Object(f))
+
+# Declare cxx test suites
+env.CxxTest('FDummyTestSuite', ['unit_tests/FDummyTests.t.h', 'solver/FDummy.cpp'])
+
 Export('env')

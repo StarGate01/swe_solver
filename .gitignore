@@ -1,1 +1,7 @@
+# binaries
+build
 documentation/build
+
+# scons stuff
+site_scons/site_tools/cxxtest.pyc
+.sconsign.dblite
