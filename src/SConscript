@@ -1,0 +1,11 @@
+#!/usr/bin/python
+
+Import('env')
+
+import os
+# env.Append(CPPPATH=['solver'])
+env.srcFiles_corecli = ['src/solver/main.cpp', 'src/solver/FCore.cpp']
+
+env.CxxTest('FDummyTestSuite', ['unit_tests/FDummyTests.t.h', 'solver/FDummy.cpp'])
+
+Export('env')
