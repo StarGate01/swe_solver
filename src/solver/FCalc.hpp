@@ -1,9 +1,18 @@
+/**
+ * @file FCalc.hpp
+ * @brief 
+*/
+
 #ifndef FCALC_HPP_
 #define FCALC_HPP_
 
 #include "FStructs.hpp"
 #include "FConst.hpp"
-
+/**
+ * @brief Static Definition of some helper methods.
+ * 
+ * This class provides some methods used in the implementation of FCore
+ */
 class FCalc
 {
 public:

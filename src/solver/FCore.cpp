@@ -10,7 +10,6 @@
 #include <cmath>
 #include <assert.h>
 
-
 struct fresult FCore::compute(qvector ql, qvector qr)
 {
     //Special case ql=qr={0,0}

@@ -21,7 +21,7 @@ class FCore
 public:
 
      /**
-     * Computes the resulting net-updates and wave speeds from the left and right state.
+     * Static method, that computes the resulting net-updates and wave speeds from the left and right state.
      *
      * @param ql The left state
      * @param qr The right state
