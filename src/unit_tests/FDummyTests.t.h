@@ -1,5 +1,5 @@
 #include <cxxtest/TestSuite.h>
-#include "solver/FDummy.hpp"
+#include "../solver/FDummy.hpp"
 
 class FDummyTestSuite : public CxxTest::TestSuite
 {
