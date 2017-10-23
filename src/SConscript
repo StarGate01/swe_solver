@@ -6,6 +6,6 @@ import os
 # env.Append(CPPPATH=['solver'])
 env.srcFiles_corecli = ['src/solver/main.cpp', 'src/solver/FCore.cpp']
 
-env.CxxTest('FDummyTestSuite', ['unit_tests/FDummyTests.t.h', 'solver/FDummy.cpp'])
-
+# env.CxxTest('FDummyTestSuite', ['unit_tests/FDummyTests.t.h', 'solver/FDummy.cpp'])
+env.CxxTest('FCoreTestSuite', ['unit_tests/FCoreTests.t.h', 'solver/FCoreTests.cpp'])
 Export('env')
