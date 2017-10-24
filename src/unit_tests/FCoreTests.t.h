@@ -29,6 +29,38 @@ public:
     }
 
     /**
+     * Test the implmentation of the F-Wave solver against some precomputed values
+     * 
+    */
+    void testcompute_valid(void)
+    {
+        /** Scenario 1 */
+        struct qvector ql = {0.0, 0.0};
+        struct qvector qr = {0.0, 0.0};
+        struct fresult res = FCore::compute(ql, qr);
+        TS_ASSERT(true);
+
+        /** Scenario 2 */
+        ql = {0.0, 0.0};
+        qr = {0.0, 0.0};
+        res = FCore::compute(ql, qr);
+        TS_ASSERT(true);
+
+        /** Scenario 3 */
+        ql = {0.0, 0.0};
+        qr = {0.0, 0.0};
+        res = FCore::compute(ql, qr);
+        TS_ASSERT(true);
+
+        /** Scenario 4 */
+        ql = {0.0, 0.0};
+        qr = {0.0, 0.0};
+        res = FCore::compute(ql, qr);
+        TS_ASSERT(true);        
+    }
+
+
+    /**
      * Test to verify the 'h-func' of FCalc by testing a set of predetermined inputs
      * to the ZERO_PRECISION accuracy defined in FConst
     */
@@ -47,5 +79,25 @@ public:
         //(0.0 + 0.0)/2 = 0
         ql = {0.0, 0.0}
         TS_ASSERT(abs(FCalc::h_func(ql, qr)) < ZERO_PRECISION); /**< Test zero input for zero output*/
+    }
+
+    /**
+     * Test to verify the 'u_func' of FCalc by testing a set of predetermined inputs
+     * to the ZERO_PRECISION accuracy defined in FConst
+    */
+    void testu_func(void)
+    {
+        //TODO: Implement precalculated tests
+        TS_ASSERT(true);
+    }
+
+    /**
+     * Test to verify the 'f_func' of FCalc by testing a set of predetermined inputs
+     * to the ZERO_PRECISION accuracy defined in FConst
+    */
+    void testf_func(void)
+    {
+        //TODO: Implement precalculated tests            
+        TS_ASSERT(true);
     }
 };
