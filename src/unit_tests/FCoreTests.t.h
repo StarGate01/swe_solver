@@ -44,19 +44,19 @@ public:
         TS_ASSERT(true);
 
         //TODO: Add correct numbers to verify output
-        /** Scenario 2 */
+        /** Scenario 2: ToDo */
         ql = {0.0, 0.0};
         qr = {0.0, 0.0};
         res = FCore::compute(ql, qr);
         TS_ASSERT(true);
 
-        /** Scenario 3 */
+        /** Scenario 3: ToDo */
         ql = {0.0, 0.0};
         qr = {0.0, 0.0};
         res = FCore::compute(ql, qr);
         TS_ASSERT(true);
 
-        /** Scenario 4 */
+        /** Scenario 4: ToDo */
         ql = {0.0, 0.0};
         qr = {0.0, 0.0};
         res = FCore::compute(ql, qr);
@@ -70,7 +70,7 @@ public:
     */
     void testh_func(void)
     {
-        /** brief Assert \f$\frac{3.0 + 1.0}{2} = 2\f$ */
+        /** @brief Assert \f$\frac{3.0 + 1.0}{2} = 2\f$ */
         struct qvector ql = {1.0, 2.0};
         struct qvector qr = {3.0, 4.0};
         TS_ASSERT(std::abs(FCalc::h_func(ql, qr) - 2) < ZERO_PRECISION);
@@ -85,7 +85,7 @@ public:
         qr = {0.0, 4.0};
         TS_ASSERT(std::abs(FCalc::h_func(ql, qr)) < ZERO_PRECISION); //Test zero input for zero output
 
-        /** @brief \f$\frac{\text{NaN} + 5.0}{2} = \text{NaN}\f$ */
+        /** @brief Assert \f$\frac{NaN + 5.0}{2} = NaN\f$ */
         ql = {std::numeric_limits<double>::quiet_NaN(), 0.0};
         qr = {5.0, 4.0};
         TS_ASSERT(std::isnan(FCalc::h_func(ql, qr)));
@@ -158,4 +158,5 @@ public:
         TS_ASSERT(std::isnan(out.x));
         TS_ASSERT(std::isnan(out.y));
     }
+
 };
