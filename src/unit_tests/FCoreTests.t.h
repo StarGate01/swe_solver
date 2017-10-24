@@ -70,22 +70,22 @@ public:
     */
     void testh_func(void)
     {
-        //@brief Assert \f$\frac{3.0 + 1.0}{2} = 2\f$ 
+        /** brief Assert \f$\frac{3.0 + 1.0}{2} = 2\f$ */
         struct qvector ql = {1.0, 2.0};
         struct qvector qr = {3.0, 4.0};
         TS_ASSERT(std::abs(FCalc::h_func(ql, qr) - 2) < ZERO_PRECISION);
 
-        //@brief Assert \f$\frac{-3.0+5.0}{2} = 1\f$
+        /** @brief Assert \f$\frac{-3.0+5.0}{2} = 1\f$ */
         ql = {-3.0, 2.0};
         qr = {5.0, 4.0};
         TS_ASSERT(std::abs(FCalc::h_func(ql, qr) - 1) < ZERO_PRECISION);
 
-        //@brief Assert \f$\frac{0.0 + 0.0}{2} = 0\f$
+        /** @brief Assert \f$\frac{0.0 + 0.0}{2} = 0\f$ */
         ql = {0.0, 0.0};
         qr = {0.0, 4.0};
         TS_ASSERT(std::abs(FCalc::h_func(ql, qr)) < ZERO_PRECISION); //Test zero input for zero output
 
-        //@brief \f$\frac{\text{NaN} + 5.0}{2} = \text{NaN}\f$
+        /** @brief \f$\frac{\text{NaN} + 5.0}{2} = \text{NaN}\f$ */
         ql = {std::numeric_limits<double>::quiet_NaN(), 0.0};
         qr = {5.0, 4.0};
         TS_ASSERT(std::isnan(FCalc::h_func(ql, qr)));
@@ -140,13 +140,13 @@ public:
         TS_ASSERT_EQUALS(out.x, 1.0);
         TS_ASSERT(std::abs(out.y - 5.905) < ZERO_PRECISION);
 
-        /**@brief Scenario 2: Negative h value */
+        /** @brief Scenario 2: Negative h value */
         input = {-3.0, 5.0};
         out = FCalc::f_func(input);
         TS_ASSERT_EQUALS(out.x, 5.0);
         TS_ASSERT(std::abs(out.y - 69.145) < ZERO_PRECISION);
 
-        /**@brief Scenario 3: Negative h and hu value*/
+        /** @brief Scenario 3: Negative h and hu value*/
         input = {-3.0, -5.0};
         out = FCalc::f_func(input);
         TS_ASSERT_EQUALS(out.x, -5.0);
