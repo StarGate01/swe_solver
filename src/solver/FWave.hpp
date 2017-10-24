@@ -20,7 +20,7 @@ public:
     /**
      * Compute net updates for the left and right cell of the edge. Nothing is returned as the values are changed inside the given matrices.
      *
-     * @param l_h The left heights
+     * @param l_h[] The left heights
      * @param r_h[] The right heights
      * @param l_hu[] The left speeds
      * @param r_hu[] The right speeds
