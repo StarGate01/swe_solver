@@ -3,9 +3,11 @@
  * @brief Unit tests for FCore and FCalc
 */
 
+#include <cmath>
 #include <cxxtest/TestSuite.h>
 #include "../solver/FCore.hpp"
 #include "../solver/FCalc.hpp"
+
 
 /**
  * @brief Definition and implementations of tests for the F-Wave solver
@@ -69,16 +71,16 @@ public:
         //(3.0 + 1.0)/2 = 2
         struct qvector ql = {1.0, 2.0};
         struct qvector qr = {3.0, 4.0};
-        TS_ASSERT(abs(FCalc::h_func(ql, qr) - 2) < ZERO_PRECISION);
+        TS_ASSERT(std::abs(FCalc::h_func(ql, qr) - 2) < ZERO_PRECISION);
 
         //(-3.0+5.0)/2 = 1
         ql = {-3.0, 2.0};
         qr = {5.0, 4.0};
-        TS_ASSERT(abs(FCalc::h_func(ql, qr) - 1) < ZERO_PRECISION);
+        TS_ASSERT(std::abs(FCalc::h_func(ql, qr) - 1) < ZERO_PRECISION);
 
         //(0.0 + 0.0)/2 = 0
-        ql = {0.0, 0.0}
-        TS_ASSERT(abs(FCalc::h_func(ql, qr)) < ZERO_PRECISION); //Test zero input for zero output
+        ql = {0.0, 0.0};
+        TS_ASSERT(std::abs(FCalc::h_func(ql, qr)) < ZERO_PRECISION); //Test zero input for zero output
     }
 
     /**
