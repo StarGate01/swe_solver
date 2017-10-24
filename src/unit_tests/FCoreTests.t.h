@@ -29,7 +29,6 @@ public:
     }
 
     /**
-<<<<<<< HEAD
      * Test the implmentation of the F-Wave solver against some precomputed values
      * 
     */
@@ -65,10 +64,6 @@ public:
      * Test to verify the 'h-func' of FCalc by testing a set of predetermined inputs
      * to the ZERO_PRECISION accuracy defined in FConst
     */
-=======
-     * Test to verify the FCalc::h_func by testing a set of predetermined inputs to the #ZERO_PRECISION accuracy
-     */
->>>>>>> d295215491d43c7e62845a018d02f7b6b376531e
     void testh_func(void)
     {
         //(3.0 + 1.0)/2 = 2
