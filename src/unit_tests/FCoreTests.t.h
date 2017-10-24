@@ -96,7 +96,35 @@ public:
     */
     void testu_func(void)
     {
-        TS_ASSERT(true);
+        /** Scenario 1 */
+        struct qvector ql = {1.0, 2.0};
+        struct qvector qr = {3.0, 4.0};
+        TS_ASSERT(std::abs(FCalc::u_func(ql, qr) - 1.5773502691896257645091487805019) < ZERO_PRECISION);
+
+        /** Scenario 2 */
+        ql = {3.0, -42.0};
+        qr = {98.0, -599.0};
+        TS_ASSERT(std::abs(FCalc::u_func(ql, qr) - -7.286808700128869) < ZERO_PRECISION);
+
+        /** Scenario 3 */
+        ql = {std::numeric_limits<double>::quiet_NaN(), -42.0};
+        qr = {98.0, -599.0};
+        TS_ASSERT(std::isnan(FCalc::u_func(ql, qr)));
+
+        /** Scenario 4 */
+        ql = {42.0, std::numeric_limits<double>::quiet_NaN()};
+        qr = {98.0, -599.0};
+        TS_ASSERT(std::isnan(FCalc::u_func(ql, qr)));
+
+        /** Scenario 5 */
+        ql = {98.0, -599.0};
+        qr = {std::numeric_limits<double>::quiet_NaN(), -42.0};
+        TS_ASSERT(std::isnan(FCalc::u_func(ql, qr)));
+
+        /** Scenario 6 */
+        ql = {98.0, -599.0};
+        qr = {42.0, std::numeric_limits<double>::quiet_NaN()};
+        TS_ASSERT(std::isnan(FCalc::u_func(ql, qr)));
     }
 
     /**
