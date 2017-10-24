@@ -3,7 +3,8 @@
  * @brief Unit tests for FCore and FCalc
 */
 
-#include <cmath>
+#include <math.h>
+#include <limits>
 #include <cxxtest/TestSuite.h>
 #include "../solver/FCore.hpp"
 #include "../solver/FCalc.hpp"
@@ -31,7 +32,7 @@ public:
     }
 
     /**
-     * Test the implmentation of the F-Wave solver against some precomputed values
+     * Test the implmentation of FCore::compute against some precomputed values
      * 
     */
     void testcompute_valid(void)
@@ -63,8 +64,8 @@ public:
 
 
     /**
-     * Test to verify the 'h-func' of FCalc by testing a set of predetermined inputs
-     * to the ZERO_PRECISION accuracy defined in FConst
+     * Test to verify FCalc::h_func by testing a set of predetermined inputs
+     * to the #ZERO_PRECISION accuracy defined in FConst
     */
     void testh_func(void)
     {
@@ -80,26 +81,49 @@ public:
 
         //(0.0 + 0.0)/2 = 0
         ql = {0.0, 0.0};
+        qr = {0.0, 4.0};
         TS_ASSERT(std::abs(FCalc::h_func(ql, qr)) < ZERO_PRECISION); //Test zero input for zero output
+
+        //(NaN + 5.0)/2 = NaN
+        ql = {std::numeric_limits<double>::quiet_NaN(), 0.0};
+        qr = {5.0, 4.0};
+        TS_ASSERT(std::isnan(FCalc::h_func(ql, qr)));
     }
 
     /**
-     * Test to verify the 'u_func' of FCalc by testing a set of predetermined inputs
-     * to the ZERO_PRECISION accuracy defined in FConst
+     * Test to verify FCalc::u_func by testing a set of predetermined inputs
+     * to the #ZERO_PRECISION accuracy defined in FConst
     */
     void testu_func(void)
     {
-        //TODO: Implement precalculated tests
         TS_ASSERT(true);
     }
 
     /**
-     * Test to verify the 'f_func' of FCalc by testing a set of predetermined inputs
-     * to the ZERO_PRECISION accuracy defined in FConst
+     * Test to verify FCalc::f_func by testing a set of predetermined inputs
+     * to the #ZERO_PRECISION accuracy defined in FConst
     */
     void testf_func(void)
     {
-        //TODO: Implement precalculated tests            
-        TS_ASSERT(true);
+        /** Scenario 1*/
+        struct qvector input = {1.0 ,1.0};
+        struct vector2 out = FCalc::f_func(input);
+        TS_ASSERT_EQUALS(out.x, 1.0);
+        TS_ASSERT(std::abs(out.y - 5.905) < ZERO_PRECISION);
+
+        input = {-3.0, 5.0};
+        out = FCalc::f_func(input);
+        TS_ASSERT_EQUALS(out.x, 5.0);
+        TS_ASSERT(std::abs(out.y - 69.145) < ZERO_PRECISION);
+
+        input = {-3.0, -5.0};
+        out = FCalc::f_func(input);
+        TS_ASSERT_EQUALS(out.x, -5.0);
+        TS_ASSERT(std::abs(out.y - 69.145) < ZERO_PRECISION);
+
+        input = {1.0, std::numeric_limits<double>::quiet_NaN()};
+        out = FCalc::f_func(input);
+        TS_ASSERT(std::isnan(out.x));
+        TS_ASSERT(std::isnan(out.y));
     }
 };
