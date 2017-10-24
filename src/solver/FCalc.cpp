@@ -4,7 +4,8 @@
 */
 
 #include <assert.h>
-#include <cmath>
+#include <math.h>
+#include <limits>
 #include "FCalc.hpp"
 
 double FCalc::h_func(qvector ql, qvector qr)
@@ -14,6 +15,9 @@ double FCalc::h_func(qvector ql, qvector qr)
 
 double FCalc::u_func(qvector ql, qvector qr)
 {
+    if(isnan(ql.h) || isnan(ql.hu) || isnan(qr.h) || isnan(qr.hu))
+        return std::numeric_limits<double>::quiet_NaN();
+
     assert(ql.h > ZERO_PRECISION && qr.h > ZERO_PRECISION); //Assert h values of ql and qr are positive
 
     double ul = ql.hu / ql.h;
