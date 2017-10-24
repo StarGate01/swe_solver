@@ -1,6 +1,6 @@
 /**
  * @file FCoreTests.t.h
- * @brief Header with implemtentation of tests for the F-Wave solver
+ * @brief Unit tests for FCore and FCalc
 */
 
 #include <cxxtest/TestSuite.h>
@@ -8,19 +8,19 @@
 #include "../solver/FCalc.hpp"
 
 /**
- * @bief Definition and implementations of tests for the F-Wave solver
+ * @brief Definition and implementations of tests for the F-Wave solver
  * 
  * This class provides the necessary tests to verify the implementation of
- * the F-Wave solver and the helper methods in 'FCalc'.
+ * the F-Wave solver and the helper methods in FCalc.
 */
 class FCoreTestSuite : public CxxTest::TestSuite
 {
-    friend class FCore;
+
 public:
+
     /**
-     * Test to verify, that a zero vector is returned by the compute method
-     * when feeded with parameters ql=qr={0,0}
-    */
+     * Test to verify that a zero vector is returned by the compute method when fed with parameters ql = qr = {0,0}
+     */
     void testcompute_zero(void)
     {
         struct qvector zerovector = {0.0, 0.0};
@@ -29,6 +29,7 @@ public:
     }
 
     /**
+<<<<<<< HEAD
      * Test the implmentation of the F-Wave solver against some precomputed values
      * 
     */
@@ -64,6 +65,10 @@ public:
      * Test to verify the 'h-func' of FCalc by testing a set of predetermined inputs
      * to the ZERO_PRECISION accuracy defined in FConst
     */
+=======
+     * Test to verify the FCalc::h_func by testing a set of predetermined inputs to the #ZERO_PRECISION accuracy
+     */
+>>>>>>> d295215491d43c7e62845a018d02f7b6b376531e
     void testh_func(void)
     {
         //(3.0 + 1.0)/2 = 2
@@ -78,7 +83,7 @@ public:
 
         //(0.0 + 0.0)/2 = 0
         ql = {0.0, 0.0}
-        TS_ASSERT(abs(FCalc::h_func(ql, qr)) < ZERO_PRECISION); /**< Test zero input for zero output*/
+        TS_ASSERT(abs(FCalc::h_func(ql, qr)) < ZERO_PRECISION); //Test zero input for zero output
     }
 
     /**

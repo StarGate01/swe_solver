@@ -1,6 +1,6 @@
 /**
  * @file FCalc.hpp
- * @brief 
+ * @brief Auxiliary methods for the F-Wave solver
 */
 
 #ifndef FCALC_HPP_
@@ -8,14 +8,17 @@
 
 #include "FStructs.hpp"
 #include "FConst.hpp"
+
 /**
- * @brief Static Definition of some helper methods.
+ * @brief Some static helper methods for the F-Wave solver
  * 
  * This class provides some methods used in the implementation of FCore
  */
 class FCalc
 {
+
 public:
+
     /**
      * Computes the height.
      * 
@@ -44,6 +47,7 @@ public:
      * @return The flux
      */
     static struct vector2 f_func(qvector q);
+
 };
 
 #endif /* FCALC_HPP_ */
