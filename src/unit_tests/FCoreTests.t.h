@@ -9,6 +9,17 @@
 #include "../solver/FCore.hpp"
 #include "../solver/FCalc.hpp"
 
+using namespace solver;
+
+/**
+ * @brief Tests for the F-Wave solver
+ */
+namespace solver_tests
+{
+
+    class FCoreTestSuite;
+
+}
 
 /**
  * @brief Definition and implementations of tests for the F-Wave solver
@@ -16,7 +27,7 @@
  * This class provides the necessary tests to verify the implementation of
  * the F-Wave solver and the helper methods in FCalc.
 */
-class FCoreTestSuite : public CxxTest::TestSuite
+class solver_tests::FCoreTestSuite : public CxxTest::TestSuite
 {
 
 public:
@@ -32,7 +43,7 @@ public:
     }
 
     /**
-     * @brief Test the implmentation of FCore::compute against some precomputed values
+     * @brief Test the implmentation of solver::FCore::compute against some precomputed values
      * 
     */
     void testcompute_valid(void)
@@ -65,8 +76,8 @@ public:
 
 
     /**
-     * @brief Test to verify FCalc::h_func by testing a set of predetermined inputs
-     *  to the #ZERO_PRECISION accuracy defined in FConst
+     * @brief Test to verify solver::FCalc::h_func by testing a set of predetermined inputs
+     *  to the #ZERO_PRECISION accuracy
     */
     void testh_func(void)
     {
@@ -92,8 +103,8 @@ public:
     }
 
     /**
-     * @brief Test to verify FCalc::u_func by testing a set of predetermined inputs
-     *  to the #ZERO_PRECISION accuracy defined in FConst
+     * @brief Test to verify solver::FCalc::u_func by testing a set of predetermined inputs
+     *  to the #ZERO_PRECISION accuracy
     */
     void testu_func(void)
     {
@@ -129,8 +140,8 @@ public:
     }
 
     /**
-     * @brief Test to verify FCalc::f_func by testing a set of predetermined inputs
-     *  to the #ZERO_PRECISION accuracy defined in FConst
+     * @brief Test to verify solver::FCalc::f_func by testing a set of predetermined inputs
+     *  to the #ZERO_PRECISION accuracy 
     */
     void testf_func(void)
     {

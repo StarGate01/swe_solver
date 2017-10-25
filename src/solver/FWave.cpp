@@ -5,12 +5,14 @@
 
 #include "FWave.hpp"
 
- template <typename T> FWave<T>::computeNetUpdates (T l_h[], T r_h[],
-    T l_hu[], T r_hu[],
-    T b_l, T b_r,	
-    T hNetUpdatesLeft[], T hNetUpdatesRight[],
-    T huNetUpdatesLeft[], T huNetUpdatesRight[],
-    T maxEdgeSpeed )
+using namespace solver;
+
+template <typename T> FWave<T>::computeNetUpdates (const T &hLeft,  const T &hRight,
+    const T &huLeft, const T &huRight,
+    const T &bLeft,  const T &bRight,
+    T &hUpdateLeft, T &hUpdateRight,
+    T &huUpdateLeft, T &huUpdateRight,
+    T &maxWaveSpeed)
 {
         
 }

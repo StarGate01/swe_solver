@@ -9,44 +9,49 @@
 #include "FStructs.hpp"
 #include "FConst.hpp"
 
-/**
- * @brief Some static helper methods for the F-Wave solver
- * 
- * This class provides some methods used in the implementation of FCore
- */
-class FCalc
+namespace solver
 {
 
-public:
-
     /**
-     * Computes the height.
+     * @brief Some static helper methods for the F-Wave solver
      * 
-     * @param ql The left state
-     * @param qr The right state
-     * 
-     * @return The height
+     * This class provides some methods used in the implementation of FCore
      */
-    static double h_func(qvector ql, qvector qr);
+    class FCalc
+    {
 
-    /**
-     * Computes the particle velocity.
-     * 
-     * @param ql The left state
-     * @param qr The right state
-     * 
-     * @return The particle velocity
-     */
-    static double u_func(qvector ql, qvector qr);
+    public:
 
-    /**
-     * Computes the flux.
-     * 
-     * @param q The state
-     * 
-     * @return The flux
-     */
-    static struct vector2 f_func(qvector q);
+        /**
+         * Computes the height.
+         * 
+         * @param ql The left state
+         * @param qr The right state
+         * 
+         * @return The height
+         */
+        static double h_func(qvector ql, qvector qr);
+
+        /**
+         * Computes the particle velocity.
+         * 
+         * @param ql The left state
+         * @param qr The right state
+         * 
+         * @return The particle velocity
+         */
+        static double u_func(qvector ql, qvector qr);
+
+        /**
+         * Computes the flux.
+         * 
+         * @param q The state
+         * 
+         * @return The flux
+         */
+        static struct vector2 f_func(qvector q);
+
+    };
 
 };
 

@@ -8,45 +8,47 @@
 
 #include "FCore.hpp"
 
-/**
- * @brief Adapter to the surrounding framework
- * 
- * This class provides the necessary methods for the F-Wave environment to interact with the F-Wave solver.
- * Supports flout and double as type parametrization argument.
- * 
- */
-template <typename T>
-class FWave
+namespace solver
 {
 
-public:
-
     /**
-     * Compute net updates for the left and right cell of the edge.
+     * @brief Adapter to the surrounding framework
      * 
-     * Nothing is returned as the values are changed inside the given matrices.
-     * 
-     * @param l_h[] The left heights
-     * @param r_h[] The right heights
-     * @param l_hu[] The left speeds
-     * @param r_hu[] The right speeds
-     * @param b_l[] The left Bathymetry
-     * @param b_r[] The right Bathymetry
-     * @param[out] hNetUpdatesLeft[] The left updates to the heights
-     * @param[out] hNetUpdatesRight[] The right updates to the heights
-     * @param[out] huNetUpdatesLeft[] The left updates to the speeds
-     * @param[out] huNetUpdatesRight[] The right updates to the speeds
-     * @param maxEdgeSpeed maximum wave speed value
+     * This class provides the necessary methods for the F-Wave environment to interact with the F-Wave solver.
+     * Supports flout and double as type parametrization argument.
      * 
      */
-    void computeNetUpdates (T l_h[], T r_h[],
-        T l_hu[], T r_hu[],
-        T b_l, T b_r,	
-        T hNetUpdatesLeft[], T hNetUpdatesRight[],
-        T huNetUpdatesLeft[], T huNetUpdatesRight[],
-        T maxEdgeSpeed );
+    template <typename T> class FWave
+    {
 
-    
+    public:
+
+        /**
+         * Compute net updates for the left and right cell of the edge.
+         * 
+         * Nothing is returned as the values are changed inside the given references.
+         * 
+         * @param[in] hLeft height on the left side of the edge.
+         * @param[in] hRight height on the right side of the edge.
+         * @param[in] huLeft momentum on the left side of the edge.
+         * @param[in] huRight momentum on the right side of the edge.
+         * @param[in] bLeft bathymetry on the left side of the edge.
+         * @param[in] bRight bathymetry on the right side of the edge.
+         * @param[out] hUpdateLeft will be set to: Net-update for the height of the cell on the left side of the edge.
+         * @param[out] hUpdateRight will be set to: Net-update for the height of the cell on the right side of the edge.
+         * @param[out] huUpdateLeft will be set to: Net-update for the momentum of the cell on the left side of the edge.
+         * @param[out] huUpdateRight will be set to: Net-update for the momentum of the cell on the right side of the edge.
+         * @param[out] maxWaveSpeed will be set to: Maximum (linearized) wave speed -> Should be used in the CFL-condition.
+         */
+    void computeNetUpdates (const T &hLeft,  const T &hRight,
+        const T &huLeft, const T &huRight,
+        const T &bLeft,  const T &bRight,
+        T &hUpdateLeft, T &hUpdateRight,
+        T &huUpdateLeft, T &huUpdateRight,
+        T &maxWaveSpeed);
+        
+    };
+
 };
 
 #endif //FWAVE_HPP_

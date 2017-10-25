@@ -9,6 +9,8 @@
 #include "FCalc.hpp"
 #include "FConst.hpp"
 
+using namespace solver;
+
 struct fresult FCore::compute(qvector ql, qvector qr)
 {
     //TODO: Treat very small numbers < ZERO_PRECISION

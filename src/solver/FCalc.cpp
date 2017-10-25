@@ -8,6 +8,8 @@
 #include <limits>
 #include "FCalc.hpp"
 
+using namespace solver;
+
 double FCalc::h_func(qvector ql, qvector qr)
 {
     return 0.5 * (ql.h + qr.h);
