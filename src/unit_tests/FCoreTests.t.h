@@ -24,8 +24,7 @@ namespace solver_tests
 /**
  * @brief Definition and implementations of tests for the F-Wave solver
  * 
- * This class provides the necessary tests to verify the implementation of
- * the F-Wave solver and the helper methods in FCalc.
+ * This class provides the necessary tests to verify the implementation of the F-Wave solver and its helper methods
 */
 class solver_tests::FCoreTestSuite : public CxxTest::TestSuite
 {
@@ -33,7 +32,7 @@ class solver_tests::FCoreTestSuite : public CxxTest::TestSuite
 public:
 
     /**
-     * @brief Test to verify that a zero vector is returned by the compute method when fed with parameters ql = qr = {0,0}
+     * @test Verify that a zero vector is returned by the solver::FCore::compute method when fed with parameters ql = qr = {0,0}
      */
     void testcompute_zero(void)
     {
@@ -43,8 +42,7 @@ public:
     }
 
     /**
-     * @brief Test the implmentation of solver::FCore::compute against some precomputed values
-     * 
+     * @test Check the implementation of solver::FCore::compute against some precomputed values
     */
     void testcompute_valid(void)
     {
@@ -55,19 +53,19 @@ public:
         TS_ASSERT(true);
 
         //TODO: Add correct numbers to verify output
-        /** Scenario 2: ToDo */
+        /** @brief Scenario 2: ToDo */
         ql = {0.0, 0.0};
         qr = {0.0, 0.0};
         res = FCore::compute(ql, qr);
         TS_ASSERT(true);
 
-        /** Scenario 3: ToDo */
+        /** @brief Scenario 3: ToDo */
         ql = {0.0, 0.0};
         qr = {0.0, 0.0};
         res = FCore::compute(ql, qr);
         TS_ASSERT(true);
 
-        /** Scenario 4: ToDo */
+        /** @brief Scenario 4: ToDo */
         ql = {0.0, 0.0};
         qr = {0.0, 0.0};
         res = FCore::compute(ql, qr);
@@ -76,35 +74,33 @@ public:
 
 
     /**
-     * @brief Test to verify solver::FCalc::h_func by testing a set of predetermined inputs
-     *  to the #ZERO_PRECISION accuracy
+     * @test Verify solver::FCalc::h_func by testing a set of predetermined inputs to the #ZERO_PRECISION accuracy
     */
     void testh_func(void)
     {
-        /** @brief Assert \f$\frac{3.0 + 1.0}{2} = 2\f$ */
+        /** @brief Scenario 1: \f$\frac{3.0 + 1.0}{2} = 2\f$ */
         struct qvector ql = {1.0, 2.0};
         struct qvector qr = {3.0, 4.0};
         TS_ASSERT(std::abs(FCalc::h_func(ql, qr) - 2) < ZERO_PRECISION);
 
-        /** @brief Assert \f$\frac{-3.0+5.0}{2} = 1\f$ */
+        /** @brief Scenario 2: \f$\frac{-3.0+5.0}{2} = 1\f$ */
         ql = {-3.0, 2.0};
         qr = {5.0, 4.0};
         TS_ASSERT(std::abs(FCalc::h_func(ql, qr) - 1) < ZERO_PRECISION);
 
-        /** @brief Assert \f$\frac{0.0 + 0.0}{2} = 0\f$ */
+        /** @brief Scenario 3: \f$\frac{0.0 + 0.0}{2} = 0\f$ */
         ql = {0.0, 0.0};
         qr = {0.0, 4.0};
         TS_ASSERT(std::abs(FCalc::h_func(ql, qr)) < ZERO_PRECISION); //Test zero input for zero output
 
-        /** @brief Assert \f$\frac{NaN + 5.0}{2} = NaN\f$ */
+        /** @brief Scenario 4: \f$\frac{NaN + 5.0}{2} = NaN\f$ */
         ql = {std::numeric_limits<double>::quiet_NaN(), 0.0};
         qr = {5.0, 4.0};
         TS_ASSERT(std::isnan(FCalc::h_func(ql, qr)));
     }
 
     /**
-     * @brief Test to verify solver::FCalc::u_func by testing a set of predetermined inputs
-     *  to the #ZERO_PRECISION accuracy
+     * @test Verify solver::FCalc::u_func by testing a set of predetermined inputs to the #ZERO_PRECISION accuracy
     */
     void testu_func(void)
     {
@@ -140,8 +136,7 @@ public:
     }
 
     /**
-     * @brief Test to verify solver::FCalc::f_func by testing a set of predetermined inputs
-     *  to the #ZERO_PRECISION accuracy 
+     * @test Verify solver::FCalc::f_func by testing a set of predetermined inputs to the #ZERO_PRECISION accuracy
     */
     void testf_func(void)
     {
