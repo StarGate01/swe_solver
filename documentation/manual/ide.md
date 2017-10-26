@@ -16,13 +16,15 @@ Linter configuration and Debug targets are available in versions both for native
 ## Tasks
 
 Build the surrounding system which integrates the submodules code:
-- Build Framework Debug
-- Build Framework Release
+- Build Debug
+- Build Release
+- Clean All
+- Generate Data
+- Clean Data
+- Build Solver Documentation
+- Run Solver Tests
 
 ## Debug targets
 
 ### Required packages:
 - gdb
-
-Targets:
-- Framework

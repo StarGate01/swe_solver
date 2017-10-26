@@ -37,35 +37,35 @@ namespace solver
          * 
          * @return The height
          */
-        static double h_func(qvector ql, qvector qr)
+        static double avg_height(vector2 ql, vector2 qr)
         {
-            return 0.5 * (ql.h + qr.h);
+            return 0.5 * (ql.x1 + qr.x1);
         };
 
         /**
-         * Computes the particle velocity.
+         * @brief Computes the average particle velocity.
          * 
-         * @f[ u^{Roe}(q_l, q_r) = \frac{u_l \sqrt{h_l} + u_r \sqrt{h_r}}{\sqrt{h_l} + \sqrt{h_r}} = \frac{\frac{{hu}_l}{h_l} \sqrt{h_l} + \frac{{hu}_r}{h_r} \sqrt{h_r}}{\sqrt{h_l} + \sqrt{h_r}} @f]
+         * @f[ 
+         *      u^{Roe}(q_l, q_r) = \frac{u_l \sqrt{h_l} + u_r \sqrt{h_r}}{\sqrt{h_l} + \sqrt{h_r}} 
+         *      \text{  with  } u = \frac{hu}{h}
+         * @f]
          * 
          * @param ql The left state
          * @param qr The right state
          * 
          * @return The particle velocity
          */
-        static double u_func(qvector ql, qvector qr)
+        static double avg_particle_velocity(vector2 ql, vector2 qr)
         {
-            if(std::isnan(ql.h) || std::isnan(ql.hu) || std::isnan(qr.h) || std::isnan(qr.hu))
+            if(std::isnan(ql.x1) || std::isnan(ql.x2) || std::isnan(qr.x1) || std::isnan(qr.x2))
                 return std::numeric_limits<double>::quiet_NaN();
-    
-            assert(ql.h > ZERO_PRECISION && qr.h > ZERO_PRECISION); //Assert h values of ql and qr are positive
-        
-            double ul = ql.hu / ql.h;
-            double ur = qr.hu / qr.h;
-            return (ul * sqrt(ql.h) + ur * sqrt(qr.h)) / (sqrt(ql.h) + sqrt(qr.h));
+            assert(ql.x1 > ZERO_PRECISION && qr.x1 > ZERO_PRECISION); //Assert h values of ql and qr are positive
+
+            return (((ql.x2 / ql.x1) * sqrt(ql.x1)) + ((qr.x2 / qr.x1) * sqrt(qr.x1))) / (sqrt(ql.x1) + sqrt(qr.x1));
         };
 
         /**
-         * Computes the flux using #G_CONST.
+         * @brief Computes the flux using #G_CONST.
          * 
          * @f[ f(q) = \begin{bmatrix} {hu} \\ {hu}^2 + \frac{1}{2}gh^2 \end{bmatrix} @f]
          * 
@@ -73,13 +73,12 @@ namespace solver
          * 
          * @return The flux vector
          */
-        static struct vector2 f_func(qvector q)
+        static vector2 flux(vector2 q)
         {
-            struct vector2 result = {
-                q.hu, 
-                q.hu * q.hu + 0.5 * G_CONST * q.h * q.h
+            return {
+                q.x2, 
+                (q.x2 * q.x2) + (0.5 * G_CONST * q.x1 * q.x1)
             };
-            return result;
         };
 
     };

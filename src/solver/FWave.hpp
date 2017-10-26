@@ -26,7 +26,7 @@ namespace solver
     public:
 
         /**
-         * Compute net updates for the left and right cell of the edge.
+         * @brief Compute net updates for the left and right cell of the edge using solver::FCore::compute.
          * 
          * Nothing is returned as the values are changed inside the given references.
          * 
@@ -36,10 +36,10 @@ namespace solver
          * @param[in] huRight momentum on the right side of the edge.
          * @param[in] bLeft bathymetry on the left side of the edge.
          * @param[in] bRight bathymetry on the right side of the edge.
-         * @param[out] hUpdateLeft will be set to: Net-update for the height of the cell on the left side of the edge.
-         * @param[out] hUpdateRight will be set to: Net-update for the height of the cell on the right side of the edge.
-         * @param[out] huUpdateLeft will be set to: Net-update for the momentum of the cell on the left side of the edge.
-         * @param[out] huUpdateRight will be set to: Net-update for the momentum of the cell on the right side of the edge.
+         * @param[out] hUpdateLeft will be set to the net-update for the height of the cell on the left side of the edge.
+         * @param[out] hUpdateRight will be set to the net-update for the height of the cell on the right side of the edge.
+         * @param[out] huUpdateLeft will be set to the net-update for the momentum of the cell on the left side of the edge.
+         * @param[out] huUpdateRight will be set to the net-update for the momentum of the cell on the right side of the edge.
          * @param[out] maxWaveSpeed will be set to: Maximum (linearized) wave speed -> Should be used in the CFL-condition.
          */
         void computeNetUpdates (const T &hLeft,  const T &hRight,
@@ -48,16 +48,24 @@ namespace solver
             T &hUpdateLeft, T &hUpdateRight,
             T &huUpdateLeft, T &huUpdateRight,
             T &maxWaveSpeed)
+            
         {
-            struct fresult coreres = FCore::compute(
-                { .h = (double)hLeft, .hu = (double)huLeft }, 
-                { .h = (double)hRight, .hu = (double)huRight }
+            fresult coreres = FCore::compute_netupdates(
+                { .x1 = (double)hLeft, .x2 = (double)huLeft }, 
+                { .x1 = (double)hRight, .x2 = (double)huRight }
             );
-            hUpdateLeft = (T)coreres.adq_negative.h;
-            huUpdateLeft = (T)coreres.adq_negative.hu;
-            hUpdateRight = (T)coreres.adq_positive.h;
-            huUpdateRight = (T)coreres.adq_positive.hu;
+
+            hUpdateLeft = (T)coreres.adq_negative.x1;
+            huUpdateLeft = (T)coreres.adq_negative.x2;
+            hUpdateRight = (T)coreres.adq_positive.x1;
+            huUpdateRight = (T)coreres.adq_positive.x2;
             maxWaveSpeed = (T)std::max(std::abs(coreres.lambda_1), std::abs(coreres.lambda_2));
+
+            /* #ifdef DEBUG
+            printf("FWave: ql=(%f, %f), bl=%f, qr=(%f, %f), br=%f -> adq_n=(%f, %f), adq_p=(%f, %f), mws=%f\n",
+                hLeft, huLeft,  bLeft, hRight, huRight, bRight, 
+                hUpdateLeft, huUpdateLeft, hUpdateRight, huUpdateRight, maxWaveSpeed);
+            #endif */
         };
         
     };

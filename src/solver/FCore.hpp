@@ -27,35 +27,49 @@ namespace solver
     class FCore
     {
 
+    private:
+        
+        /**
+         * @brief Static method that computes the Roe eigenvalues in terms of the left and right quantities
+         * 
+         * Compute Roe eigenvalues to approximate wave speeds using solver::FCalc::avg_particle_velocity and solver::FCalc::avg_height 
+         * @f[ \lambda_{1,2}^{Roe}(q_l, q_r) = u^{Roe}(q_l, q_r) \pm \sqrt{gh^{Roe}(q_l, q_r)} @f]
+         */
+        static vector2 compute_eigenvalues(vector2 ql, vector2 qr)
+        {
+            double lambda_sqrt = sqrt(G_CONST * FCalc::avg_height(ql, qr)); //Calculate square root in definition of lambdas
+            return { 
+                .x1 = FCalc::avg_particle_velocity(ql, qr) - lambda_sqrt, //Calculate lambda_1 
+                .x2 = FCalc::avg_particle_velocity(ql, qr) + lambda_sqrt //Calculate lambda_2 
+            };
+        };
+
     public:
 
         /**
-         * Static method that computes the resulting net-updates and wave speeds from the left and right state as described in @cite bale2002wave and @cite leveque2002finite.
+         * @brief Static method that computes the resulting net-updates and wave speeds from the left and right state as described in @cite bale2002wave and @cite leveque2002finite
          * 
-         * Compute Roe eigenvalues to approximate wave speeds using solver::FCalc::u_func and solver::FCalc::h_func 
-         * @f[ \lambda_{1,2}^{Roe}(q_l, q_r) = u^{Roe}(q_l, q_r) \pm \sqrt{gh^{Roe}(q_l, q_r)} @f]
-         * Using the intermediate computations for the eigenvectors 
+         * Using the intermediate computations for the eigenvectors using the eigenvalues computed with solver::FCore::compute_eigenvalues
          * @f[ r_{1,2}^{Roe} = \begin{bmatrix} 1 \\ \lambda_{1,2}^{Roe} \end{bmatrix} @f]
-         * And the jump in the difference in the flux function and waves using solver::FCalc::f_func
+         * And the jump in the difference in the flux function and waves using solver::FCalc::flux
          * @f[ \Delta f = f(q_r) - f(q_l) @f] 
          * And the coefficients of this jump using another representation of the flux difference
-         * @f[ \Delta f = \sum_{p=1}^2 \alpha_p r_p = \sum_{p=1}^2 Z_p @f]
          * @f[ 
-         *      \begin{bmatrix} \alpha_1 \\ \alpha_2 \end{bmatrix} = 
-         *      {\begin{bmatrix} 1 & 1 \\ \lambda_1^{Roe} & \lambda_2^{Roe} \end{bmatrix}}^{-1} \Delta f 
-         *      \implies \alpha_{1,2} =  \frac{\Delta f_x \lambda_{2,1}^{Roe} \pm {\Delta f}_y}{\lambda_2^{Roe} - \lambda_1^{Roe}} 
+         *      \alpha = {\begin{bmatrix} 1 & 1 \\ \lambda_1^{Roe} & \lambda_2^{Roe} \end{bmatrix}}^{-1} \Delta f 
+         *      = \frac{1}{\lambda_2 - \lambda_1} \begin{bmatrix} f_1 \lambda_2 - f_2 \\ f_2 - f_1 \lambda_1 \end{bmatrix}
          * @f]
+         * @f[ \Delta f = \sum_{p=1}^2 Z_p = \sum_{p=1}^2 \alpha_p r_p @f]
          * Compute the net-updates using the waves and eigenvectors
          * @f[ A^{\mp}\Delta Q = \sum_{p: \{ \lambda_p^{Roe} \lessgtr 0 \}} Z_p \equiv @f]
          * @f[ 
          *      A^{-}\Delta Q = \begin{cases} 
-         *          \begin{bmatrix} \alpha_1 r_{1x} \\ \alpha_1 r_{1x} \end{bmatrix} & \text{for } \lambda_1 < 0 \\ \\ 
-         *          \begin{bmatrix} \alpha_1 r_{2x} \\ \alpha_1 r_{2x} \end{bmatrix} & \text{for } \lambda_2 < 0 
+         *          \begin{bmatrix} \alpha_1 r_{1,1} \\ \alpha_1 r_{1,2} \end{bmatrix} & \text{for } \lambda_1 < 0 \\ \\ 
+         *          \begin{bmatrix} \alpha_1 r_{2,1} \\ \alpha_1 r_{2,2} \end{bmatrix} & \text{for } \lambda_2 < 0 
          *      \end{cases} 
          *      \text{  and  }
          *      A^{+}\Delta Q = \begin{cases} 
-         *          \begin{bmatrix} \alpha_1 r_{1x} \\ \alpha_1 r_{1x} \end{bmatrix} & \text{for } \lambda_1 > 0 \\ \\ 
-         *          \begin{bmatrix} \alpha_1 r_{2x} \\ \alpha_1 r_{2x} \end{bmatrix} & \text{for } \lambda_2 > 0 
+         *          \begin{bmatrix} \alpha_1 r_{1,1} \\ \alpha_1 r_{1,2} \end{bmatrix} & \text{for } \lambda_1 > 0 \\ \\ 
+         *          \begin{bmatrix} \alpha_1 r_{2,1} \\ \alpha_1 r_{2,2} \end{bmatrix} & \text{for } \lambda_2 > 0 
          *      \end{cases} 
          * @f]
          * 
@@ -64,67 +78,61 @@ namespace solver
          * 
          * @return The resulting net-updates and wave speeds
          */
-        static struct fresult compute(qvector ql, qvector qr)
+        static fresult compute_netupdates(vector2 ql, vector2 qr)
         {
-             //TODO: Treat very small numbers < ZERO_PRECISION
-            if(ql.h == 0 && ql.hu == 0 && qr.h == 0 && qr.hu == 0) //Special case, where inputs are zero
-            {
-                struct qvector zerovector = {0.0, 0.0}; //Create zero vector
-                struct fresult res = {zerovector, zerovector, 0.0, 0.0}; //Create output struct, where all values are zero 
-                return res;
-            }
+            //TODO: Treat very small numbers < ZERO_PRECISION
+            if(ql.x1 == 0 && ql.x2 == 0 && qr.x1 == 0 && qr.x2 == 0) //Special case, where inputs are zero
+                return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Create output struct, where all values are zero 
 
-            struct fresult res = {0}; //Initialize result struct 
+            assert(FCalc::avg_height(ql, qr) >= 0); //Assert avg_height(ql, qr) is positive
 
-            assert(FCalc::h_func(ql, qr) >= 0); //Assert h_func(ql, qr) is positive
-
-            double lambda_sqrt = sqrt(G_CONST * FCalc::h_func(ql, qr));//Calculate square root in definition of of lambdas
-            res.lambda_1 = FCalc::u_func(ql, qr) - lambda_sqrt; //Calculate lambda_1 
-            res.lambda_2 = FCalc::u_func(ql, qr) + lambda_sqrt; //Calculate lambda_2 
-
-            struct vector2 r1 = {1, res.lambda_1}; //Create r_1 vector
-            struct vector2 r2 = {1, res.lambda_2}; //Create r_2 vector
+            vector2 eigenvalues = compute_eigenvalues(ql, qr); //Compute Roe eigenvalues
+            assert(std::abs(eigenvalues.x1 - eigenvalues.x2) > ZERO_PRECISION); //Assert lambda_2 - lambda_1 != 0 (potential division by zero) 
             
-            struct vector2 fqr = FCalc::f_func(qr); //Calculate f(qr)
-            struct vector2 fql = FCalc::f_func(ql); //Calculate f(ql)
-            
-            struct vector2 df = { //Calculate delta f
-                fqr.x - fql.x, 
-                fqr.y - fql.y
+            fresult res = {  //Initialize result struct 
+                .lambda_1 = eigenvalues.x1,
+                .lambda_2 = eigenvalues.x2,
+                .adq_positive = {0},
+                .adq_negative = {0}
             };
 
-            assert(std::abs(res.lambda_2 - res.lambda_1) > ZERO_PRECISION); //Assert lambda_2 - lambda_1 != 0 (potential division by zero) 
+            vector2 r1 = {1, res.lambda_1}; //Create r_1 vector
+            vector2 r2 = {1, res.lambda_2}; //Create r_2 vector
+            vector2 delta_f = FCalc::flux(qr).substract(FCalc::flux(ql)); //calculate flux delta
 
-            struct vector2 alpha = {
-                (df.x * res.lambda_2 - df.y) / (res.lambda_2 - res.lambda_1), 
-                (df.x * res.lambda_1 + df.y) / (res.lambda_2 - res.lambda_1)
+            vector2 alpha = { //Calculate eigencoefficients
+                ((delta_f.x1 * res.lambda_2) - delta_f.x2),
+                (delta_f.x2 - (delta_f.x1 * res.lambda_1))
             };
+            alpha = alpha.divide(res.lambda_2 - res.lambda_1);
 
             if(res.lambda_1 < 0) //In case lambda_1 is negative, assign AdQ appropriately
             {
-                res.adq_negative.h += alpha.x * r1.x;
-                res.adq_negative.hu += alpha.x * r1.y;
+                res.adq_negative.x1 += alpha.x1 * r1.x1;
+                res.adq_negative.x2 += alpha.x1 * r1.x2;
             }
             else if(res.lambda_1 > 0) //In case lambda_1 is positive, assign AdQ appropriately
             {
-                res.adq_positive.h += alpha.x * r1.x;
-                res.adq_positive.hu += alpha.x * r1.y;
+                res.adq_positive.x1 += alpha.x1 * r1.x1;
+                res.adq_positive.x2 += alpha.x1 * r1.x2;
             }
         
             if(res.lambda_2 < 0) //In case lambda_2 is negative, assign AdQ appropriately
             {
-                res.adq_negative.h += alpha.x * r2.x;
-                res.adq_negative.hu += alpha.x * r2.y;
+                res.adq_negative.x1 += alpha.x2 * r2.x1;
+                res.adq_negative.x2 += alpha.x2 * r2.x2;
             }
-            else if(res.lambda_2 > 0) //In case lambda_1 is positive, assign AdQ appropriately
+            else if(res.lambda_2 > 0) //In case lambda_2 is positive, assign AdQ appropriately
             {
-                res.adq_positive.h += alpha.x * r2.x;
-                res.adq_positive.hu += alpha.x * r2.y;  
+                res.adq_positive.x1 += alpha.x2 * r2.x1;
+                res.adq_positive.x2 += alpha.x2 * r2.x2;  
             }
             
             //Handle special cases
-            if(res.lambda_1 < 0 && res.lambda_2 < 0) res.lambda_2 = 0;
-            else if(res.lambda_1 > 0 && res.lambda_2 > 0) res.lambda_1 = 0;
+            if(res.lambda_1 < 0 && res.lambda_2 < 0) 
+                res.lambda_2 = 0;
+            else if(res.lambda_1 > 0 && res.lambda_2 > 0) 
+                res.lambda_1 = 0;
 
             return res;
         };
