@@ -4,15 +4,7 @@ Import('env')
 
 import os
 
-# List of all source files
-sourceFiles = ['solver/main.cpp', 'solver/FCore.cpp',  'solver/FCalc.cpp']
-
-# Add source files to scons env
-for f in sourceFiles:
-    env.srcFiles.append(env.Object(f))
-
 # Declare cxx test suites
-env.CxxTest('FCoreTests', ['unit_tests/FCoreTests.t.h', 'solver/FCore.cpp', 'solver/FCalc.cpp'])
-
+env.CxxTest('FCoreTests', ['unit_tests/FCoreTests.t.h'])
 
 Export('env')

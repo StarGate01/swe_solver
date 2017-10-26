@@ -32,8 +32,8 @@ namespace solver
      */
     struct fresult
     {
-        struct vector2 adq_positive; /**< The positive net-update */
-        struct vector2 adq_negative; /**< The negative net-update */
+        struct qvector adq_positive; /**< The positive net-update */
+        struct qvector adq_negative; /**< The negative net-update */
         double lambda_1; /**< The wave speed of the left going wave */
         double lambda_2; /**< The wave speed of the right going wave */
     };
