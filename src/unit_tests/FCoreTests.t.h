@@ -50,26 +50,15 @@ public:
         struct qvector ql = {0.0, 0.0};
         struct qvector qr = {0.0, 0.0};
         struct fresult res = FCore::compute(ql, qr);
-        TS_ASSERT(true);
+        TS_ASSERT(true);      
+    }
 
-        //TODO: Add correct numbers to verify output
-        /** @brief Scenario 2: ToDo */
-        ql = {0.0, 0.0};
-        qr = {0.0, 0.0};
-        res = FCore::compute(ql, qr);
-        TS_ASSERT(true);
-
-        /** @brief Scenario 3: ToDo */
-        ql = {0.0, 0.0};
-        qr = {0.0, 0.0};
-        res = FCore::compute(ql, qr);
-        TS_ASSERT(true);
-
-        /** @brief Scenario 4: ToDo */
-        ql = {0.0, 0.0};
-        qr = {0.0, 0.0};
-        res = FCore::compute(ql, qr);
-        TS_ASSERT(true);        
+    /**
+     * @test Check the implementation against the reference implementation
+    */
+    void testcompute_reference(void)
+    {
+        //TODO: Implement
     }
 
 
