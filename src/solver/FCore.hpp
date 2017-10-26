@@ -56,20 +56,20 @@ namespace solver
          * And the coefficients of this jump using another representation of the flux difference
          * @f[ 
          *      \alpha = {\begin{bmatrix} 1 & 1 \\ \lambda_1^{Roe} & \lambda_2^{Roe} \end{bmatrix}}^{-1} \Delta f 
-         *      = \frac{1}{\lambda_2 - \lambda_1} \begin{bmatrix} f_1 \lambda_2 - f_2 \\ f_2 - f_1 \lambda_1 \end{bmatrix}
+         *      = \frac{1}{\lambda_2^{Roe} - \lambda_1^{Roe}} \begin{bmatrix} f_1 \lambda_2^{Roe} - \Delta f_2 \\ \Delta f_2 - \Delta f_1 \lambda_1^{Roe} \end{bmatrix}
          * @f]
          * @f[ \Delta f = \sum_{p=1}^2 Z_p = \sum_{p=1}^2 \alpha_p r_p @f]
-         * Compute the net-updates using the waves and eigenvectors
+         * Compute the net-updates by accumulating the waves
          * @f[ A^{\mp}\Delta Q = \sum_{p: \{ \lambda_p^{Roe} \lessgtr 0 \}} Z_p \equiv @f]
          * @f[ 
-         *      A^{-}\Delta Q = \begin{cases} 
-         *          \begin{bmatrix} \alpha_1 r_{1,1} \\ \alpha_1 r_{1,2} \end{bmatrix} & \text{for } \lambda_1 < 0 \\ \\ 
-         *          \begin{bmatrix} \alpha_1 r_{2,1} \\ \alpha_1 r_{2,2} \end{bmatrix} & \text{for } \lambda_2 < 0 
+         *      A^{-}\Delta Q \mathrel{+}= \begin{cases} 
+         *          \alpha_1 r_1 & \text{for } \lambda_1^{Roe} < 0 \\
+         *          \alpha_2 r_2 & \text{for } \lambda_2^{Roe} < 0 
          *      \end{cases} 
-         *      \text{  and  }
-         *      A^{+}\Delta Q = \begin{cases} 
-         *          \begin{bmatrix} \alpha_1 r_{1,1} \\ \alpha_1 r_{1,2} \end{bmatrix} & \text{for } \lambda_1 > 0 \\ \\ 
-         *          \begin{bmatrix} \alpha_1 r_{2,1} \\ \alpha_1 r_{2,2} \end{bmatrix} & \text{for } \lambda_2 > 0 
+         *      \text{   and   }
+         *      A^{+}\Delta Q\ \mathrel{+}= \begin{cases} 
+         *          \alpha_1 r_1 & \text{for } \lambda_1^{Roe} > 0 \\
+         *          \alpha_2 r_2 & \text{for } \lambda_2^{Roe} > 0 
          *      \end{cases} 
          * @f]
          * 
