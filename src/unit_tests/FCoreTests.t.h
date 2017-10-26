@@ -78,22 +78,22 @@ public:
     */
     void testh_func(void)
     {
-        /** @brief Scenario 1: \f$\frac{3.0 + 1.0}{2} = 2\f$ */
+        /** @brief Scenario 1: @f[ \frac{3.0 + 1.0}{2.0} \overset{!}{=} 2.0 @f] */
         struct qvector ql = {1.0, 2.0};
         struct qvector qr = {3.0, 4.0};
-        TS_ASSERT(std::abs(FCalc::h_func(ql, qr) - 2) < ZERO_PRECISION);
+        TS_ASSERT(std::abs(FCalc::h_func(ql, qr) - 2.0) < ZERO_PRECISION);
 
-        /** @brief Scenario 2: \f$\frac{-3.0+5.0}{2} = 1\f$ */
+        /** @brief Scenario 2: @f[ \frac{-3.0+5.0}{2.0} \overset{!}{=} 1.0 @f] */
         ql = {-3.0, 2.0};
         qr = {5.0, 4.0};
-        TS_ASSERT(std::abs(FCalc::h_func(ql, qr) - 1) < ZERO_PRECISION);
+        TS_ASSERT(std::abs(FCalc::h_func(ql, qr) - 1.0) < ZERO_PRECISION);
 
-        /** @brief Scenario 3: \f$\frac{0.0 + 0.0}{2} = 0\f$ */
+        /** @brief Scenario 3: @f[ \frac{0.0 + 0.0}{2.0} \overset{!}{=} 0.0 @f] */
         ql = {0.0, 0.0};
         qr = {0.0, 4.0};
         TS_ASSERT(std::abs(FCalc::h_func(ql, qr)) < ZERO_PRECISION); //Test zero input for zero output
 
-        /** @brief Scenario 4: \f$\frac{NaN + 5.0}{2} = NaN\f$ */
+        /** @brief Scenario 4: @f[ \frac{NaN + 5.0}{2.0} \overset{!}{=} NaN @f] */
         ql = {std::numeric_limits<double>::quiet_NaN(), 0.0};
         qr = {5.0, 4.0};
         TS_ASSERT(std::isnan(FCalc::h_func(ql, qr)));

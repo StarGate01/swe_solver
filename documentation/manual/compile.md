@@ -32,6 +32,7 @@ Compile and run tests with `scons check`.
  - graphviz
  - latex (eg. texlive)
     - pdflatex
+    - amsmath
     - varwidth
     - multirow
     - adjustbox

@@ -23,7 +23,9 @@ namespace solver
     public:
 
         /**
-         * Computes the height.
+         * @brief Computes the average height of two neighboring states.
+         * 
+         * @f[ h^{Roe}(q_l, q_r) = \frac{1}{2} (h_l + h_r) @f] 
          * 
          * @param ql The left state
          * @param qr The right state
@@ -35,6 +37,8 @@ namespace solver
         /**
          * Computes the particle velocity.
          * 
+         * @f[ u^{Roe}(q_l, q_r) = \frac{u_l \sqrt{h_l} + u_r \sqrt{h_r}}{\sqrt{h_l} + \sqrt{h_r}} = \frac{\frac{{hu}_l}{h_l} \sqrt{h_l} + \frac{{hu}_r}{h_r} \sqrt{h_r}}{\sqrt{h_l} + \sqrt{h_r}} @f]
+         * 
          * @param ql The left state
          * @param qr The right state
          * 
@@ -43,11 +47,13 @@ namespace solver
         static double u_func(qvector ql, qvector qr);
 
         /**
-         * Computes the flux.
+         * Computes the flux using #G_CONST.
+         * 
+         * @f[ f(q) = \begin{bmatrix} {hu} \\ {hu}^2 + \frac{1}{2}gh^2 \end{bmatrix} @f]
          * 
          * @param q The state
          * 
-         * @return The flux
+         * @return The flux vector
          */
         static struct vector2 f_func(qvector q);
 
