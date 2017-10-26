@@ -40,12 +40,16 @@ namespace solver
          * @param[out] huUpdateRight will be set to: Net-update for the momentum of the cell on the right side of the edge.
          * @param[out] maxWaveSpeed will be set to: Maximum (linearized) wave speed -> Should be used in the CFL-condition.
          */
-    void computeNetUpdates (const T &hLeft,  const T &hRight,
-        const T &huLeft, const T &huRight,
-        const T &bLeft,  const T &bRight,
-        T &hUpdateLeft, T &hUpdateRight,
-        T &huUpdateLeft, T &huUpdateRight,
-        T &maxWaveSpeed);
+        void computeNetUpdates (const T &hLeft,  const T &hRight,
+            const T &huLeft, const T &huRight,
+            const T &bLeft,  const T &bRight,
+            T &hUpdateLeft, T &hUpdateRight,
+            T &huUpdateLeft, T &huUpdateRight,
+            T &maxWaveSpeed)
+        {
+            fresult coreres = FCore::compute({ .h = (double)hLeft, .hu = (double)huLeft }, { .h = (double)hRight, .hu = (double)huRight });
+            
+        };
         
     };
 

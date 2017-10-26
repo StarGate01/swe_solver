@@ -17,11 +17,9 @@ env.Append(CPPPATH=['.'])
 buildDir = '#build'
 
 # Build program
-programName = 'SWE1D_corecli'
+programName = 'SWE1D_solver'
 Export('env')
-env.srcFiles = []
 SConscript(os.path.join('src', 'SConscript'),
     variant_dir=os.path.join(buildDir, 'build_'+programName),
     duplicate=0)
 Import('env')
-env.Program(os.path.join(buildDir, programName), env.srcFiles)

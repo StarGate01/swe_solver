@@ -15,10 +15,6 @@ Linter configuration and Debug targets are available in versions both for native
 
 ## Tasks
 
-Build only the CLI test application of the submodule:
-- Build Solver CLI Debug
-- Build Solver CLI Release
-
 Build the surrounding system which integrates the submodules code:
 - Build Framework Debug
 - Build Framework Release
@@ -30,4 +26,3 @@ Build the surrounding system which integrates the submodules code:
 
 Targets:
 - Framework
-- Solver CLI

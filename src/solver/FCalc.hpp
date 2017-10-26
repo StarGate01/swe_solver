@@ -6,8 +6,13 @@
 #ifndef FCALC_HPP_
 #define FCALC_HPP_
 
+#include <assert.h>
+#include <math.h>
+#include <limits>
 #include "FStructs.hpp"
 #include "FConst.hpp"
+
+// using namespace std;
 
 namespace solver
 {
@@ -32,7 +37,10 @@ namespace solver
          * 
          * @return The height
          */
-        static double h_func(qvector ql, qvector qr);
+        static double h_func(qvector ql, qvector qr)
+        {
+            return 0.5 * (ql.h + qr.h);
+        };
 
         /**
          * Computes the particle velocity.
@@ -44,7 +52,17 @@ namespace solver
          * 
          * @return The particle velocity
          */
-        static double u_func(qvector ql, qvector qr);
+        static double u_func(qvector ql, qvector qr)
+        {
+            if(std::isnan(ql.h) || std::isnan(ql.hu) || std::isnan(qr.h) || std::isnan(qr.hu))
+            return std::numeric_limits<double>::quiet_NaN();
+    
+            assert(ql.h > ZERO_PRECISION && qr.h > ZERO_PRECISION); //Assert h values of ql and qr are positive
+        
+            double ul = ql.hu / ql.h;
+            double ur = qr.hu / qr.h;
+            return (ul * sqrt(ql.h) + ur * sqrt(qr.h)) / (sqrt(ql.h) + sqrt(qr.h));
+        };
 
         /**
          * Computes the flux using #G_CONST.
@@ -55,7 +73,14 @@ namespace solver
          * 
          * @return The flux vector
          */
-        static struct vector2 f_func(qvector q);
+        static struct vector2 f_func(qvector q)
+        {
+            struct vector2 result = {
+                q.hu, 
+                q.hu * q.hu + 0.5 * G_CONST * q.h * q.h
+            };
+            return result;
+        };
 
     };
 
