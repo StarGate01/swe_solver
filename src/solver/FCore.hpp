@@ -26,15 +26,16 @@ namespace solver
     public:
 
         /**
-         * Static method, that computes the resulting net-updates and wave speeds from the left and right state.
-         *
+         * Static method that computes the resulting net-updates and wave speeds from the left and right state as described in @cite bale2002wave and @cite leveque2002finite.
+         * 
          * Compute Roe eigenvalues to approximate wave speeds using solver::FCalc::u_func and solver::FCalc::h_func 
          * @f[ \lambda_{1,2}^{Roe}(q_l, q_r) = u^{Roe}(q_l, q_r) \pm \sqrt{gh^{Roe}(q_l, q_r)} @f]
          * Using the intermediate computations for the eigenvectors 
          * @f[ r_{1,2}^{Roe} = \begin{bmatrix} 1 \\ \lambda_{1,2}^{Roe} \end{bmatrix} @f]
-         * And the jump in the flux function and waves using solver::FCalc::f_func
-         * @f[ \Delta f = f(q_r) - f(q_l) = \sum_{p=1}^2 \alpha_p r_p = \sum_{p=1}^2 Z_p @f] 
-         * And the coefficients of this jump
+         * And the jump in the difference in the flux function and waves using solver::FCalc::f_func
+         * @f[ \Delta f = f(q_r) - f(q_l) @f] 
+         * And the coefficients of this jump using another representation of the flux difference
+         * @f[ \Delta f = \sum_{p=1}^2 \alpha_p r_p = \sum_{p=1}^2 Z_p @f]
          * @f[ 
          *      \begin{bmatrix} \alpha_1 \\ \alpha_2 \end{bmatrix} = 
          *      {\begin{bmatrix} 1 & 1 \\ \lambda_1^{Roe} & \lambda_2^{Roe} \end{bmatrix}}^{-1} \Delta f 

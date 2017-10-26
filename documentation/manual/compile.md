@@ -29,9 +29,11 @@ Compile and run tests with `scons check`.
 
 ### Required packages:
  - doxygen
+ - perl
  - graphviz
  - latex (eg. texlive)
     - pdflatex
+    - bibtex
     - varwidth
     - multirow
     - adjustbox

@@ -69,7 +69,7 @@ struct fresult FCore::compute(qvector ql, qvector qr)
         res.adq_positive.y += alpha.x * r2.y;  
     }
              
-    if(res.lambda_1 < 0 && res.lambda_2) //Handle special cases
+    if(res.lambda_1 < 0 && res.lambda_2 < 0) //Handle special cases
         res.lambda_2 = 0;
     else if(res.lambda_1 > 0 && res.lambda_2 > 0)
         res.lambda_1 = 0;
