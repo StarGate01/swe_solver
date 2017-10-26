@@ -69,7 +69,7 @@ namespace solver
              //TODO: Treat very small numbers < ZERO_PRECISION
             if(ql.h == 0 && ql.hu == 0 && qr.h == 0 && qr.hu == 0) //Special case, where inputs are zero
             {
-                struct vector2 zerovector = {0.0, 0.0}; //Create zero vector
+                struct qvector zerovector = {0.0, 0.0}; //Create zero vector
                 struct fresult res = {zerovector, zerovector, 0.0, 0.0}; //Create output struct, where all values are zero 
                 return res;
             }
@@ -102,30 +102,29 @@ namespace solver
 
             if(res.lambda_1 < 0) //In case lambda_1 is negative, assign AdQ appropriately
             {
-                res.adq_negative.x += alpha.x * r1.x;
-                res.adq_negative.y += alpha.x * r1.y;
+                res.adq_negative.h += alpha.x * r1.x;
+                res.adq_negative.hu += alpha.x * r1.y;
             }
             else if(res.lambda_1 > 0) //In case lambda_1 is positive, assign AdQ appropriately
             {
-                res.adq_positive.x += alpha.x * r1.x;
-                res.adq_positive.y += alpha.x * r1.y;
+                res.adq_positive.h += alpha.x * r1.x;
+                res.adq_positive.hu += alpha.x * r1.y;
             }
         
             if(res.lambda_2 < 0) //In case lambda_2 is negative, assign AdQ appropriately
             {
-                res.adq_negative.x += alpha.x * r2.x;
-                res.adq_negative.y += alpha.x * r2.y;
+                res.adq_negative.h += alpha.x * r2.x;
+                res.adq_negative.hu += alpha.x * r2.y;
             }
             else if(res.lambda_2 > 0) //In case lambda_1 is positive, assign AdQ appropriately
             {
-                res.adq_positive.x += alpha.x * r2.x;
-                res.adq_positive.y += alpha.x * r2.y;  
+                res.adq_positive.h += alpha.x * r2.x;
+                res.adq_positive.hu += alpha.x * r2.y;  
             }
-                    
-            if(res.lambda_1 < 0 && res.lambda_2 < 0) //Handle special cases
-                res.lambda_2 = 0;
-            else if(res.lambda_1 > 0 && res.lambda_2 > 0)
-                res.lambda_1 = 0;
+            
+            //Handle special cases
+            if(res.lambda_1 < 0 && res.lambda_2 < 0) res.lambda_2 = 0;
+            else if(res.lambda_1 > 0 && res.lambda_2 > 0) res.lambda_1 = 0;
 
             return res;
         };

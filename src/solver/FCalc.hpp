@@ -55,7 +55,7 @@ namespace solver
         static double u_func(qvector ql, qvector qr)
         {
             if(std::isnan(ql.h) || std::isnan(ql.hu) || std::isnan(qr.h) || std::isnan(qr.hu))
-            return std::numeric_limits<double>::quiet_NaN();
+                return std::numeric_limits<double>::quiet_NaN();
     
             assert(ql.h > ZERO_PRECISION && qr.h > ZERO_PRECISION); //Assert h values of ql and qr are positive
         

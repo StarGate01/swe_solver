@@ -7,6 +7,8 @@
 #define FWAVE_HPP_
 
 #include "FCore.hpp"
+#include <limits>
+#include <algorithm>
 
 namespace solver
 {
@@ -47,8 +49,15 @@ namespace solver
             T &huUpdateLeft, T &huUpdateRight,
             T &maxWaveSpeed)
         {
-            fresult coreres = FCore::compute({ .h = (double)hLeft, .hu = (double)huLeft }, { .h = (double)hRight, .hu = (double)huRight });
-            
+            struct fresult coreres = FCore::compute(
+                { .h = (double)hLeft, .hu = (double)huLeft }, 
+                { .h = (double)hRight, .hu = (double)huRight }
+            );
+            hUpdateLeft = (T)coreres.adq_negative.h;
+            huUpdateLeft = (T)coreres.adq_negative.hu;
+            hUpdateRight = (T)coreres.adq_positive.h;
+            huUpdateRight = (T)coreres.adq_positive.hu;
+            maxWaveSpeed = (T)std::max(std::abs(coreres.lambda_1), std::abs(coreres.lambda_2));
         };
         
     };
