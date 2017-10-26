@@ -6,7 +6,6 @@
 #include <vector>
 #include <fstream>
 #include "../solver/FStructs.hpp"
-#include "csvParser.hpp"
 
 namespace solver_tests
 {
@@ -44,7 +43,6 @@ public:
 
             return data;
         }
-        else
             raise invalid_argument;
     };
 
@@ -58,5 +56,6 @@ private:
     
         /** Assemble */
         testData data;
+        return data;
     };
 }

@@ -38,7 +38,7 @@ public:
     {
         struct qvector zerovector = {0.0, 0.0};
         struct fresult res = FCore::compute(zerovector, zerovector);
-        TS_ASSERT(res.adq_positive.x == 0 && res.adq_positive.y == 0);
+        TS_ASSERT(res.adq_positive.h == 0 && res.adq_positive.hu == 0);
     }
 
     /**
@@ -58,7 +58,7 @@ public:
     */
     void testcompute_reference(void)
     {
-        //TODO: Implement
+        
     }
 
 
