@@ -5,7 +5,10 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
+#include <sstream>
 #include <fstream>
+#include <exception>
 #include "../solver/FStructs.hpp"
 
 namespace solver_tests
@@ -22,45 +25,63 @@ namespace solver_tests
     {
 
     public:
-
-        static vector<testData> parse_file(string path)
+        CSV_Parser(string filepath)
         {
-            //TODO: Init vector
-            vector<testData> data;
-        
-            std::ifstream file;
-            //Todo: Catch exception
-        
-            file.open(path);
-            if(file.is_open())
-            {
-                string line;
-                while(getline(file, line))
-                {
-                    parseLine(line);
-                    data.push_back(parse_line(line));
-                }
-                file.close();
+            file = new ifstream(filepath);
+            if(!file.is_open())
+               throw std::invalid_argument; 
+        }
 
-                return data;
+        testdata read_line()
+        {
+            if(!file.is_open())
+                throw std::runtime_error("Bad initialisation of filestream");
+
+            string buffer;
+            if(!file.getline(file, line))
+            {
+                file.close();
+                return;
             }
-            raise invalid_argument;
+
+            return parseLine(buffer);
+        };
+
+        testData parse_line(string line)
+        {
+            vector<string> arr;
+            std::stringstream strstream(line);
+
+            /** Read in new lines, until the input has the expected format (Three substrings seperated by commas)*/
+            do{
+                bool failed = false;
+
+                /** Split line by commas */
+                while(strstream.good())
+                {
+                    string buf;
+                    getline(strstream, buf, ',');
+                    arr.pushback(buf);
+                }
+
+                /** Test if components are numeric and generate output */
+                try{
+                    for(int i = 0; i < arr.size(); i++)
+                    stof(arr[i]);
+                }
+                catch(const std::exception& e)
+                {
+                    failed = true;
+                }
+            } while(arr.size() != 3 || failed);
+            
+            /** Assemble testdata */
+            testdata result = {arr[0], arr[1], arr[2]};
+            return result;
         };
 
     private:
-
-        static testData parse_line(string line)
-        {
-            
-            /** Split line by commas */
-            
-            /** Test if components are numeric */
-        
-            /** Assemble */
-            testData data;
-            return data;
-        };
-
+        ifstream* file;
     };
 
 };
