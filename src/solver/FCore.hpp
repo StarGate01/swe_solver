@@ -38,10 +38,8 @@ namespace solver
         static vector2 compute_eigenvalues(vector2 ql, vector2 qr)
         {
             double lambda_sqrt = sqrt(G_CONST * FCalc::avg_height(ql, qr)); //Calculate square root in definition of lambdas
-            return { 
-                .x1 = FCalc::avg_particle_velocity(ql, qr) - lambda_sqrt, //Calculate lambda_1 
-                .x2 = FCalc::avg_particle_velocity(ql, qr) + lambda_sqrt //Calculate lambda_2 
-            };
+            double avg_v = FCalc::avg_particle_velocity(ql, qr); //Compute average velocity
+            return {avg_v - lambda_sqrt, avg_v + lambda_sqrt};
         };
 
     public:

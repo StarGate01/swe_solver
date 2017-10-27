@@ -37,7 +37,7 @@ public:
     void test_compute_zero(void)
     {
         struct vector2 zerovector = {0.0, 0.0};
-        struct fresult res = FCore::compute(zerovector, zerovector);
+        struct fresult res = FCore::compute_netupdates(zerovector, zerovector);
         TS_ASSERT(res.adq_positive.x1 == 0 && res.adq_positive.x2 == 0);
     }
 
@@ -49,7 +49,7 @@ public:
         /** @brief Scenario 1: Zero input results in zero output */
         struct vector2 ql = {0.0, 0.0};
         struct vector2 qr = {0.0, 0.0};
-        struct fresult res = FCore::compute(ql, qr);
+        struct fresult res = FCore::compute_netupdates(ql, qr);
         TS_ASSERT(true);      
     }
 
