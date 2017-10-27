@@ -59,6 +59,7 @@ namespace solver
         {
             if(std::isnan(ql.x1) || std::isnan(ql.x2) || std::isnan(qr.x1) || std::isnan(qr.x2))
                 return std::numeric_limits<double>::quiet_NaN();
+                
             assert(ql.x1 > ZERO_PRECISION && qr.x1 > ZERO_PRECISION); //Assert h values of ql and qr are positive
 
             return (((ql.x2 / ql.x1) * sqrt(ql.x1)) + ((qr.x2 / qr.x1) * sqrt(qr.x1))) / (sqrt(ql.x1) + sqrt(qr.x1));

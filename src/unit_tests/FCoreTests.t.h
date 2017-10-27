@@ -30,7 +30,6 @@ class solver_tests::FCoreTestSuite : public CxxTest::TestSuite
 {
 
 public:
-
     /**
      * @test Verify that a zero vector is returned by the solver::FCore::compute method when fed with parameters ql = qr = {0,0}
      */
@@ -58,9 +57,27 @@ public:
     */
     void test_compute_reference(void)
     {
-        
+        //TODO: Implement
     }
 
+
+    /**
+     * @test Chéck the implementation of solver::FCore::compute_eigenvalues against some precalculated numbers
+    */
+    void test_eigenvalues(void)
+    {
+        /**@brief Check all input values equal to 1 */
+        struct vector2 ql = {1.0, 1.0};
+        struct vector2 qr = {1.0, 1.0};
+        struct vector2 res = FCore::compute_eigenvalues(ql, qr);
+        TS_ASSERT(res.x1 - 2.132091952673165 < ZERO_PRECISION && res.x2 - 4.132091952673165 < ZERO_PRECISION);
+
+        /**@brief Check ql = {2.0, 3.0} and qr = {4.0, 5.0} */
+        ql = {2.0, 3.0};
+        qr = {4.0, 5.0};
+        res = FCore::compute_eigenvalues(ql, qr);
+        TS_ASSERT(res.x1 - (1.353553390593274 - 5.424942396007538) < ZERO_PRECISION && res.x2 - (1.353553390593274 + 5.424942396007538) < ZERO_PRECISION);
+    }
 
     /**
      * @test Verify solver::FCalc::avg_height by testing a set of predetermined inputs to the #ZERO_PRECISION accuracy

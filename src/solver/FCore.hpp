@@ -26,8 +26,7 @@ namespace solver
      */
     class FCore
     {
-
-    private:
+    public:
         
         /**
          * @brief Static method that computes the Roe eigenvalues in terms of the left and right quantities
@@ -42,7 +41,6 @@ namespace solver
             return {avg_v - lambda_sqrt, avg_v + lambda_sqrt};
         };
 
-    public:
 
         /**
          * @brief Static method that computes the resulting net-updates and wave speeds from the left and right state as described in @cite bale2002wave and @cite leveque2002finite
@@ -79,8 +77,8 @@ namespace solver
         static fresult compute_netupdates(vector2 ql, vector2 qr)
         {
             //TODO: Treat very small numbers < ZERO_PRECISION
-            if(ql.x1 == 0 && ql.x2 == 0 && qr.x1 == 0 && qr.x2 == 0) //Special case, where inputs are zero
-                return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Create output struct, where all values are zero 
+            if(ql.x1 == 0 && ql.x2 == 0 && qr.x1 == 0 && qr.x2 == 0 || ql.x1 == qr.x1 && ql.x2 == 0 && qr.x2 == 0) //Special case, where inputs are zero or heights are equal and wave speed is zero
+                return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Return output struct, where all values are zero 
 
             assert(FCalc::avg_height(ql, qr) >= 0); //Assert avg_height(ql, qr) is positive
 
