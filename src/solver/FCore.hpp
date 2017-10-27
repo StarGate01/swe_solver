@@ -89,13 +89,7 @@ namespace solver
             vector2 eigenvalues = compute_eigenvalues(ql, qr); //Compute Roe eigenvalues
             assert(std::abs(eigenvalues.x2 - eigenvalues.x1) > ZERO_PRECISION); //Assert lambda_2 - lambda_1 != 0 (potential division by zero) 
             
-            fresult res = {  //Initialize result struct 
-                .lambda_1 = eigenvalues.x1,
-                .lambda_2 = eigenvalues.x2,
-                .adq_positive = {0},
-                .adq_negative = {0}
-            };
-
+            fresult res = {eigenvalues.x1, eigenvalues.x2, {0}, {0}}; //initialise result struct
             vector2 r1 = {1, res.lambda_1}; //Create r_1 vector
             vector2 r2 = {1, res.lambda_2}; //Create r_2 vector
             vector2 delta_f = FCalc::flux(qr).substract(FCalc::flux(ql)); //calculate flux delta
@@ -107,26 +101,14 @@ namespace solver
             alpha = alpha.divide(res.lambda_2 - res.lambda_1);
 
             if(res.lambda_1 < 0) //In case lambda_1 is negative, assign AdQ appropriately
-            {
-                res.adq_negative.x1 += alpha.x1 * r1.x1;
-                res.adq_negative.x2 += alpha.x1 * r1.x2;
-            }
+                res.adq_negative = res.adq_negative.add(r1.multiply(alpha.x1));
             else if(res.lambda_1 > 0) //In case lambda_1 is positive, assign AdQ appropriately
-            {
-                res.adq_positive.x1 += alpha.x1 * r1.x1;
-                res.adq_positive.x2 += alpha.x1 * r1.x2;
-            }
+                res.adq_positive = res.adq_positive.add(r1.multiply(alpha.x1));
         
             if(res.lambda_2 < 0) //In case lambda_2 is negative, assign AdQ appropriately
-            {
-                res.adq_negative.x1 += alpha.x2 * r2.x1;
-                res.adq_negative.x2 += alpha.x2 * r2.x2;
-            }
+                res.adq_negative = res.adq_negative.add(r2.multiply(alpha.x2));
             else if(res.lambda_2 > 0) //In case lambda_2 is positive, assign AdQ appropriately
-            {
-                res.adq_positive.x1 += alpha.x2 * r2.x1;
-                res.adq_positive.x2 += alpha.x2 * r2.x2;  
-            }
+                res.adq_positive = res.adq_positive.add(r2.multiply(alpha.x2)); 
             
             //Handle special cases
             if(res.lambda_1 < 0 && res.lambda_2 < 0) 
