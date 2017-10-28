@@ -3,6 +3,9 @@
  * @brief Unit tests for FCore and FCalc
 */
 
+//DEBUG
+#include <iostream>
+
 #include <math.h>
 #include <limits>
 #include <string>
@@ -48,9 +51,20 @@ public:
     */
     void test_compute_reference(void)
     {
-        std::ifstream f("test.csv");
-        std::string result = CSVParser::readLine(f);
-        TS_TRACE(result);
+        std::ifstream f("/home/foxtrot/Documents/tmpTsunami/submodules/solvers/src/unit_tests/test.csv");
+        if(!f.good())
+        {
+            std::cout << "\nFAILED TO OPEN FILE" << std::endl;
+            TS_ASSERT(false);
+            return;
+        }
+
+        while(CSVParser::moreLinesToRead(f))
+        {
+            struct testdata result = CSVParser::readLine(f);
+            std::cout << "line parsed" << std::endl;
+        }
+        
         f.close();
         TS_ASSERT(true);
     }
