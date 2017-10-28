@@ -5,9 +5,11 @@
 
 #include <math.h>
 #include <limits>
+#include <string>
 #include <cxxtest/TestSuite.h>
 #include "../solver/FCore.hpp"
 #include "../solver/FCalc.hpp"
+#include "CSVParser.hpp"
 
 using namespace solver;
 
@@ -40,24 +42,17 @@ public:
         TS_ASSERT(res.adq_positive.x1 == 0 && res.adq_positive.x2 == 0);
     }
 
-    /**
-     * @test Check the implementation of solver::FCore::compute against some precomputed values
-    */
-    void test_compute_valid(void)
-    {
-        /** @brief Scenario 1: Zero input results in zero output */
-        struct vector2 ql = {0.0, 0.0};
-        struct vector2 qr = {0.0, 0.0};
-        struct fresult res = FCore::compute_netupdates(ql, qr);
-        TS_ASSERT(true);      
-    }
 
     /**
      * @test Check the implementation against the reference implementation
     */
     void test_compute_reference(void)
     {
-        //TODO: Implement
+        std::ifstream f("test.csv");
+        std::string result = CSVParser::readLine(f);
+        TS_TRACE(result);
+        f.close();
+        TS_ASSERT(true);
     }
 
 
