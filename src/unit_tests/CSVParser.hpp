@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <vector>
 #include <string>
+#include <algorithm>    // std::find_if
 #include "../solver/FStructs.hpp"
 
 namespace solver_tests
@@ -29,41 +30,39 @@ namespace solver_tests
         static bool isValidLine(std::string line)
         {
             //TODO: Count numbers of commas and test for characters other than numbers, ',' and '.'
+            //if string is neither a number,, '-', ',' or '.'
+            if(line.end() != std::find_if(line.begin(), line.end(), [](unsigned char c)->bool{ 
+                return !(isdigit(c) || c == '-' || c == ',' || c == '\n' || c == '.');
+            }))
+            {
+                return false;
+            }
+
             return (line.length() > 2 && line[0] != '#');
         };
 
         static bool moreLinesToRead(std::ifstream &in)
         {
-            return (in.peek() != in.eof());
+            return (!in.eof());
         };
     
         static std::vector<std::string> splitString(std::string str)
         {
-            std::cout << "0" << std::endl;
             std::vector<std::string> result;
             std::stringstream sstr(str);
-            std::cout << "1" << std::endl;
             while(sstr.good())
             {
-                std::cout << "2" << std::endl;
                 std::string item;
                 getline(sstr, item, ',');
-                std::cout << "3" << std::endl;
                 result.push_back(item);
-                std::cout << "4" << std::endl;
             }
             return result;
         };
 
         static std::vector<double> parseLine(std::string line)
         {
-            std::cout << std::endl << "Parsing: " + line << std::endl;
-
             /** Split string by comma */
-            std::vector<std::string> items = splitString(line);
-
-            std::cout << "split complete" << std::endl;
-            
+            std::vector<std::string> items = splitString(line);   
             
             /** Convert line to doubles */
             std::vector<double> result;
@@ -101,10 +100,10 @@ namespace solver_tests
             
             assert(data.size() == 5);
             
-            struct solver::vector2 ql = {data[0], data[1]};
-            struct solver::vector2 qr = {data[2], data[3]};
+            struct solver::vector2 ql = {data[0], data[2]};
+            struct solver::vector2 qr = {data[1], data[3]};
             
-            struct testdata result = {ql, qr, data[5]};
+            struct testdata result = {ql, qr, data[4]};
             return result;
         };
         

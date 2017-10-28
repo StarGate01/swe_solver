@@ -54,21 +54,20 @@ public:
         std::ifstream f("/home/foxtrot/Documents/tmpTsunami/submodules/solvers/src/unit_tests/test.csv");
         if(!f.good())
         {
-            std::cout << "\nFAILED TO OPEN FILE" << std::endl;
+            TS_WARN("\nFAILED TO OPEN FILE");
             TS_ASSERT(false);
             return;
         }
 
-        int i = 0;
         while(CSVParser::moreLinesToRead(f))
         {
-            std::cout << "Parsing line " << i << std::endl;            
             struct testdata result = CSVParser::readLine(f);
-            std::cout << "line parsed" << std::endl;
-            i++;
+            //TODO: Test data
+            //TODO: React to runtime error: no more lines to read
         }
         
         f.close();
+        f.clear();
         TS_ASSERT(true);
     }
 
