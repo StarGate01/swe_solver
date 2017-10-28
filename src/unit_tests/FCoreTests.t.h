@@ -59,10 +59,13 @@ public:
             return;
         }
 
+        int i = 0;
         while(CSVParser::moreLinesToRead(f))
         {
+            std::cout << "Parsing line " << i << std::endl;            
             struct testdata result = CSVParser::readLine(f);
             std::cout << "line parsed" << std::endl;
+            i++;
         }
         
         f.close();

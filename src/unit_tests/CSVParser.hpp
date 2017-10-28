@@ -3,6 +3,7 @@
  * @brief Parser for csv files
  */
 #include <fstream>
+#include <cstdio>
 #include <vector>
 #include <string>
 #include "../solver/FStructs.hpp"
@@ -25,6 +26,56 @@ namespace solver_tests
     class CSVParser
     {
     public:
+        static bool isValidLine(std::string line)
+        {
+            //TODO: Count numbers of commas and test for characters other than numbers, ',' and '.'
+            return (line.length() > 2 && line[0] != '#');
+        };
+
+        static bool moreLinesToRead(std::ifstream &in)
+        {
+            return (in.peek() != in.eof());
+        };
+    
+        static std::vector<std::string> splitString(std::string str)
+        {
+            std::cout << "0" << std::endl;
+            std::vector<std::string> result;
+            std::stringstream sstr(str);
+            std::cout << "1" << std::endl;
+            while(sstr.good())
+            {
+                std::cout << "2" << std::endl;
+                std::string item;
+                getline(sstr, item, ',');
+                std::cout << "3" << std::endl;
+                result.push_back(item);
+                std::cout << "4" << std::endl;
+            }
+            return result;
+        };
+
+        static std::vector<double> parseLine(std::string line)
+        {
+            std::cout << std::endl << "Parsing: " + line << std::endl;
+
+            /** Split string by comma */
+            std::vector<std::string> items = splitString(line);
+
+            std::cout << "split complete" << std::endl;
+            
+            
+            /** Convert line to doubles */
+            std::vector<double> result;
+            for(int i = 0; i < items.size(); i++)
+            {
+                double d = sscanf(items[i].c_str(), "%lf", &d);
+                result.push_back(d);
+            }
+            return result;
+        };
+
+
         /**
         * @brief Reads the next line of the file
         * @return 
@@ -57,46 +108,5 @@ namespace solver_tests
             return result;
         };
         
-        static bool moreLinesToRead(std::ifstream &in)
-        {
-            return !(in && in.peek() == EOF);
-        };
-        
-//    private:
-        static bool isValidLine(std::string line)
-        {
-            //TODO: Count numbers of commas and test for characters other than numbers, ',' and '.'
-            return (line.length() > 2 && line[0] != '#');
-        };
-
-        static std::vector<std::string>> splitString(std::string str, std::string delimiter)
-        {
-            std::vector<std::string> result;
-            std::stringstream sstr(str);
-
-            while(ss.good())
-            {
-                std::string item;
-                getline(sstr, item, ',');
-                result.push_back(item);
-            }
-            return result;
-        };
-
-        static std::vector<std::double> parseLine(std::string line)
-        {
-            std::cout << std::endl << "Parsing: " + line << std::endl;
-            
-            /** Split string by comma */
-            std::vector<std::string> items = splitString(line);
-
-            /** Convert line to doubles */
-            std::vector<double> result;
-            for(int i = 0; i < items.size(); i++)
-            {
-                result.push_back(std::atof(items[i]));
-            }
-            return result;
-        };
     };
 };
