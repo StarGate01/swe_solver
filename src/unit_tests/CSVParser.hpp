@@ -104,7 +104,7 @@ namespace solver_tests
         /**
          * @brief Determines whether there are more lines to be read in a std::ifstream
          * 
-         * Checks if end of file (eof) is reached. If not, it is assumed that there is more content to read
+         * Checks if end of file (eof) is reached or next line begins with space. If not, it is assumed that there is more content to read
          * 
          * @param in Stream to be checked
          * 
@@ -112,7 +112,7 @@ namespace solver_tests
         */
         static bool moreLinesToRead(std::ifstream &in)
         {
-            return (!in.eof());
+            return (!in.eof() && in.peek() != ' ');
         };
 
         /**
