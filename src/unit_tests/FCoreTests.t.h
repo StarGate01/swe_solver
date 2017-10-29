@@ -51,7 +51,10 @@ public:
     */
     void test_compute_reference(void)
     {
+        /** Create filestream to .csv test file*/
         std::ifstream f("/home/foxtrot/Documents/tmpTsunami/submodules/solvers/src/unit_tests/test.csv");
+
+        /** Test if file is ok, otherwise fail test*/
         if(!f.good())
         {
             TS_WARN("\nFAILED TO OPEN FILE");
@@ -59,6 +62,7 @@ public:
             return;
         }
 
+        /** Foreach set of test data: perform test*/
         while(CSVParser::moreLinesToRead(f))
         {
             struct testdata result = CSVParser::readLine(f);
@@ -66,8 +70,11 @@ public:
             //TODO: React to runtime error: no more lines to read
         }
         
+        /** Close file */
         f.close();
         f.clear();
+
+        //TODO: Remove this line when implementation complete
         TS_ASSERT(true);
     }
 
