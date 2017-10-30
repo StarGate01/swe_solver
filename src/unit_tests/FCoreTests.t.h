@@ -40,8 +40,8 @@ public:
      */
     void test_compute_zero(void)
     {
-        struct vector2 zerovector = {0.0, 0.0};
-        struct fresult res = FCore::compute_netupdates(zerovector, zerovector);
+        vector2 zerovector = {0.0, 0.0};
+        fresult res = FCore::compute_netupdates(zerovector, zerovector);
         TS_ASSERT(res.adq_positive.x1 == 0 && res.adq_positive.x2 == 0);
     }
 
@@ -65,7 +65,7 @@ public:
         /** Foreach set of test data: perform test*/
         while(CSVParser::moreLinesToRead(f))
         {
-            struct testdata result = CSVParser::readLine(f);
+            testdata result = CSVParser::readLine(f);
             //TODO: Test data
             //TODO: React to runtime error: no more lines to read
         }
@@ -85,9 +85,9 @@ public:
     void test_eigenvalues(void)
     {
         /**@brief Check all input values equal to 1 */
-        struct vector2 ql = {1.0, 1.0};
-        struct vector2 qr = {1.0, 1.0};
-        struct vector2 res = FCore::compute_eigenvalues(ql, qr);
+        vector2 ql = {1.0, 1.0};
+        vector2 qr = {1.0, 1.0};
+        vector2 res = FCore::compute_eigenvalues(ql, qr);
         TS_ASSERT(res.x1 - 2.132091952673165 < ZERO_PRECISION && res.x2 - 4.132091952673165 < ZERO_PRECISION);
 
         /**@brief Check ql = {2.0, 3.0} and qr = {4.0, 5.0} */
@@ -103,8 +103,8 @@ public:
     void test_avg_height(void)
     {
         /** @brief Scenario 1: @f[ \frac{3.0 + 1.0}{2.0} \overset{!}{=} 2.0 @f] */
-        struct vector2 ql = {1.0, 2.0};
-        struct vector2 qr = {3.0, 4.0};
+        vector2 ql = {1.0, 2.0};
+        vector2 qr = {3.0, 4.0};
         TS_ASSERT(std::abs(FCalc::avg_height(ql, qr) - 2.0) < ZERO_PRECISION);
 
         /** @brief Scenario 2: @f[ \frac{-3.0+5.0}{2.0} \overset{!}{=} 1.0 @f] */
@@ -129,8 +129,8 @@ public:
     void test_avg_particle_velocity(void)
     {
         /** @brief Scenario 1: Standard set of numbers */
-        struct vector2 ql = {1.0, 2.0};
-        struct vector2 qr = {3.0, 4.0};
+        vector2 ql = {1.0, 2.0};
+        vector2 qr = {3.0, 4.0};
         TS_ASSERT(std::abs(FCalc::avg_particle_velocity(ql, qr) - 1.5773502691896257645091487805019) < ZERO_PRECISION);
 
         /** @brief Scenario 2: Negative hu values */
@@ -165,8 +165,8 @@ public:
     void test_flux(void)
     {
         /** @brief Scenario 1: Standard set of numbers */
-        struct vector2 input = {1.0 ,1.0};
-        struct vector2 out = FCalc::flux(input);
+        vector2 input = {1.0 ,1.0};
+        vector2 out = FCalc::flux(input);
         TS_ASSERT_EQUALS(out.x1, 1.0);
         TS_ASSERT(std::abs(out.x2 - 5.905) < ZERO_PRECISION);
 

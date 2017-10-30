@@ -15,9 +15,9 @@ namespace solver_tests
     */
     struct testdata
     {
-        struct solver::vector2 ql;      /**< q_l*/
-        struct solver::vector2 qr;      /**< q_r*/
-        float hstar;           /**< Expected parsedArr*/
+        solver::vector2 ql; /**< q_l*/
+        solver::vector2 qr; /**< q_r*/
+        float hstar; /**< Expected parsedArr*/
     };
     
     /**
@@ -29,6 +29,7 @@ namespace solver_tests
      */
     class CSVParser
     {
+
     private:
         /**
          * @brief Determines if a string is a valid data line in a csv file
@@ -124,7 +125,7 @@ namespace solver_tests
         *
         * @throws std::runtime_error If filestream is not initialized, otherwise corrupt or if file format is invalid
         */
-        static struct testdata readLine(std::ifstream &in)
+        static testdata readLine(std::ifstream &in)
         {
             /**
              * Test if filestream contains more lines to read and read lines,
@@ -149,11 +150,13 @@ namespace solver_tests
                 throw std::runtime_error("Invalid file format. Aborting!");
             
             /** Assemble return solver_test::testdata struct */
-            struct solver::vector2 ql = {data[0], data[2]};
-            struct solver::vector2 qr = {data[1], data[3]};
-            struct testdata result = {ql, qr, float(data[4])};
+            solver::vector2 ql = {data[0], data[2]};
+            solver::vector2 qr = {data[1], data[3]};
+            testdata result = {ql, qr, float(data[4])};
 
             return result;
         };
+
     };
+
 };
