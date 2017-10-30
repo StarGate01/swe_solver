@@ -37,7 +37,7 @@ namespace solver
          * 
          * @return The height
          */
-        static double avg_height(vector2 ql, vector2 qr)
+        static double avg_height(const vector2 ql, const vector2 qr)
         {
             return 0.5 * (ql.x1 + qr.x1);
         };
@@ -55,7 +55,7 @@ namespace solver
          * 
          * @return The particle velocity
          */
-        static double avg_particle_velocity(vector2 ql, vector2 qr)
+        static double avg_particle_velocity(const vector2 ql, const vector2 qr)
         {
             if(std::isnan(ql.x1) || std::isnan(ql.x2) || std::isnan(qr.x1) || std::isnan(qr.x2))
                 return std::numeric_limits<double>::quiet_NaN();
@@ -74,7 +74,7 @@ namespace solver
          * 
          * @return The flux vector
          */
-        static vector2 flux(vector2 q)
+        static vector2 flux(const vector2 q)
         {
             return {
                 q.x2, 

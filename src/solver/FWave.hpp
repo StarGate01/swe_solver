@@ -51,8 +51,8 @@ namespace solver
             
         {
             fresult coreres = FCore::compute_netupdates(
-                { .x1 = (double)hLeft, .x2 = (double)huLeft }, 
-                { .x1 = (double)hRight, .x2 = (double)huRight }
+                {(double)hLeft, (double)huLeft}, 
+                {(double)hRight, (double)huRight}
             );
 
             hUpdateLeft = (T)coreres.adq_negative.x1;

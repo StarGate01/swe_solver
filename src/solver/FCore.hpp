@@ -8,6 +8,8 @@
 
 #include <cmath>
 #include <assert.h>
+#include <stdio.h>
+#include <cstdlib>
 #include "FStructs.hpp"
 #include "FConst.hpp"
 #include "FCalc.hpp"
@@ -26,6 +28,7 @@ namespace solver
      */
     class FCore
     {
+
     public:
         
         /**
@@ -40,7 +43,6 @@ namespace solver
             double avg_v = FCalc::avg_particle_velocity(ql, qr); //Compute average velocity
             return {avg_v - lambda_sqrt, avg_v + lambda_sqrt};
         };
-
 
         /**
          * @brief Static method that computes the resulting net-updates and wave speeds from the left and right state as described in @cite bale2002wave and @cite leveque2002finite

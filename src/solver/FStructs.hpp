@@ -20,12 +20,12 @@ namespace solver
         /**
          * @brief Adds a vector to this vector
          */
-        vector2 add(vector2 b) { return {x1 + b.x1, x2 + b.x2}; };
+        vector2 add(const vector2 b) { return {x1 + b.x1, x2 + b.x2}; };
 
         /**
          * @brief Substracts a vector from this vector
          */
-        vector2 substract(vector2 b) { return {x1 - b.x1, x2 - b.x2}; };
+        vector2 substract(const vector2 b) { return {x1 - b.x1, x2 - b.x2}; };
 
         /**
          * @brief Multiplies this vector with a scalar
