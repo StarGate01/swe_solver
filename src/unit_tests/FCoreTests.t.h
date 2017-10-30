@@ -52,7 +52,7 @@ public:
     void test_compute_reference(void)
     {
         /** Create filestream to .csv test file*/
-        std::ifstream f("/home/foxtrot/Downloads/middle_states.csv");
+        std::ifstream f("src/unit_tests/middle_states.csv");
 
         /** Test if file is ok, otherwise fail test*/
         if(!f.good())

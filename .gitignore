@@ -5,3 +5,6 @@ documentation/build
 # scons stuff
 site_scons/site_tools/cxxtest.pyc
 .sconsign.dblite
+
+# test data
+src/unit_tests/middle_states.csv
