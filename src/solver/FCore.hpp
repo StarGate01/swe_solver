@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <cstdlib>
+#include <algorithm>
 #include "FStructs.hpp"
 #include "FConst.hpp"
 #include "FCalc.hpp"
@@ -34,7 +35,7 @@ namespace solver
         /**
          * @brief Static method that computes the Roe eigenvalues in terms of the left and right quantities
          * 
-         * Compute Roe eigenvalues to approximate wave speeds using solver::FCalc::avg_particle_velocity and solver::FCalc::avg_height 
+         * Compute Roe eigenvalues to approximate wave speeds using solver::FCalc::avg_particle_velocity and solver::FCalc::avg_height
          * @f[ \lambda_{1,2}^{Roe}(q_l, q_r) = u^{Roe}(q_l, q_r) \pm \sqrt{gh^{Roe}(q_l, q_r)} @f]
          */
         static vector2 compute_eigenvalues(vector2 ql, vector2 qr)
@@ -48,6 +49,7 @@ namespace solver
          * @brief Static method that computes the resulting net-updates and wave speeds from the left and right state as described in @cite bale2002wave and @cite leveque2002finite
          * 
          * Using the intermediate computations for the eigenvectors using the eigenvalues computed with solver::FCore::compute_eigenvalues
+         * 
          * @f[ r_{1,2}^{Roe} = \begin{bmatrix} 1 \\ \lambda_{1,2}^{Roe} \end{bmatrix} @f]
          * And the jump in the difference in the flux function and waves using solver::FCalc::flux
          * @f[ \Delta f = f(q_r) - f(q_l) @f] 
@@ -78,10 +80,8 @@ namespace solver
          */
         static fresult compute_netupdates(vector2 ql, vector2 qr)
         {
-            //TODO: Treat very small numbers < ZERO_PRECISION
             if(ql.x1 == 0 && ql.x2 == 0 && qr.x1 == 0 && qr.x2 == 0 || ql.x1 == qr.x1 && ql.x2 == 0 && qr.x2 == 0) //Special case, where inputs are zero or heights are equal and wave speed is zero
-                return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Return output struct, where all values are zero 
-
+               return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Return output struct, where all values are zero 
             assert(FCalc::avg_height(ql, qr) >= 0); //Assert avg_height(ql, qr) is positive
 
             vector2 eigenvalues = compute_eigenvalues(ql, qr); //Compute Roe eigenvalues
@@ -92,7 +92,7 @@ namespace solver
             vector2 r2 = {1, res.lambda_2}; //Create r_2 vector
             vector2 delta_f = FCalc::flux(qr).substract(FCalc::flux(ql)); //calculate flux delta
 
-            vector2 alpha = { //Calculate eigencoefficients
+            vector2 alpha = { //Calculate eigencoefficients with the inverse of the eigenvalue matrix
                 ((delta_f.x1 * res.lambda_2) - delta_f.x2),
                 (delta_f.x2 - (delta_f.x1 * res.lambda_1))
             };
