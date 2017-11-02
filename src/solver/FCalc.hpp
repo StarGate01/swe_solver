@@ -39,7 +39,7 @@ namespace solver
          */
         static double avg_height(const vector2 ql, const vector2 qr)
         {
-            return 0.5 * (ql.x1 + qr.x1);
+            return (ql.x1 + qr.x1) * 0.5;
         };
 
         /**
@@ -62,13 +62,16 @@ namespace solver
                 
             assert(ql.x1 > ZERO_PRECISION && qr.x1 > ZERO_PRECISION); //Assert h values of ql and qr are positive
 
-            return (((ql.x2 / ql.x1) * sqrt(ql.x1)) + ((qr.x2 / qr.x1) * sqrt(qr.x1))) / (sqrt(ql.x1) + sqrt(qr.x1));
+            return (
+                ((ql.x2 / ql.x1) * sqrt(ql.x1))
+                 + ((qr.x2 / qr.x1) * sqrt(qr.x1))
+            ) / (sqrt(ql.x1) + sqrt(qr.x1));
         };
 
         /**
          * @brief Computes the flux using #G_CONST.
          * 
-         * @f[ f(q) = \begin{bmatrix} {hu} \\ {hu}^2 + \frac{1}{2}gh^2 \end{bmatrix} @f]
+         * @f[ f(q) = \begin{bmatrix} {hu} \\ h u^2 + \frac{1}{2}gh^2 \end{bmatrix} @f]
          * 
          * @param q The state
          * 
@@ -78,7 +81,7 @@ namespace solver
         {
             return {
                 q.x2, 
-                (q.x2 * q.x2) + (0.5 * G_CONST * q.x1 * q.x1)
+                (q.x2 * (q.x2 / q.x1)) + (0.5 * G_CONST * q.x1 * q.x1)
             };
         };
 
