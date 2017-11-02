@@ -51,10 +51,10 @@ public:
     */
     void test_compute_reference(void)
     {
-        /** Create filestream to .csv test file*/
+        // Create filestream to .csv test file
         std::ifstream f("src/unit_tests/middle_states.csv");
 
-        /** Test if file is ok, otherwise fail test*/
+        // Test if file is ok, otherwise fail test
         if(!f.good())
         {
             TS_WARN("\nFAILED TO OPEN FILE");
@@ -62,7 +62,7 @@ public:
             return;
         }
 
-        /** Foreach set of test data: perform test*/
+        // Foreach set of test data: perform test
         while(CSVParser::moreLinesToRead(f))
         {
             testdata result = CSVParser::readLine(f);
@@ -70,7 +70,7 @@ public:
             //TODO: React to runtime error: no more lines to read
         }
         
-        /** Close file */
+        // Close file
         f.close();
         f.clear();
 
@@ -105,7 +105,7 @@ public:
         /** @brief Scenario 1: @f[ \frac{3.0 + 1.0}{2.0} \overset{!}{=} 2.0 @f] */
         vector2 ql = {1.0, 2.0};
         vector2 qr = {3.0, 4.0};
-        TS_ASSERT(std::abs(FCalc::avg_height(ql, qr) - 2.0) < ZERO_PRECISION);
+        TS_ASSERT(std::abs(FCalc::avg_height(ql, qr) - 1.5) < ZERO_PRECISION);
 
         /** @brief Scenario 2: @f[ \frac{-3.0+5.0}{2.0} \overset{!}{=} 1.0 @f] */
         ql = {-3.0, 2.0};

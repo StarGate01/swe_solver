@@ -31,6 +31,7 @@ namespace solver_tests
     {
 
     private:
+
         /**
          * @brief Determines if a string is a valid data line in a csv file
          * 
@@ -65,11 +66,11 @@ namespace solver_tests
         */
         static std::vector<std::string> splitString(std::string str)
         {
-            /**Create output vector and std::stringstream for string processing*/
+            // Create output vector and std::stringstream for string processing
             std::vector<std::string> result;
             std::stringstream sstr(str);
 
-            /** While there is more data to read: read string until a comma occures or the end of the string is reached*/
+            // While there is more data to read: read string until a comma occures or the end of the string is reached
             while(sstr.good())
             {
                 std::string item;
@@ -88,10 +89,10 @@ namespace solver_tests
         */
         static std::vector<double> parseLine(std::string line)
         {
-            /** Split string by comma */
+            // Split string by comma
             std::vector<std::string> items = splitString(line);   
             
-            /** Convert line to doubles */
+            // Convert line to doubles
             std::vector<double> result;
             for(int i = 0; i < items.size(); i++)
             {
@@ -102,6 +103,7 @@ namespace solver_tests
         };
         
     public:
+
         /**
          * @brief Determines whether there are more lines to be read in a std::ifstream
          * 
@@ -127,29 +129,27 @@ namespace solver_tests
         */
         static testdata readLine(std::ifstream &in)
         {
-            /**
-             * Test if filestream contains more lines to read and read lines,
-             *  until a valid line of data is found
-             */
+            // Test if filestream contains more lines to read and read lines,
+            // until a valid line of data is found
             std::string line;
             do
             {            
                 if(!moreLinesToRead(in))
                     throw std::runtime_error("No more lines to read");
 
-                /** Read line*/
+                // Read line
                 getline(in, line);
 
             } while(!isValidLine(line));
             
-            /** Parse line */
+            // Parse line
             std::vector<double> data = parseLine(line);
             
-            /** Assert line as the appropriate amount of entries */
+            // Assert line as the appropriate amount of entries
             if(data.size() != 5)
                 throw std::runtime_error("Invalid file format. Aborting!");
             
-            /** Assemble return solver_test::testdata struct */
+            // Assemble return solver_test::testdata struct
             solver::vector2 ql = {data[0], data[2]};
             solver::vector2 qr = {data[1], data[3]};
             testdata result = {ql, qr, float(data[4])};
