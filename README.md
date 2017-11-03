@@ -2,4 +2,8 @@
 
 _Solver for the shallow water equations_
 
-Although this solver runs a a submodule in https://github.com/TUM-I5/SWE1D, we are using our fork (https://github.com/StarGate01/SWE1D) for developing and testing purposes.
+Implementation of the problems given in @cite tssim1.
+
+This project is a fork of https://github.com/TUM-I5/swe_solvers, however all code was replaced with our own code.
+
+Use this project as a submodule of https://github.com/StarGate01/SWE1D, which itself is a fork from https://github.com/TUM-I5/SWE1D.

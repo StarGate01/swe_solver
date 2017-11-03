@@ -15,16 +15,22 @@ Linter configuration and Debug targets are available in versions both for native
 
 ## Tasks
 
-Build the surrounding system which integrates the submodules code:
-- Build Debug
-- Build Release
-- Clean All
-- Generate Data
-- Clean Data
-- Build Solver Documentation
-- Run Solver Tests
+The following tasks are registered in the IDE's task runner
+- Build Debug Binaries
+- Build Release Binaries
+- Clean Binaries
+- Regenerate Data
+- Run Tests
+- Build Documentation
+- Clean Documentation
+- Build Presentation
+- Clean Presentation
 
 ## Debug targets
+
+The target `build/SWE1D` is available when built with support for debug symbols
+- GDB Linux Native
+- GDB WSL
 
 ### Required packages:
 - gdb

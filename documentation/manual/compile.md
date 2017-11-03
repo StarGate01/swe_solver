@@ -21,17 +21,18 @@ Compile and run tests with `scons check`.
  - doxygen
  - perl
  - graphviz
- - latex (eg. texlive)
-    - pdflatex
-    - bibtex
-    - varwidth
-    - multirow
-    - adjustbox
-    - collectbox
-    - sectsty
-    - tocloft
-    - tabu
+ - git
+ - latex 
+ - Additional required packages depending on you latex installation
 
 Compile with `doxygen ../documentation/doxygen.cfg` in directory `src` to `documentation/build/html/index.html`
 
 Build PDF with `make` in directory `documentation/build/latex` to `documentation/build/latex/refman.pdf`
+
+## Building the presentation slides
+
+### Required packages:
+ - xelatex
+ - Additional required packages depending on you latex installation
+
+Compile with `xelatex assignment1.tex` in directory `documentation/presentation1` to `presentation1.pdf`
