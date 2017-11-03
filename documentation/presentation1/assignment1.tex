@@ -6,16 +6,19 @@
 %\usepackage[utf8]{inputenc}
 \usepackage{fontspec}
 
-%Showing movies
-\usepackage{graphicx, animate, media9, movie15}
+
+%Images
+\usepackage{graphicx, svg}
+
+%Showing movies and gifs
+%\usepackage{animate, media9, movie15}
 \usepackage{animate}
 \usepackage{array}
 
 \usepackage{caption}
-\usepackage{subcaption}
+%\usepackage{subcaption}
 \usepackage{multicol}
 \usepackage{color}
-\usepackage{psfrag} %for \psfrag in figures
 \usepackage{pgfplots}
 \usepackage{xmpmulti}
 
@@ -77,25 +80,55 @@
 
 \title[{Tsunami simulation}]{Assignment 1}
 
-\author[Bellamy Honal, Wieser]{George Bellamy, Christoph Honal, Felix Wieser\\\vspace{10pt}{\small Bachelorpraktikum}}
-\institute[TU M\"unchen]{Technische Universit\"at M\"unchen}
+\author[Bellamy Honal, Wieser]{George Bellamy, Christoph Honal, Felix Wieser\newline\vspace{10pt}{\small Bachelorpraktikum}}
+\institute[TU M\"unchen]{Techncal University of Munich}
 
 \date{7. November 2017}
 
 \begin{document}
 \maketitle
 
+\begin{frame}{Solver implementation: Core functionality}
+	\begin{multicols}{2}
+		\begin{figure}[t]
+			%\includesvg{img/FCalc}
+			\caption*{FCore}			
+		\end{figure}
 
+		\columnbreak
+		
+		\begin{figure}[t]
+%			\includesvg{img/FCalc}
+			\caption*{FCalc}
+		\end{figure}
+%		
+	\end{multicols}
+	\begin{tabular}{ll}
+		FWave & Solver of the 2D-Problem\\
+		FCore & Implementation of NetUpdates and eigenvalues computation\\
+		FCalc & Supplemental methods (average height, ...)\\
+		FCoreTests & Testing of all implemented functionality
+	\end{tabular}
+\end{frame}
 
-%\begin{frame}{Shock-Shock Problem}
-%	\begin{center}
-%		\animategraphics[loop,controls,width=\linewidth]{1}{img/4dorfgif}{0}{0}
-%	\end{center}
-%\end{frame}
-
-\begin{frame}{Solver implementation}
-	%TODO Add content
-	Add text
+\begin{frame}{Solver implementation: Testing}
+	\begin{multicols}{2}
+		
+		\begin{figure}
+%			\includesvg{}
+			\caption*{FCoreTests}
+		\end{figure}
+		
+		\columnbreak
+		
+		Tests cover
+		\begin{itemize}
+			\item Core functionality
+			\item Eigenvalue computation
+			\item Supplemental methods in FCalc
+			\item Comparison with precomputed data
+		\end{itemize}
+	\end{multicols}
 \end{frame}
 
 \begin{frame}{Shock-Shock Problem}
@@ -147,7 +180,7 @@
 	\end{tabular}
 \end{frame}
 
-%TODO: Add slide for each scenario
+%TODO: Add slide for each scenario...
 
 %TODO: Remove / comment the following slides, when finished
 \begin{frame}{Template: image centered, text below}
