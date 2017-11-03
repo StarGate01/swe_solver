@@ -1,6 +1,13 @@
 # binaries
 build
 documentation/build
+*.aux
+*.log
+*.nav
+*.out
+*.pdf
+*.snm
+*.toc
 
 # scons stuff
 site_scons/site_tools/cxxtest.pyc
