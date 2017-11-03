@@ -9,14 +9,13 @@
 
 %Images
 \usepackage{graphicx, svg}
+\usepackage{caption}
 
 %Showing movies and gifs
 %\usepackage{animate, media9, movie15}
 \usepackage{animate}
 \usepackage{array}
-
-\usepackage{caption}
-%\usepackage{subcaption}
+\usepackage{subfig}
 \usepackage{multicol}
 \usepackage{color}
 \usepackage{pgfplots}
@@ -74,17 +73,15 @@
 \newcommand{\imgvoffset}{-20pt}
 \newcommand{\texthoffset}{20pt}
 \newcommand{\imgfullscale}{0.75}
+
+\captionsetup[subfigure]{labelformat=empty}		%Disable enumeration of subfigures
 %####################################################################
 
 \usepackage{anyfontsize}
 
 \title[{Tsunami simulation}]{Assignment 1}
 
-<<<<<<< HEAD
 \author[Bellamy Honal, Wieser]{George Bellamy, Christoph Honal, Felix Wieser\newline\vspace{10pt}{\small Bachelorpraktikum}}
-=======
-\author[Bellamy Honal, Wieser]{George Bellamy, Christoph Honal, Felix Wieser\\\vspace{10pt}{\small Bachelorpraktikum}}
->>>>>>> b2b50e45a52d959e13c6bd0555215228f0821f0f
 \institute[TU M\"unchen]{Techncal University of Munich}
 
 \date{7. November 2017}
@@ -93,25 +90,28 @@
 \maketitle
 
 \begin{frame}{Solver implementation: Core functionality}
-	\begin{multicols}{2}
-		\begin{figure}[t]
-			%\includesvg{img/FCalc}
-			\caption*{FCore}			
-		\end{figure}
-
-		\columnbreak
-		
-		\begin{figure}[t]
-%			\includesvg{img/FCalc}
-			\caption*{FCalc}
-		\end{figure}
-
-	\end{multicols}
+	\begin{figure}
+		\only<1>
+		{
+			\subfloat[FWave]{\includegraphics[clip, width=0.4\linewidth]{img/FWave.png}}
+			\hspace{20pt}
+			\subfloat[FCore]{\includegraphics[clip, width=0.4\linewidth]{img/FCore.png}}	
+		}
+		\only<2>
+		{
+			\subfloat[FCalc]{\includegraphics[clip, width=0.4\linewidth]{img/FCalc.png}}
+			\hspace{20pt}
+			\subfloat[vector2 of FStruct]{\includegraphics[clip, width=0.25\linewidth]{img/vector2.png}}
+		}
+	\end{figure}
+	
+	The core functionality is provided by the following classes
 	\begin{tabular}{ll}
 		FWave & Solver of the 2D-Problem\\
 		FCore & Implementation of NetUpdates and eigenvalues computation\\
+		\pause
 		FCalc & Supplemental methods (average height, ...)\\
-		FCoreTests & Testing of all implemented functionality
+		FStruct & Vector2-Implementation and other structs
 	\end{tabular}
 \end{frame}
 
@@ -119,12 +119,13 @@
 	\begin{multicols}{2}
 		
 		\begin{figure}
-%			\includesvg{}
-			\caption*{FCoreTests}
+			\subfloat{\includegraphics[clip,width=0.7\linewidth]{img/FCoreTestSuite.png}}\\
+			\subfloat{\includegraphics[clip,width=0.7\linewidth]{img/CSVParser.png}}
 		\end{figure}
 		
 		\columnbreak
 		
+		\vspace*{30pt}
 		Tests cover
 		\begin{itemize}
 			\item Core functionality
@@ -132,6 +133,7 @@
 			\item Supplemental methods in FCalc
 			\item Comparison with precomputed data
 		\end{itemize}
+		\vfill
 	\end{multicols}
 \end{frame}
 
@@ -141,8 +143,7 @@
 		\includegraphics[clip, width=\imgfullscale\linewidth]{img/Shock-Shock.png}
 		\caption*{Shock-Shock problem}
 	\end{figure}
-	%TODO: Add text
-	Some random text
+	The waves propagate away from the initial point
 \end{frame}
 
 \begin{frame}{Rare-Rare Problem}
