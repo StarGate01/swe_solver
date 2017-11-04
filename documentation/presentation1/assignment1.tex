@@ -81,9 +81,15 @@ b	\leavevmode%
 
 \title[{Tsunami simulation}]{Assignment 1}
 
+<<<<<<< HEAD
 \author[Bellamy Honal, Wieser]{George Bellamy, Christoph Honal, Felix Wieser\\\vspace{10pt}{\small Bachelorpraktikum}}
 
 \institute[TU M\"unchen]{Techncal University of Munich}
+=======
+\author[Bellamy, Honal, Wieser]{George Bellamy, Christoph Honal, Felix Wieser\\\vspace{10pt}{\small Bachelorpraktikum}}
+
+\institute[TU M\"unchen]{Technical University of Munich}
+>>>>>>> aa215cb
 
 \date{7. November 2017}
 
@@ -169,13 +175,61 @@ b	\leavevmode%
 \begin{frame}{Dam-Break: Scenario 1}
 	\begin{figure}[t]
 		\vspace{\imgvoffset}
+<<<<<<< HEAD
 		\includegraphics[width=\imgfullscale\linewidth]{img/4_dorf_arrival_as_graph.png}
 		\caption*{Scenario visualisation}
+=======
+		\includegraphics[width=\imgfullscale\linewidth]{img/Dam_hl8_hr5.png}
+		\caption*{}
 	\end{figure}
 	
 	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
 		$
 		\begin{matrix}
+		h_l & = & 8\\
+		h_r & = & 5
+		\end{matrix}
+		$
+		&
+		
+		Wave gets to 72m in 20sec
+	\end{tabular}
+\end{frame}
+
+\begin{frame}{Dam-Break: Scenario 2}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[width=\imgfullscale\linewidth]{img/Dam_hl25_hr5.png}
+		\caption*{ }
+	\end{figure}
+	
+	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
+		$
+		\begin{matrix}
+		h_l & = & 25\\
+		h_r & = & 5
+		\end{matrix}
+		$
+		&
+		
+		Wave gets to 68m in 20sec
+		\newline \rightarrow higher left water level results in a slower wave
+	\end{tabular}
+\end{frame}
+
+
+\begin{frame}{Dam-Break: Scenario 3}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[width=\imgfullscale\linewidth]{img/Dam_river.png}
+		\caption*{}
+>>>>>>> aa215cb
+	\end{figure}
+	
+	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
+		$
+		\begin{matrix}
+<<<<<<< HEAD
 		h_l & = & 42\\
 		h_r & = & 42
 		\end{matrix}
@@ -186,6 +240,41 @@ b	\leavevmode%
 	\end{tabular}
 \end{frame}
 
+=======
+		h_l & = & 8\\
+		h_r & = & 5\\
+		hu_r & = & 10
+		\end{matrix}
+		$
+		&
+		
+		The river speed reduces the wave height
+	\end{tabular}
+\end{frame}
+
+\begin{frame}{Dam-Break: Scenario 4}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[width=\imgfullscale\linewidth]{img/Dam_highspeedriver.png}
+		\caption*{}
+	\end{figure}
+	
+	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
+		$
+		\begin{matrix}
+		h_l & = & 8\\
+		h_r & = & 5\\
+		hu_r & = & 30
+		\end{matrix}
+		$
+		&
+		
+		Very high river speeds make the wave lower than the rivers initial height
+	\end{tabular}
+\end{frame}
+
+
+>>>>>>> aa215cb
 %TODO: Add slide for each scenario...
 
 %TODO: Remove / comment the following slides, when finished
