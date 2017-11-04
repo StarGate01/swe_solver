@@ -81,15 +81,9 @@ b	\leavevmode%
 
 \title[{Tsunami simulation}]{Assignment 1}
 
-<<<<<<< HEAD
-\author[Bellamy Honal, Wieser]{George Bellamy, Christoph Honal, Felix Wieser\\\vspace{10pt}{\small Bachelorpraktikum}}
-
-\institute[TU M\"unchen]{Techncal University of Munich}
-=======
 \author[Bellamy, Honal, Wieser]{George Bellamy, Christoph Honal, Felix Wieser\\\vspace{10pt}{\small Bachelorpraktikum}}
 
 \institute[TU M\"unchen]{Technical University of Munich}
->>>>>>> aa215cb
 
 \date{7. November 2017}
 
@@ -150,8 +144,75 @@ b	\leavevmode%
 		\includegraphics[clip, width=\imgfullscale\linewidth]{img/Shock-Shock.png}
 		\caption*{Shock-Shock problem}
 	\end{figure}
-	The waves propagate away from the initial point
+	A wave is created and moves outward from the middle point
 \end{frame}
+
+
+\begin{frame}{Shock-Shock: impact of water height}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[width=\imgfullscale\linewidth]{img/Shock_h10_t18.png}
+		\caption*{}
+	\end{figure}
+	
+	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
+		$
+		\begin{matrix}
+		h & = & 10\\
+		hu_r/_l & = & 10
+		\end{matrix}
+		$
+		&
+		
+		The \Delta waveheight is 1m \newline
+		The wave is 40m wide after 18s
+	\end{tabular}
+\end{frame}
+
+\begin{frame}{Shock-Shock: impact of water height}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[width=\imgfullscale\linewidth]{img/Shock_h50_t8-7.png}
+		\caption*{}
+	\end{figure}
+	
+	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
+		$
+		\begin{matrix}
+		h & = & 50\\
+		hu_r/_l & = & 10
+		\end{matrix}
+		$
+		&
+		
+		The \Delta waveheight is 0,5m \newline
+		The wave is 40m wide after 8,7s
+	\end{tabular}
+\end{frame}
+
+
+
+\begin{frame}{Shock-Shock: impact of different water speeds}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[width=\imgfullscale\linewidth]{img/Shock_hul50_t13.png}
+		\caption*{}
+	\end{figure}
+	
+	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
+		$
+		\begin{matrix}
+		h & = & 10\\
+		hu_l & = & 50\\
+		hu_r & = & 10
+		\end{matrix}
+		$
+		&
+		
+		After 13s the wave has moved 5m to the right 
+	\end{tabular}
+\end{frame}
+
 
 \begin{frame}{Rare-Rare Problem}
 	\begin{figure}[t]
@@ -160,25 +221,12 @@ b	\leavevmode%
 		\caption*{Rare-Rare problem}
 	\end{figure}
 	%TODO: Add text
-	Some random text
+	The same observations through height- and speedchanges as in Shock-Shock can be observed here only inversed
 \end{frame}
 
-\begin{frame}{Dam-Break: When does the water arrive?}
+\begin{frame}{Dam-Break: impact of water height}
 	\begin{figure}[t]
 		\vspace{\imgvoffset}
-		\includegraphics[width=\imgfullscale\linewidth]{img/4_dorf_arrival_as_graph.png}
-		\caption*{Arrival of the wave at the village}
-	\end{figure}
-	The wave arrives after $\approx$ $7,3$ minutes at the village
-\end{frame}
-
-\begin{frame}{Dam-Break: Scenario 1}
-	\begin{figure}[t]
-		\vspace{\imgvoffset}
-<<<<<<< HEAD
-		\includegraphics[width=\imgfullscale\linewidth]{img/4_dorf_arrival_as_graph.png}
-		\caption*{Scenario visualisation}
-=======
 		\includegraphics[width=\imgfullscale\linewidth]{img/Dam_hl8_hr5.png}
 		\caption*{}
 	\end{figure}
@@ -192,11 +240,11 @@ b	\leavevmode%
 		$
 		&
 		
-		Wave gets to 72m in 20sec
+		Wave gets to 72m in 20s
 	\end{tabular}
 \end{frame}
 
-\begin{frame}{Dam-Break: Scenario 2}
+\begin{frame}{Dam-Break: impact of water height}
 	\begin{figure}[t]
 		\vspace{\imgvoffset}
 		\includegraphics[width=\imgfullscale\linewidth]{img/Dam_hl25_hr5.png}
@@ -212,8 +260,8 @@ b	\leavevmode%
 		$
 		&
 		
-		Wave gets to 68m in 20sec
-		\newline \rightarrow higher left water level results in a slower wave
+		Wave gets to 68m in 10s
+		\newline \rightarrow higher left water level results in a faster wave
 	\end{tabular}
 \end{frame}
 
@@ -223,24 +271,11 @@ b	\leavevmode%
 		\vspace{\imgvoffset}
 		\includegraphics[width=\imgfullscale\linewidth]{img/Dam_river.png}
 		\caption*{}
->>>>>>> aa215cb
 	\end{figure}
 	
 	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
 		$
 		\begin{matrix}
-<<<<<<< HEAD
-		h_l & = & 42\\
-		h_r & = & 42
-		\end{matrix}
-		$
-		&
-		%TODO Add description here
-		Add description here
-	\end{tabular}
-\end{frame}
-
-=======
 		h_l & = & 8\\
 		h_r & = & 5\\
 		hu_r & = & 10
@@ -248,7 +283,7 @@ b	\leavevmode%
 		$
 		&
 		
-		The river speed reduces the wave height
+		A higher river speed reduces the wave height
 	\end{tabular}
 \end{frame}
 
@@ -274,80 +309,13 @@ b	\leavevmode%
 \end{frame}
 
 
->>>>>>> aa215cb
-%TODO: Add slide for each scenario...
-
-%TODO: Remove / comment the following slides, when finished
-\begin{frame}{Template: image centered, text below}
+\begin{frame}{Dam-Break: When does the water arrive?}
 	\begin{figure}[t]
 		\vspace{\imgvoffset}
-		\includegraphics[clip, width=\imgfullscale\linewidth]{img/dummy_image.jpg}
-		\caption*{Dummy image}
-		Die Crash Test Dummies sind eine um 1840 gegründete, weltweit operierende Gang von Verkehrssündern. Zahlreiche, teils spektakuläre, Unfälle gehen auf das Konto dieser von Interpol, CIA und FDP gesuchten Organisation (stupidedia.org)
+		\includegraphics[width=\imgfullscale\linewidth]{img/4_dorf_arrival_as_graph.png}
+		\caption*{Arrival of the wave at the village}
 	\end{figure}
+	The wave arrives after $\approx$ $7,3$ minutes at the village
 \end{frame}
 
-\begin{frame}{Template: content left, content right}
-	\begin{multicols}{2}
-		\begin{figure}[t]
-			\includegraphics[clip, width=0.98\linewidth]{img/dummy_image.jpg}
-			\caption*{Dummy image}
-		\end{figure}		
-		
-	\columnbreak
-	
-		Die Crash Test Dummies sind eine um 1840 gegründete, weltweit operierende Gang von Verkehrssündern. Zahlreiche, teils spektakuläre, Unfälle gehen auf das Konto dieser von Interpol, CIA und FDP gesuchten Organisation (stupidedia.org)
-	\end{multicols}
-\end{frame}
-
-\begin{frame}{Mathegedöns}
-	\begin{multicols}{2}
-		
-		Aufzählung
-		\begin{itemize}
-			\item Das ist
-			\item eine wirklich
-			\item sinnvolle Aufzählung
-		\end{itemize}
-		
-		\vspace{10pt}
-		
-		Nummerierung
-		\begin{enumerate}
-			\item Eins
-			\item Zwei
-			\item Drölf
-		\end{enumerate}
-		
-		\vspace{10pt}
-		
-		\begin{tabular}{ll}
-			Name & Leistung\\
-			\hline
-			Heinz & Nicht so toll\\
-			Anton & Besser\\
-			Julian & Alles gewonnen (Streber)
-		\end{tabular}
-		
-	\columnbreak
-		
-		Matrix \hspace{10pt}
-		$
-			\begin{bmatrix}
-				a & b & c\\
-				d & e & f\\
-				g & \dots & 42
-			\end{bmatrix}
-			\cdot
-			\begin{pmatrix}
-			a & b & c\\
-			d & e & f\\
-			g & \dots & 42
-			\end{pmatrix}
-			\cdots
-		$
-		
-	\end{multicols}
-	
-\end{frame}
 \end{document}
