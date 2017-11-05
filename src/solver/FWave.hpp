@@ -17,7 +17,7 @@ namespace solver
      * @brief Adapter to the surrounding framework
      * 
      * This class provides the necessary methods for the F-Wave environment to interact with the F-Wave solver.
-     * Supports flout and double as type parametrization argument.
+     * Supports float and double as type parametrization argument.
      * 
      */
     template <typename T> class FWave
