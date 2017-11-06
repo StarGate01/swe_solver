@@ -6,4 +6,4 @@
 ### Gruppe 03
 - Felix Wieser
 - Christoph Honal
-- George Robin Bellamy
+- George Bellamy

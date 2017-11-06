@@ -12,7 +12,6 @@
 #include <cxxtest/TestSuite.h>
 #include "../solver/FCore.hpp"
 #include "../solver/FCalc.hpp"
-#include "CSVParser.hpp"
 
 using namespace solver;
 
@@ -45,42 +44,8 @@ public:
         TS_ASSERT(res.adq_positive.x1 == 0 && res.adq_positive.x2 == 0);
     }
 
-
     /**
-     * @test Check the implementation against the reference implementation
-    */
-    void test_compute_reference(void)
-    {
-        // Create filestream to .csv test file
-        std::ifstream f("src/unit_tests/middle_states.csv");
-
-        // Test if file is ok, otherwise fail test
-        if(!f.good())
-        {
-            TS_WARN("\nFAILED TO OPEN FILE");
-            TS_ASSERT(false);
-            return;
-        }
-
-        // Foreach set of test data: perform test
-        while(CSVParser::moreLinesToRead(f))
-        {
-            testdata result = CSVParser::readLine(f);
-            //TODO: Test data
-            //TODO: React to runtime error: no more lines to read
-        }
-        
-        // Close file
-        f.close();
-        f.clear();
-
-        //TODO: Remove this line when implementation complete
-        TS_ASSERT(true);
-    }
-
-
-    /**
-     * @test Chéck the implementation of solver::FCore::compute_eigenvalues against some precalculated numbers
+     * @test Check the implementation of solver::FCore::compute_eigenvalues against some precalculated numbers
     */
     void test_eigenvalues(void)
     {
@@ -105,7 +70,7 @@ public:
         /** @brief Scenario 1: @f[ \frac{3.0 + 1.0}{2.0} \overset{!}{=} 2.0 @f] */
         vector2 ql = {1.0, 2.0};
         vector2 qr = {3.0, 4.0};
-        TS_ASSERT(std::abs(FCalc::avg_height(ql, qr) - 1.5) < ZERO_PRECISION);
+        TS_ASSERT(std::abs(FCalc::avg_height(ql, qr) - 2.0) < ZERO_PRECISION);
 
         /** @brief Scenario 2: @f[ \frac{-3.0+5.0}{2.0} \overset{!}{=} 1.0 @f] */
         ql = {-3.0, 2.0};
@@ -174,13 +139,13 @@ public:
         input = {-3.0, 5.0};
         out = FCalc::flux(input);
         TS_ASSERT_EQUALS(out.x1, 5.0);
-        TS_ASSERT(std::abs(out.x2 - 69.145) < ZERO_PRECISION);
+        TS_ASSERT(std::abs(out.x2 - 35.8116666666) < ZERO_PRECISION);
 
         /** @brief Scenario 3: Negative h and hu value*/
         input = {-3.0, -5.0};
         out = FCalc::flux(input);
         TS_ASSERT_EQUALS(out.x1, -5.0);
-        TS_ASSERT(std::abs(out.x2 - 69.145) < ZERO_PRECISION);
+        TS_ASSERT(std::abs(out.x2 - 35.8116666666) < ZERO_PRECISION);
 
         /** @brief Scenario 4: hu is NaN */
         input = {1.0, std::numeric_limits<double>::quiet_NaN()};
