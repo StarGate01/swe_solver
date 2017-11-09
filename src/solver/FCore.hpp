@@ -78,7 +78,7 @@ namespace solver
          * 
          * @return The resulting net-updates and wave speeds
          */
-        static fresult compute_netupdates(vector2 ql, vector2 qr)
+        static fresult compute_netupdates(vector2 ql, vector2 qr, double bl, double br)
         {
             if(ql.x1 == 0 && ql.x2 == 0 && qr.x1 == 0 && qr.x2 == 0 || ql.x1 == qr.x1 && ql.x2 == 0 && qr.x2 == 0) //Special case, where inputs are zero or heights are equal and wave speed is zero
                return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Return output struct, where all values are zero 
@@ -91,6 +91,8 @@ namespace solver
             vector2 r1 = {1, res.lambda_1}; //Create r_1 vector
             vector2 r2 = {1, res.lambda_2}; //Create r_2 vector
             vector2 delta_f = FCalc::flux(qr).substract(FCalc::flux(ql)); //calculate flux delta
+            
+            delta_f = FCalc::bathymetry(delta_f, bl, br, ql.x1, qr.x1); // calculate bathymetry here
 
             vector2 alpha = { //Calculate eigencoefficients with the inverse of the eigenvalue matrix
                 ((delta_f.x1 * res.lambda_2) - delta_f.x2),

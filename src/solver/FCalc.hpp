@@ -85,6 +85,14 @@ namespace solver
             };
         };
 
+        static vector2 bathymetry(const vector2 q, const double bl, const double br, const double hl, const double hr)
+        {
+            return {
+                q.x1, 
+                (q.x2 - (-G_CONST * (br - bl) * (hl + hr / 2)))
+            };
+        };
+
     };
 
 };

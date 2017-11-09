@@ -1,0 +1,318 @@
+\documentclass[shortpres]{beamer}
+\usetheme{CambridgeUS}
+
+% Depending on build configuration, one of these packages will
+% enable unicode
+%\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
+
+
+%Images
+\usepackage{graphicx, svg}
+\usepackage{caption}
+
+%Showing movies and gifs
+%\usepackage{animate, media9, movie15}
+\usepackage{animate}
+\usepackage{array}
+\usepackage{subfig}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{pgfplots}
+\usepackage{xmpmulti}
+
+\usepackage{algorithm,algpseudocode}  %for algorithm environment
+
+\setbeamertemplate{footline}
+{
+	\leavevmode%
+	\hbox{%
+		\begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+			\usebeamerfont{author in head/foot}\insertshortauthor%~~\beamer@ifempty{\insertshortinstitute}{}{(\insertshortinstitute)}
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+			\usebeamerfont{title in head/foot}\insertshorttitle
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+			\usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+			\insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+	\end{beamercolorbox}}%
+	\vskip0pt%
+}\part{title}
+\beamertemplatenavigationsymbolsempty
+
+
+%color specification---------------------------------------------------------------
+\definecolor{TUMblue}{rgb}{0.00, 0.40, 0.74}
+\definecolor{TUMgray}{rgb}{0.85, 0.85, 0.86}
+\definecolor{TUMpantone285C}{rgb}{0.00, 0.45, 0.81}
+\definecolor{lightblue}{rgb}{0.7529,0.8118,0.9333}
+
+\setbeamercolor{block title}{fg=white, bg=TUMpantone285C}
+\setbeamercolor{block body}{bg=lightblue}
+\setbeamertemplate{blocks}[rounded][shadow=true]
+%----------------------------------------------------------------------------------
+
+\setbeamercolor{frametitle}{fg=TUMblue, bg=white}
+\setbeamercolor{palette primary}{fg=TUMblue,bg=TUMgray}
+\setbeamercolor{palette secondary}{use=palette primary,fg=TUMblue,bg=white}
+\setbeamercolor{palette tertiary}{use=palette primary,fg=white, bg=TUMblue}
+\setbeamercolor{palette quaternary}{use=palette primary,fg=white,bg=TUMpantone285C}
+
+
+\setbeamercolor{title}{bg=white,fg=TUMblue}
+\setbeamercolor{item projected}{use=item,fg=black,bg = lightblue}
+\setbeamercolor{block title}{fg=black, bg=lightblue}
+\setbeamercolor{block body}{bg=white}
+\setbeamertemplate{blocks}[rounded][shadow=true]
+%----------------------------------------------------------------------------------
+
+
+
+%############### Self defined commands ##############################
+\newcommand{\imgvoffset}{-20pt}
+\newcommand{\texthoffset}{20pt}
+\newcommand{\imgfullscale}{0.75}
+
+\captionsetup[subfigure]{labelformat=empty}		%Disable enumeration of subfigures
+%####################################################################
+
+\usepackage{anyfontsize}
+
+\title[{Tsunami simulation}]{Assignment 1}
+
+\author[Bellamy, Honal, Wieser]{George Bellamy, Christoph Honal, Felix Wieser\\\vspace{10pt}{\small Bachelorpraktikum}}
+
+\institute[TU M\"unchen]{Technical University of Munich}
+
+\date{7. November 2017}
+
+\begin{document}
+\maketitle
+
+\begin{frame}{Solver implementation: Core functionality}
+	\begin{figure}
+		\only<1>
+		{
+			\subfloat[FWave]{\includegraphics[clip, width=0.4\linewidth]{img/FWave.png}}
+			\hspace{20pt}
+			\subfloat[FCore]{\includegraphics[clip, width=0.4\linewidth]{img/FCore.png}}	
+		}
+		\only<2>
+		{
+			\subfloat[FCalc]{\includegraphics[clip, width=0.4\linewidth]{img/FCalc.png}}
+			\hspace{20pt}
+			\subfloat[vector2 of FStruct]{\includegraphics[clip, width=0.25\linewidth]{img/vector2.png}}
+		}
+	\end{figure}
+	
+	The core functionality is provided by the following classes
+	\begin{tabular}{ll}
+		FWave & Solver of the 2D-Problem\\
+		FCore & Implementation of NetUpdates and eigenvalues computation\\
+		\pause
+		FCalc & Supplemental methods (average height, ...)\\
+		FStruct & Vector2-Implementation and other structs
+	\end{tabular}
+\end{frame}
+
+\begin{frame}{Solver implementation: Testing}
+	\begin{multicols}{2}
+		
+		\begin{figure}
+			\subfloat{\includegraphics[clip,width=0.7\linewidth]{img/FCoreTestSuite.png}}\\
+			\subfloat{\includegraphics[clip,width=0.7\linewidth]{img/CSVParser.png}}
+		\end{figure}
+		
+		\columnbreak
+		
+		\vspace*{30pt}
+		Tests cover
+		\begin{itemize}
+			\item Core functionality
+			\item Eigenvalue computation
+			\item Supplemental methods in FCalc
+			\item Comparison with precomputed data
+		\end{itemize}
+		\vfill
+	\end{multicols}
+\end{frame}
+
+\begin{frame}{Shock-Shock Problem}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[clip, width=\imgfullscale\linewidth]{img/Shock-Shock.png}
+		\caption*{Shock-Shock problem}
+	\end{figure}
+	\centering
+	A wave is created in the center of the observed area.\\
+	It propagates in both directions. The wave speeds are impacted by water height and speed.
+\end{frame}
+
+
+\begin{frame}{Shock-Shock: impact of water height}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[width=\imgfullscale\linewidth]{img/Shock_h10_t18.png}
+		\caption*{}
+	\end{figure}
+	
+	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
+		$
+		\begin{matrix}
+		h & = & 10\\
+		hu_{r/l} & = & 10
+		\end{matrix}
+		$
+		&
+		
+		The $\Delta$ wave reaches a height of 1m and is 40m wide after 18s
+	\end{tabular}
+\end{frame}
+
+\begin{frame}{Shock-Shock: impact of water height}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[width=\imgfullscale\linewidth]{img/Shock_h50_t8-7.png}
+	\end{figure}
+	
+	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
+		$
+		\begin{matrix}
+		h & = & 50\\
+		hu_{r/l} & = & 10
+		\end{matrix}
+		$
+		&
+		
+		The $\Delta$ wave reaches a height of 0,5m and is 40m wide after 8,7s
+	\end{tabular}
+\end{frame}
+
+
+
+\begin{frame}{Shock-Shock: impact of different water speeds}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[width=\imgfullscale\linewidth]{img/Shock_hul50_t13.png}
+		\caption*{}
+	\end{figure}
+	
+	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
+		$
+		\begin{matrix}
+		h & = & 10\\
+		hu_l & = & 50\\
+		hu_r & = & 10
+		\end{matrix}
+		$
+		&
+		
+		After 13s the wave has traveled 5m to the right 
+	\end{tabular}
+\end{frame}
+
+
+\begin{frame}{Rare-Rare Problem}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[clip, width=\imgfullscale\linewidth]{img/Rare-Rare.png}
+		\caption*{Rare-Rare problem}
+	\end{figure}
+	\centering
+	Similar observations as in Shock-Shock, through changes in height and speed, can be observed here, but inverted
+\end{frame}
+
+\begin{frame}{Dam-Break: impact of water height}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[width=\imgfullscale\linewidth]{img/Dam_hl8_hr5.png}
+		\caption*{}
+	\end{figure}
+	
+	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
+		$
+		\begin{matrix}
+		h_l & = & 8\\
+		h_r & = & 5
+		\end{matrix}
+		$
+		&
+		
+		Wave travels 72m in 20s
+	\end{tabular}
+\end{frame}
+
+\begin{frame}{Dam-Break: impact of water height}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[width=\imgfullscale\linewidth]{img/Dam_hl25_hr5.png}
+	\end{figure}
+	
+	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
+		$
+		\begin{matrix}
+		h_l & = & 25\\
+		h_r & = & 5
+		\end{matrix}
+		$
+		&
+		Wave gets to 68m in 10s
+	\end{tabular}
+	 \hspace{0pt}\\
+	 \centering
+	 Higher left water levels result in faster waves
+\end{frame}
+
+
+\begin{frame}{Dam-Break: Scenario 3}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[width=\imgfullscale\linewidth]{img/Dam_river.png}
+	\end{figure}
+	
+	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
+		$
+		\begin{matrix}
+		h_l & = & 8\\
+		h_r & = & 5\\
+		hu_r & = & 10
+		\end{matrix}
+		$
+		&
+		
+		Higher river speeds reduce the wave height
+	\end{tabular}
+\end{frame}
+
+\begin{frame}{Dam-Break: Scenario 4}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[width=\imgfullscale\linewidth]{img/Dam_highspeedriver.png}
+	\end{figure}
+	
+	\begin{tabular}{m{3cm} m{\linewidth-5cm}}
+		$
+		\begin{matrix}
+		h_l & = & 8\\
+		h_r & = & 5\\
+		hu_r & = & 30
+		\end{matrix}
+		$
+		&
+		
+		Very high river speeds make the wave lower than the rivers initial height
+	\end{tabular}
+\end{frame}
+
+
+\begin{frame}{Dam-Break: When does the water arrive?}
+	\begin{figure}[t]
+		\vspace{\imgvoffset}
+		\includegraphics[width=\imgfullscale\linewidth]{img/4_dorf_arrival_as_graph.png}
+		\caption*{Arrival of the wave at the village}
+	\end{figure}
+	The wave arrives after $\approx$ $7,3$ minutes at the village
+\end{frame}
+
+\end{document}
