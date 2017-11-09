@@ -84,6 +84,18 @@ namespace solver
                return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Return output struct, where all values are zero 
             assert(FCalc::avg_height(ql, qr) >= 0); //Assert avg_height(ql, qr) is positive
 
+            //Check dry cells: Reflecting boundary conditions
+            if(ql.h == 0)       //Left cell dry
+            {
+                //TODO: Reflect and return
+
+            }
+            else if(qr.h == 0)
+            {
+                //TODO: Reflect and return
+                
+            }
+
             vector2 eigenvalues = compute_eigenvalues(ql, qr); //Compute Roe eigenvalues
             assert(std::abs(eigenvalues.x2 - eigenvalues.x1) > ZERO_PRECISION); //Assert lambda_2 - lambda_1 != 0 (potential division by zero) 
             
