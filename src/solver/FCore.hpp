@@ -80,20 +80,24 @@ namespace solver
          */
         static fresult compute_netupdates(vector2 ql, vector2 qr, double bl, double br)
         {
-            if(ql.x1 == 0 && ql.x2 == 0 && qr.x1 == 0 && qr.x2 == 0 || ql.x1 == qr.x1 && ql.x2 == 0 && qr.x2 == 0) //Special case, where inputs are zero or heights are equal and wave speed is zero
+            //Special case, where inputs are zero or heights are equal and wave speed is zero
+            if(ql.x1 < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x1 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION
+            || ql.x1 - qr.x1 < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION)
                return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Return output struct, where all values are zero 
             assert(FCalc::avg_height(ql, qr) >= 0); //Assert avg_height(ql, qr) is positive
 
             //Check dry cells: Reflecting boundary conditions
-            if(ql.h == 0)       //Left cell dry
+            if(ql.x1 < ZERO_PRECISION)       //Left cell dry: h==0
             {
-                //TODO: Reflect and return
-
+                qr.x1 = ql.x1;      //h_r = h_l
+                qr.x2 = -ql.x2;     //hu_l = -hu_r
+                br = bl;            //b_r = b_l
             }
-            else if(qr.h == 0)
+            else if(qr.x1 < ZERO_PRECISION) //Right cell dry: h==0
             {
-                //TODO: Reflect and return
-                
+                ql.x1 = qr.x1;      //h_l = h_r
+                ql.x2 = -qr.x2;     //hu_r = -hu_l
+                bl = br;            //b_l = b_r
             }
 
             vector2 eigenvalues = compute_eigenvalues(ql, qr); //Compute Roe eigenvalues
