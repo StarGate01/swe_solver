@@ -85,6 +85,7 @@ namespace solver
             };
         };
 
+        //TODO: Add documentation
         static vector2 bathymetry(const vector2 q, const double bl, const double br, const double hl, const double hr)
         {
             return {
