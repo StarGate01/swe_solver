@@ -48,7 +48,8 @@ namespace solver
         /**
          * @brief Static method that computes the resulting net-updates and wave speeds from the left and right state as described in @cite bale2002wave and @cite leveque2002finite
          * 
-         * Using the intermediate computations for the eigenvectors using the eigenvalues computed with solver::FCore::compute_eigenvalues
+         * First, the reflecting boundary conditions are checked and the heights and bathymetries are swapped accordingly
+         * Then, using the intermediate computations for the eigenvectors using the eigenvalues computed with solver::FCore::compute_eigenvalues
          * 
          * @f[ r_{1,2}^{Roe} = \begin{bmatrix} 1 \\ \lambda_{1,2}^{Roe} \end{bmatrix} @f]
          * And the jump in the difference in the flux function and waves using solver::FCalc::flux
@@ -59,7 +60,7 @@ namespace solver
          *      = \frac{1}{\lambda_2^{Roe} - \lambda_1^{Roe}} \begin{bmatrix} f_1 \lambda_2^{Roe} - \Delta f_2 \\ \Delta f_2 - \Delta f_1 \lambda_1^{Roe} \end{bmatrix}
          * @f]
          * Incorporating the baythymetry term computed with solver::FCalc::bathymetry
-         * @f[ \Delta f = \sum_{p=1}^2 Z_p + \Delta x \Psi_{i-1/2} = \sum_{p=1}^2 \alpha_p r_p + \Delta x \Psi_{i-1/2} @f]
+         * @f[ \sum_{p=1}^2 Z_p = \sum_{p=1}^2 \alpha_p r_p = \Delta f + \Delta x \Psi_{i-1/2} @f]
          * Compute the net-updates by accumulating the waves
          * @f[ A^{\mp}\Delta Q = \sum_{p: \{ \lambda_p^{Roe} \lessgtr 0 \}} Z_p \equiv @f]
          * @f[ 
@@ -104,12 +105,12 @@ namespace solver
             vector2 eigenvalues = compute_eigenvalues(ql, qr); //Compute Roe eigenvalues
             assert(std::abs(eigenvalues.x2 - eigenvalues.x1) > ZERO_PRECISION); //Assert lambda_2 - lambda_1 != 0 (potential division by zero) 
             
-            fresult res = {eigenvalues.x1, eigenvalues.x2, {0}, {0}}; //initialise result struct
+            fresult res = {eigenvalues.x1, eigenvalues.x2, {0}, {0}}; //initialize result struct
             vector2 r1 = {1, res.lambda_1}; //Create r_1 vector
             vector2 r2 = {1, res.lambda_2}; //Create r_2 vector
             vector2 delta_f = FCalc::flux(qr).substract(FCalc::flux(ql)); //calculate flux delta
             
-            delta_f = FCalc::bathymetry(delta_f, bl, br, ql.x1, qr.x1); // calculate bathymetry here
+            delta_f = delta_f.add(FCalc::bathymetry(bl, br, ql.x1, qr.x1)); //add bathymetry term
 
             vector2 alpha = { //Calculate eigencoefficients with the inverse of the eigenvalue matrix
                 ((delta_f.x1 * res.lambda_2) - delta_f.x2),

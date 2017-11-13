@@ -86,23 +86,22 @@ namespace solver
         };
 
         /**
-         * @brief Computes the baythmetry factor
+         * @brief Computes the bathymetry term for solver::FCalc::flux
          * 
          * @f[ \Delta x \Psi_{i-1/2}(b, h) = \begin{bmatrix} 0 \\ -g (b_r - b_l) \frac{h_l + h_r}{2} \end{bmatrix} @f]
          * 
-         * @param q The state
          * @param bl The left bathymetry
          * @param br The right bathymetry
          * @param hl The left height
          * @param hr The right height
          * 
-         * @return The bathymetry factor
+         * @return The bathymetry term
          */
-        static vector2 bathymetry(const vector2 q, const double bl, const double br, const double hl, const double hr)
+        static vector2 bathymetry(const double bl, const double br, const double hl, const double hr)
         {
             return {
-                q.x1, 
-                (q.x2 - (-G_CONST * (br - bl) * (hl + hr / 2)))
+                0, 
+                -G_CONST * (br - bl) * ((hl + hr) / 2.0)
             };
         };
 
