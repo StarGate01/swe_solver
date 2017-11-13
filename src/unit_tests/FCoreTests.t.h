@@ -40,7 +40,7 @@ public:
     void test_compute_zero(void)
     {
         vector2 zerovector = {0.0, 0.0};
-        fresult res = FCore::compute_netupdates(zerovector, zerovector);
+        fresult res = FCore::compute_netupdates(zerovector, zerovector, 0, 0);
         TS_ASSERT(res.adq_positive.x1 == 0 && res.adq_positive.x2 == 0);
     }
 
