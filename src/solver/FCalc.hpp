@@ -85,7 +85,19 @@ namespace solver
             };
         };
 
-        //TODO: Add documentation
+        /**
+         * @brief Computes the baythmetry factor
+         * 
+         * @f[ \Delta x \Psi_{i-1/2}(b, h) = \begin{bmatrix} 0 \\ -g (b_r - b_l) \frac{h_l + h_r}{2} \end{bmatrix} @f]
+         * 
+         * @param q The state
+         * @param bl The left bathymetry
+         * @param br The right bathymetry
+         * @param hl The left height
+         * @param hr The right height
+         * 
+         * @return The bathymetry factor
+         */
         static vector2 bathymetry(const vector2 q, const double bl, const double br, const double hl, const double hr)
         {
             return {

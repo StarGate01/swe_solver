@@ -58,7 +58,8 @@ namespace solver
          *      \alpha = {\begin{bmatrix} 1 & 1 \\ \lambda_1^{Roe} & \lambda_2^{Roe} \end{bmatrix}}^{-1} \Delta f 
          *      = \frac{1}{\lambda_2^{Roe} - \lambda_1^{Roe}} \begin{bmatrix} f_1 \lambda_2^{Roe} - \Delta f_2 \\ \Delta f_2 - \Delta f_1 \lambda_1^{Roe} \end{bmatrix}
          * @f]
-         * @f[ \Delta f = \sum_{p=1}^2 Z_p = \sum_{p=1}^2 \alpha_p r_p @f]
+         * Incorporating the baythymetry term computed with solver::FCalc::bathymetry
+         * @f[ \Delta f = \sum_{p=1}^2 Z_p + \Delta x \Psi_{i-1/2} = \sum_{p=1}^2 \alpha_p r_p + \Delta x \Psi_{i-1/2} @f]
          * Compute the net-updates by accumulating the waves
          * @f[ A^{\mp}\Delta Q = \sum_{p: \{ \lambda_p^{Roe} \lessgtr 0 \}} Z_p \equiv @f]
          * @f[ 
