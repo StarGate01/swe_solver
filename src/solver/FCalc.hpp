@@ -86,7 +86,7 @@ namespace solver
         };
 
         /**
-         * @brief Computes the bathymetry term for solver::FCalc::flux
+         * @brief Computes the bathymetry term for solver::FCalc::flux as given in @cite tssim2
          * 
          * @f[ \Delta x \Psi_{i-1/2}(b, h) = \begin{bmatrix} 0 \\ -g (b_r - b_l) \frac{h_l + h_r}{2} \end{bmatrix} @f]
          * 

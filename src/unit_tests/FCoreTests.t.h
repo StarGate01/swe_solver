@@ -35,7 +35,7 @@ class solver_tests::FCoreTestSuite : public CxxTest::TestSuite
 
 public:
     /**
-     * @test Verify that a zero vector is returned by the solver::FCore::compute method when fed with parameters ql = qr = {0,0}
+     * @test Verify that a zero vector is returned by the solver::FCore::compute_netupdates method when fed with parameters ql = qr = {0,0}
      */
     void test_compute_zero(void)
     {
