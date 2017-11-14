@@ -48,7 +48,8 @@ namespace solver
         /**
          * @brief Static method that computes the resulting net-updates and wave speeds from the left and right state as described in @cite bale2002wave and @cite leveque2002finite
          * 
-         * Using the intermediate computations for the eigenvectors using the eigenvalues computed with solver::FCore::compute_eigenvalues
+         * First, the reflecting boundary conditions are checked and the heights and bathymetries are swapped accordingly
+         * Then, using the intermediate computations for the eigenvectors using the eigenvalues computed with solver::FCore::compute_eigenvalues
          * 
          * @f[ r_{1,2}^{Roe} = \begin{bmatrix} 1 \\ \lambda_{1,2}^{Roe} \end{bmatrix} @f]
          * And the jump in the difference in the flux function and waves using solver::FCalc::flux
@@ -58,7 +59,8 @@ namespace solver
          *      \alpha = {\begin{bmatrix} 1 & 1 \\ \lambda_1^{Roe} & \lambda_2^{Roe} \end{bmatrix}}^{-1} \Delta f 
          *      = \frac{1}{\lambda_2^{Roe} - \lambda_1^{Roe}} \begin{bmatrix} f_1 \lambda_2^{Roe} - \Delta f_2 \\ \Delta f_2 - \Delta f_1 \lambda_1^{Roe} \end{bmatrix}
          * @f]
-         * @f[ \Delta f = \sum_{p=1}^2 Z_p = \sum_{p=1}^2 \alpha_p r_p @f]
+         * Incorporating the baythymetry term computed with solver::FCalc::bathymetry
+         * @f[ \sum_{p=1}^2 Z_p = \sum_{p=1}^2 \alpha_p r_p = \Delta f + \Delta x \Psi_{i-1/2} @f]
          * Compute the net-updates by accumulating the waves
          * @f[ A^{\mp}\Delta Q = \sum_{p: \{ \lambda_p^{Roe} \lessgtr 0 \}} Z_p \equiv @f]
          * @f[ 
@@ -75,32 +77,39 @@ namespace solver
          * 
          * @param ql The left state
          * @param qr The right state
+         * @param bl The left bathymetry
+         * @param br The right bathymetry
          * 
-         * @returPRECISION && ql.x2 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION)
-               return {0.0, 0.0, {0.0,n The resulting net-updates and wave speeds
+         * @return The resulting net-updates and wave speeds
          */
         static fresult compute_netupdates(vector2 ql, vector2 qr, double bl, double br)
         {
-            //Special case, where inputs are zero or heights are equal and wave speed is zero
-            if(ql.x1 < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x1 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION
-            || ql.x1 - qr.x1 < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION)
+            //Handle special case, where inputs are zero or heights are equal and wave speed is zero
+            if((ql.x1 < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x1 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION)
+                || (ql.x1 - qr.x1 < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION))
             {
-               printf("zero all");
-               return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Return output struct, where all values are zero 
+                #ifdef DEBUG
+                printf("zero all");
+                #endif
+                return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Return output struct, where all values are zero 
             }
             assert(FCalc::avg_height(ql, qr) >= 0); //Assert avg_height(ql, qr) is positive
 
             //Check dry cells: Reflecting boundary conditions
             if(ql.x1 < ZERO_PRECISION)       //Left cell dry: h==0
             {
-                printf("refelct l");
+                #ifdef DEBUG
+                printf("reflect l");
+                #endif
                 qr.x1 = ql.x1;      //h_r = h_l
                 qr.x2 = -ql.x2;     //hu_l = -hu_r
                 br = bl;            //b_r = b_l
             }
             else if(qr.x1 < ZERO_PRECISION) //Right cell dry: h==0
             {
-                printf("refelct r");
+                #ifdef DEBUG
+                printf("reflect r");
+                #endif
                 ql.x1 = qr.x1;      //h_l = h_r
                 ql.x2 = -qr.x2;     //hu_r = -hu_l
                 bl = br;            //b_l = b_r
@@ -114,7 +123,7 @@ namespace solver
             vector2 r2 = {1, res.lambda_2}; //Create r_2 vector
             vector2 delta_f = FCalc::flux(qr).substract(FCalc::flux(ql)); //calculate flux delta
             
-            delta_f = FCalc::bathymetry(bl, br, ql.x1, qr.x1); // calculate bathymetry here
+            delta_f = delta_f.add(FCalc::bathymetry(bl, br, ql.x1, qr.x1)); //calculate and add bathymetry here
 
             vector2 alpha = { //Calculate eigencoefficients with the inverse of the eigenvalue matrix
                 ((delta_f.x1 * res.lambda_2) - delta_f.x2),
@@ -133,10 +142,8 @@ namespace solver
                 res.adq_positive = res.adq_positive.add(r2.multiply(alpha.x2)); 
             
             //Handle special cases
-            if(res.lambda_1 < 0 && res.lambda_2 < 0) 
-                res.lambda_2 = 0;
-            else if(res.lambda_1 > 0 && res.lambda_2 > 0) 
-                res.lambda_1 = 0;
+            if(res.lambda_1 < 0 && res.lambda_2 < 0) res.lambda_2 = 0;
+            else if(res.lambda_1 > 0 && res.lambda_2 > 0) res.lambda_1 = 0;
 
             return res;
         };

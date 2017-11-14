@@ -49,13 +49,13 @@ public:
     */
     void test_eigenvalues(void)
     {
-        /**@brief Check all input values equal to 1 */
+        /**@brief Scenario 1: Check all input values equal to 1 */
         vector2 ql = {1.0, 1.0};
         vector2 qr = {1.0, 1.0};
         vector2 res = FCore::compute_eigenvalues(ql, qr);
         TS_ASSERT(res.x1 - 2.132091952673165 < ZERO_PRECISION && res.x2 - 4.132091952673165 < ZERO_PRECISION);
 
-        /**@brief Check ql = {2.0, 3.0} and qr = {4.0, 5.0} */
+        /**@brief Scenario 2: Check ql = {2.0, 3.0} and qr = {4.0, 5.0} */
         ql = {2.0, 3.0};
         qr = {4.0, 5.0};
         res = FCore::compute_eigenvalues(ql, qr);
@@ -155,53 +155,54 @@ public:
     }
 
     /**
-     * @test Verify solver::FCalc::bathymetrie by testing against a set of predetermined inputs to the #ZERO_PRECISION accuracy and NaN-inputs
+     * @test Verify solver::FCalc::bathymetry by testing against a set of predetermined inputs to the #ZERO_PRECISION accuracy and NaN-inputs
     */
     void test_bathy(void)
     {
         double bl, br, hl, hr;
         vector2 result;
 
-        //all values = 0
+        /** @brief Scenario 1: All values = 0 */
         result = FCalc::bathymetry(bl, br, hl, hr);
         TS_ASSERT_DELTA(result.x1, 0, ZERO_PRECISION);
         TS_ASSERT_DELTA(result.x2, 0, ZERO_PRECISION);
 
-        //symmetric water height with different ground level
-        bl=-5;
-        br=-10;
-        hl=5;
-        hr=10;
+        /** @brief Scenario 2: Symmetric water height with different ground level */
+        bl = -5;
+        br = -10;
+        hl = 5;
+        hr = 10;
         result = FCalc::bathymetry(bl, br, hl, hr);
         TS_ASSERT_DELTA(result.x1, 0, ZERO_PRECISION);
         TS_ASSERT_DELTA(result.x2, 367.8750, ZERO_PRECISION);
 
-        //equal ground level results in zero output
-        bl=-25;
-        br=-25;
+        /** @brief Scenario 3: Equal ground level results in zero output */
+        bl = -25;
+        br = -25;
         result = FCalc::bathymetry(bl, br, hl, hr);
         TS_ASSERT_DELTA(result.x1, 0, ZERO_PRECISION);
         TS_ASSERT_DELTA(result.x2, 0, ZERO_PRECISION);
 
-
-        //one cell dry
-        bl=-5;
-        br=-10;
-        hl=5;
-        hr=0;
+        /** @brief Scenario 4: One cell dry */
+        b = -5;
+        br = -10;
+        hl =5;
+        hr = 0;
         result = FCalc::bathymetry(bl, br, hl, hr);
         TS_ASSERT_DELTA(result.x1, 0, ZERO_PRECISION);
         TS_ASSERT_DELTA(result.x2, 122.6250, ZERO_PRECISION);
 
-        //NaN
-        bl=std::numeric_limits<double>::quiet_NaN();
+        /** @brief Scenario 5: NaN */
+        b = std::numeric_limits<double>::quiet_NaN();
         result = FCalc::bathymetry(bl, br, hl, hr);
         TS_ASSERT_DELTA(result.x1, 0, ZERO_PRECISION);
         TS_ASSERT(std::isnan(result.x2));
 
-        bl=42;
-        hl=std::numeric_limits<double>::quiet_NaN();
+        /** @brief Scenario 6: bl = 42 */
+        bl = 42; 
+        hl = std::numeric_limits<double>::quiet_NaN();
         TS_ASSERT_DELTA(result.x1, 0, ZERO_PRECISION);
         TS_ASSERT(std::isnan(result.x2));
     }
+
 };
