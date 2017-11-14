@@ -76,25 +76,31 @@ namespace solver
          * @param ql The left state
          * @param qr The right state
          * 
-         * @return The resulting net-updates and wave speeds
+         * @returPRECISION && ql.x2 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION)
+               return {0.0, 0.0, {0.0,n The resulting net-updates and wave speeds
          */
         static fresult compute_netupdates(vector2 ql, vector2 qr, double bl, double br)
         {
             //Special case, where inputs are zero or heights are equal and wave speed is zero
             if(ql.x1 < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x1 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION
             || ql.x1 - qr.x1 < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION)
+            {
+               printf("zero all");
                return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Return output struct, where all values are zero 
+            }
             assert(FCalc::avg_height(ql, qr) >= 0); //Assert avg_height(ql, qr) is positive
 
             //Check dry cells: Reflecting boundary conditions
             if(ql.x1 < ZERO_PRECISION)       //Left cell dry: h==0
-                {
+            {
+                printf("refelct l");
                 qr.x1 = ql.x1;      //h_r = h_l
                 qr.x2 = -ql.x2;     //hu_l = -hu_r
                 br = bl;            //b_r = b_l
             }
             else if(qr.x1 < ZERO_PRECISION) //Right cell dry: h==0
             {
+                printf("refelct r");
                 ql.x1 = qr.x1;      //h_l = h_r
                 ql.x2 = -qr.x2;     //hu_r = -hu_l
                 bl = br;            //b_l = b_r
