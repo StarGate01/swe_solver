@@ -154,4 +154,50 @@ public:
         TS_ASSERT(std::isnan(out.x2));
     }
 
+
+    void test_bathy(void)
+    {
+        double bl, br, hl, hr;
+        vector2 result;
+
+        //all values = 0
+        result = FCalc::bathymetry(bl, br, hl, hr);
+        TS_ASSERT_DELTA(result.x1, 0, ZERO_PRECISION);
+        TS_ASSERT_DELTA(result.x2, 0, ZERO_PRECISION);
+
+        //symmetric water height with different ground level
+        bl=-5;
+        br=-10;
+        hl=5;
+        hr=10;
+        result = FCalc::bathymetry(bl, br, hl, hr);
+        TS_ASSERT_DELTA(result.x2, 367.8750, ZERO_PRECISION);
+
+        //equal ground level results in zero output
+        bl=-25;
+        br=-25;
+        result = FCalc::bathymetry(bl, br, hl, hr);
+        TS_ASSERT_DELTA(result.x1, 0, ZERO_PRECISION);
+        TS_ASSERT_DELTA(result.x2, 0, ZERO_PRECISION);
+
+
+        //one cell dry
+        bl=-5;
+        br=-10;
+        hl=5;
+        hr=0;
+        result = FCalc::bathymetry(bl, br, hl, hr);
+        TS_ASSERT_DELTA(result.x2, 122.6250, ZERO_PRECISION);
+
+        //NaN
+        bl=std::numeric_limits<double>::quiet_NaN();
+        result = FCalc::bathymetry(bl, br, hl, hr);
+        TS_ASSERT_DELTA(result.x1, 0, ZERO_PRECISION);
+        TS_ASSERT(std::isnan(result.x2));
+
+        bl=42;
+        hl=std::numeric_limits<double>::quiet_NaN();
+        TS_ASSERT_DELTA(result.x1, 0, ZERO_PRECISION);
+        TS_ASSERT(std::isnan(result.x2));
+    }
 };
