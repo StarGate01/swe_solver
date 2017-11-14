@@ -154,7 +154,9 @@ public:
         TS_ASSERT(std::isnan(out.x2));
     }
 
-
+    /**
+     * @test Verify solver::FCalc::bathymetrie by testing against a set of predetermined inputs to the #ZERO_PRECISION accuracy and NaN-inputs
+    */
     void test_bathy(void)
     {
         double bl, br, hl, hr;
@@ -171,6 +173,7 @@ public:
         hl=5;
         hr=10;
         result = FCalc::bathymetry(bl, br, hl, hr);
+        TS_ASSERT_DELTA(result.x1, 0, ZERO_PRECISION);
         TS_ASSERT_DELTA(result.x2, 367.8750, ZERO_PRECISION);
 
         //equal ground level results in zero output
@@ -187,6 +190,7 @@ public:
         hl=5;
         hr=0;
         result = FCalc::bathymetry(bl, br, hl, hr);
+        TS_ASSERT_DELTA(result.x1, 0, ZERO_PRECISION);
         TS_ASSERT_DELTA(result.x2, 122.6250, ZERO_PRECISION);
 
         //NaN
