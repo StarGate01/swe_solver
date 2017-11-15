@@ -62,17 +62,17 @@ namespace solver
             huUpdateRight = (T)coreres.adq_positive.x2;
             maxWaveSpeed = (T)std::max(std::abs(coreres.lambda_1), std::abs(coreres.lambda_2));
 
-            #ifdef DEBUG
-            printf("FWave: ql=(%f, %f), bl=%f, qr=(%f, %f), br=%f -> adq_n=(%f, %f), adq_p=(%f, %f), mws=%f\n",
-                hLeft, huLeft,  bLeft, hRight, huRight, bRight, 
-                hUpdateLeft, huUpdateLeft, hUpdateRight, huUpdateRight, maxWaveSpeed);
-            #endif
+            // #ifdef DEBUG
+            // printf("FWave: ql=(%f, %f), bl=%f, qr=(%f, %f), br=%f -> adq_n=(%f, %f), adq_p=(%f, %f), mws=%f\n",
+            //     hLeft, huLeft,  bLeft, hRight, huRight, bRight, 
+            //     hUpdateLeft, huUpdateLeft, hUpdateRight, huUpdateRight, maxWaveSpeed);
+            // #endif
         };
 
 
         T computeFroude (const T h, const T hu)
         {
-            return (T)FCalc::froudeNumber((double)(hu / h), (double)h);
+            return (T)FCalc::froude_number((double)(hu / h), (double)h);
         }
         
     };
