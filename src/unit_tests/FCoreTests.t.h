@@ -184,7 +184,7 @@ public:
         TS_ASSERT_DELTA(result.x2, 0, ZERO_PRECISION);
 
         /** @brief Scenario 4: One cell dry */
-        b = -5;
+        bl = -5;
         br = -10;
         hl =5;
         hr = 0;
@@ -193,7 +193,7 @@ public:
         TS_ASSERT_DELTA(result.x2, 122.6250, ZERO_PRECISION);
 
         /** @brief Scenario 5: NaN */
-        b = std::numeric_limits<double>::quiet_NaN();
+        bl = std::numeric_limits<double>::quiet_NaN();
         result = FCalc::bathymetry(bl, br, hl, hr);
         TS_ASSERT_DELTA(result.x1, 0, ZERO_PRECISION);
         TS_ASSERT(std::isnan(result.x2));

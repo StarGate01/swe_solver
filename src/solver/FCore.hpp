@@ -123,7 +123,8 @@ namespace solver
             vector2 r2 = {1, res.lambda_2}; //Create r_2 vector
             vector2 delta_f = FCalc::flux(qr).substract(FCalc::flux(ql)); //calculate flux delta
             
-            delta_f = delta_f.add(FCalc::bathymetry(bl, br, ql.x1, qr.x1)); //calculate and add bathymetry here
+            vector2 bathy = FCalc::bathymetry(bl, br, ql.x1, qr.x1);
+            delta_f = delta_f.substract(bathy); //calculate and use bathymetry here
 
             vector2 alpha = { //Calculate eigencoefficients with the inverse of the eigenvalue matrix
                 ((delta_f.x1 * res.lambda_2) - delta_f.x2),
