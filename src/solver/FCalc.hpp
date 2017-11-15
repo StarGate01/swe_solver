@@ -116,8 +116,9 @@ namespace solver
          * 
          * @return Froude number
         */
-        static double froudeNumber(const double u, const double h)
+        static double froude_number(const double u, const double h)
         {
+            assert(h > ZERO_PRECISION);
             return u / (std::sqrt(G_CONST * h));
         }
 
