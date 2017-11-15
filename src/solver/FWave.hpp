@@ -68,6 +68,12 @@ namespace solver
                 hUpdateLeft, huUpdateLeft, hUpdateRight, huUpdateRight, maxWaveSpeed);
             #endif
         };
+
+
+        T computeFroude (const T h, const T hu)
+        {
+            return (T)FCalc::froudeNumber((double)(hu / h), (double)h);
+        }
         
     };
 
