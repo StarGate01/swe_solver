@@ -105,6 +105,22 @@ namespace solver
             };
         };
 
+        /**
+         * @brief Computes the froude number
+         * 
+         * @f[ F := \frac{u}{\sqrt{gh}} @f]
+         * Regions with @f$ F < 1 @f$ are subcritical, @f$ F \approx 1 @f$ are critical and @f$ F > 1 @f$ are supercritical
+         * 
+         * @param u The particle velocity
+         * @param h The height
+         * 
+         * @return Froude number
+        */
+        static double froudeNumber(const double u, const double h)
+        {
+            return u / (std::sqrt(G_CONST * h));
+        }
+
     };
 
 };
