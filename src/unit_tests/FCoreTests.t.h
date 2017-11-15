@@ -205,4 +205,21 @@ public:
         TS_ASSERT(std::isnan(result.x2));
     }
 
+    /**
+     * @test Verify implementation of FCalc::froude_number
+     * by testing against a set of predetermined values
+    */
+    void test_froude(void)
+    {
+        //Scenario 1: numerator equal to denominator
+        double u,h;
+        u = G_CONST;
+        h = G_CONST;
+        TS_ASSERT_DELTA(FCalc::froude_number(u, h), 1, ZERO_PRECISION);
+
+        //Scenario 2: numerator = 0 results in output 0
+        u = 0;
+        TS_ASSERT_DELTA(FCalc::froude_number(u, h), 0, ZERO_PRECISION);
+    }
+
 };
