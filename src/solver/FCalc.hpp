@@ -118,7 +118,8 @@ namespace solver
         */
         static double froude_number(const double u, const double h)
         {
-            assert(h > ZERO_PRECISION);
+            assert(h > 0);
+            assert(std::sqrt(G_CONST * h) > ZERO_PRECISION);
             return u / (std::sqrt(G_CONST * h));
         }
 
