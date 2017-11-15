@@ -3,7 +3,7 @@
 ## Visual Studio Code (vscode)
 Free, Open-Source, Cross-System IDE: https://code.visualstudio.com/
 
-For IDE integration, use this project as a submodule of https://github.com/StarGate01/SWE1D
+For IDE integration, use this project as a submodule of https://gitlab.lrz.de/ChristophHonal/SWE1D or https://gitlab.lrz.de/ChristophHonal/SWE
 
 Configuration files are located in the `.vscode` directory.
 

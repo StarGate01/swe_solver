@@ -18,7 +18,6 @@ namespace solver
      * 
      * This class provides the necessary methods for the F-Wave environment to interact with the F-Wave solver.
      * Supports float and double as type parametrization argument.
-     * 
      */
     template <typename T> class FWave
     {
@@ -62,14 +61,21 @@ namespace solver
             huUpdateRight = (T)coreres.adq_positive.x2;
             maxWaveSpeed = (T)std::max(std::abs(coreres.lambda_1), std::abs(coreres.lambda_2));
 
-            // #ifdef DEBUG
-            // printf("FWave: ql=(%f, %f), bl=%f, qr=(%f, %f), br=%f -> adq_n=(%f, %f), adq_p=(%f, %f), mws=%f\n",
-            //     hLeft, huLeft,  bLeft, hRight, huRight, bRight, 
-            //     hUpdateLeft, huUpdateLeft, hUpdateRight, huUpdateRight, maxWaveSpeed);
-            // #endif
+            #if defined(DEBUG) && !defined(SUPPRESS_SOLVER_DEBUG_OUTPUT)
+            printf("FWave: ql=(%f, %f), bl=%f, qr=(%f, %f), br=%f -> adq_n=(%f, %f), adq_p=(%f, %f), mws=%f\n",
+                hLeft, huLeft,  bLeft, hRight, huRight, bRight, 
+                hUpdateLeft, huUpdateLeft, hUpdateRight, huUpdateRight, maxWaveSpeed);
+            #endif
         };
 
-
+        /**
+         * @brief Compute the froude number for a given cell
+         * 
+         * @param h The water height
+         * @param hu The water flux
+         * 
+         * @return the froude number
+         */
         T computeFroude (const T h, const T hu)
         {
             return (T)FCalc::froude_number((double)(hu / h), (double)h);

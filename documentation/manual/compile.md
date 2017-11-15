@@ -6,7 +6,7 @@
  - g++
  - scons
 
-Use this project as a submodule of https://github.com/StarGate01/SWE1D. Compile with `scons` or `scons --dbg` for debug symbol support to `build/SWE1D`. Run this command in the root directory of the parent repository.
+Use this project as a submodule of https://gitlab.lrz.de/ChristophHonal/SWE1D or https://gitlab.lrz.de/ChristophHonal/SWE. Compile with `scons` or `scons --dbg` for debug symbol support to `build/SWE1D`. Run this command in the root directory of the parent repository.
 
 ## Unit Testing
 

@@ -88,9 +88,6 @@ namespace solver
             if((ql.x1 < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x1 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION)
                 || (ql.x1 - qr.x1 < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION))
             {
-                // #ifdef DEBUG
-                // printf("zero all");
-                // #endif
                 return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Return output struct, where all values are zero 
             }
             assert(FCalc::avg_height(ql, qr) >= 0); //Assert avg_height(ql, qr) is positive
@@ -98,18 +95,12 @@ namespace solver
             //Check dry cells: Reflecting boundary conditions
             if(ql.x1 < ZERO_PRECISION)       //Left cell dry: h==0
             {
-                // #ifdef DEBUG
-                // printf("reflect l");
-                // #endif
                 qr.x1 = ql.x1;      //h_r = h_l
                 qr.x2 = -ql.x2;     //hu_l = -hu_r
                 br = bl;            //b_r = b_l
             }
             else if(qr.x1 < ZERO_PRECISION) //Right cell dry: h==0
             {
-                // #ifdef DEBUG
-                // printf("reflect r");
-                // #endif
                 ql.x1 = qr.x1;      //h_l = h_r
                 ql.x2 = -qr.x2;     //hu_r = -hu_l
                 bl = br;            //b_l = b_r

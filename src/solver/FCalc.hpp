@@ -12,8 +12,6 @@
 #include "FStructs.hpp"
 #include "FConst.hpp"
 
-// using namespace std;
-
 namespace solver
 {
 
