@@ -8,6 +8,7 @@ documentation/build
 *.pdf
 *.snm
 *.toc
+*.synctex.gz
 
 # scons stuff
 site_scons/site_tools/cxxtest.pyc
