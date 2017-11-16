@@ -90,21 +90,24 @@ namespace solver
             {
                 return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Return output struct, where all values are zero 
             }
-            assert(FCalc::avg_height(ql, qr) >= 0); //Assert avg_height(ql, qr) is positive
-
             //Check dry cells: Reflecting boundary conditions
-            if(ql.x1 < ZERO_PRECISION)       //Left cell dry: h==0
+            bool rightDry = false;
+            bool leftDry = false;
+            if(qr.x1 < ZERO_PRECISION)       //Left cell dry: h==0
             {
+                rightDry = true;
                 qr.x1 = ql.x1;      //h_r = h_l
                 qr.x2 = -ql.x2;     //hu_l = -hu_r
                 br = bl;            //b_r = b_l
             }
-            else if(qr.x1 < ZERO_PRECISION) //Right cell dry: h==0
+            else if(ql.x1 < ZERO_PRECISION) //Right cell dry: h==0
             {
+                leftDry = true;
                 ql.x1 = qr.x1;      //h_l = h_r
                 ql.x2 = -qr.x2;     //hu_r = -hu_l
                 bl = br;            //b_l = b_r
             }
+            assert(FCalc::avg_height(ql, qr) > ZERO_PRECISION); //Assert avg_height(ql, qr) is positive
 
             vector2 eigenvalues = compute_eigenvalues(ql, qr); //Compute Roe eigenvalues
             assert(std::abs(eigenvalues.x2 - eigenvalues.x1) > ZERO_PRECISION); //Assert lambda_2 - lambda_1 != 0 (potential division by zero) 
@@ -136,7 +139,13 @@ namespace solver
             //Handle special cases
             if(res.lambda_1 < 0 && res.lambda_2 < 0) res.lambda_2 = 0;
             else if(res.lambda_1 > 0 && res.lambda_2 > 0) res.lambda_1 = 0;
-
+            // set the dry side back to its dry state
+            if (rightDry == true){
+                res.adq_positive = {0,0};
+            }
+            if (leftDry == true){
+                res.adq_negative = {0,0};
+            }
             return res;
         };
 

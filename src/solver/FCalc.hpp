@@ -55,6 +55,7 @@ namespace solver
          */
         static double avg_particle_velocity(const vector2 ql, const vector2 qr)
         {
+            
             if(std::isnan(ql.x1) || std::isnan(ql.x2) || std::isnan(qr.x1) || std::isnan(qr.x2))
                 return std::numeric_limits<double>::quiet_NaN();
                 
@@ -115,8 +116,11 @@ namespace solver
          * @return Froude number
         */
         static double froude_number(const double u, const double h)
-        {
-            assert(h > 0);
+        {   
+            
+            if (h < ZERO_PRECISION){
+                return 0;
+            }
             assert(std::sqrt(G_CONST * h) > ZERO_PRECISION);
             return u / (std::sqrt(G_CONST * h));
         }
