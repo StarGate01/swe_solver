@@ -62,9 +62,15 @@ namespace solver
             maxWaveSpeed = (T)std::max(std::abs(coreres.lambda_1), std::abs(coreres.lambda_2));
 
             #if defined(DEBUG) && !defined(SUPPRESS_SOLVER_DEBUG_OUTPUT)
+            #if defined(SOLVER_DEBUG_OUTPUT_ONLYNONZERO)
+            if(hUpdateLeft != 0 || huUpdateLeft != 0 || hUpdateRight != 0 || huUpdateRight != 0) {
+            #endif
             printf("FWave: ql=(%f, %f), bl=%f, qr=(%f, %f), br=%f -> adq_n=(%f, %f), adq_p=(%f, %f), mws=%f\n",
                 hLeft, huLeft,  bLeft, hRight, huRight, bRight, 
                 hUpdateLeft, huUpdateLeft, hUpdateRight, huUpdateRight, maxWaveSpeed);
+            #if defined(SOLVER_DEBUG_OUTPUT_ONLYNONZERO)
+            }
+            #endif
             #endif
         };
 
