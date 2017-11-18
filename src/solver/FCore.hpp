@@ -86,7 +86,7 @@ namespace solver
         {
             //Handle special case, where inputs are zero or heights are equal and wave speed is zero
             if((ql.x1 < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x1 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION)
-                || (ql.x1 - qr.x1 < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION))
+                || (std::abs(ql.x1 - qr.x1) < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION))
             {
                 return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Return output struct, where all values are zero 
             }
