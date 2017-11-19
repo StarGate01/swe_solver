@@ -5,6 +5,7 @@
 
 //DEBUG
 #include <iostream>
+#include <iomanip>
 
 #include <math.h>
 #include <limits>
@@ -39,7 +40,7 @@ public:
      */
     void test_compute_zero(void)
     {
-        vector2 zerovector = {0.0, 0.0};
+        struct vector2 zerovector = {0.0, 0.0};
         fresult res = FCore::compute_netupdates(zerovector, zerovector, 0, 0);
         TS_ASSERT(res.adq_positive.x1 == 0 && res.adq_positive.x2 == 0);
     }
@@ -50,9 +51,9 @@ public:
     void test_eigenvalues(void)
     {
         /**@brief Scenario 1: Check all input values equal to 1 */
-        vector2 ql = {1.0, 1.0};
-        vector2 qr = {1.0, 1.0};
-        vector2 res = FCore::compute_eigenvalues(ql, qr);
+        struct vector2 ql = {1.0, 1.0};
+        struct vector2 qr = {1.0, 1.0};
+        struct vector2 res = FCore::compute_eigenvalues(ql, qr);
         TS_ASSERT(res.x1 - 2.132091952673165 < ZERO_PRECISION && res.x2 - 4.132091952673165 < ZERO_PRECISION);
 
         /**@brief Scenario 2: Check ql = {2.0, 3.0} and qr = {4.0, 5.0} */
@@ -222,4 +223,91 @@ public:
         TS_ASSERT_DELTA(FCalc::froude_number(u, h), 0, ZERO_PRECISION);
     }
 
+    /**
+     * @brief Compares two FStructs::fresult structs to be equal in regard to ZERO_PRECISION
+    */
+    void comparefresult(struct fresult r1, struct fresult r2)
+    {
+        //Test lambdas
+        TS_ASSERT_DELTA(r1.lambda_1, r2.lambda_1, ZERO_PRECISION);
+        TS_ASSERT_DELTA(r1.lambda_2, r2.lambda_2, ZERO_PRECISION);
+
+        //Test adq_positive
+        TS_ASSERT_DELTA(r1.adq_positive.x1, r2.adq_positive.x1, ZERO_PRECISION);
+        TS_ASSERT_DELTA(r1.adq_positive.x2, r2.adq_positive.x2, ZERO_PRECISION);
+
+        //Test adq_negative
+        TS_ASSERT_DELTA(r1.adq_negative.x1, r2.adq_negative.x1, ZERO_PRECISION);
+        TS_ASSERT_DELTA(r1.adq_negative.x2, r2.adq_negative.x2, ZERO_PRECISION);
+    }
+
+    /**
+     * @test Verify implementation of FCore::compute_netupdates
+     * by testing against a set of predetermined values
+    */
+    void test_compute_netupdates(void)
+    {
+        //Input parameters        
+        struct vector2 ql;
+        struct vector2 qr;
+        double br;
+        double bl;
+
+        //Output parameters
+        struct fresult result;      //fresult computed by solver TODO: remove
+        struct fresult exresult;    //Expected result
+        struct vector2 exresult_adq_positive;
+        struct vector2 exresult_adq_negative;
+        
+        //NaN
+        double nan = std::numeric_limits<double>::quiet_NaN();
+
+        //Trivial test: All values zero
+        ql = {0.0, 0.0};
+        qr = {0.0, 0.0};
+        br = 0;
+        bl = 0;
+        exresult_adq_positive = {0.0, 0.0};
+        exresult_adq_negative = {0.0, 0.0};
+        
+        exresult = {0.0, 0.0, exresult_adq_positive, exresult_adq_negative};
+        comparefresult(FCore::compute_netupdates(ql, qr, bl, br), exresult);
+
+        //Special case: Speeds zero, heights and bathy equal
+        ql = {10.0, 0.0};
+        qr = {10.0, 0.0};
+        br = -10.0;
+        bl = -10.0;
+        //Expect zero output again
+        exresult = {0.0, 0.0, exresult_adq_positive, exresult_adq_negative};
+        comparefresult(FCore::compute_netupdates(ql, qr, bl, br), exresult);
+
+        //Dry cells remain dry (Reflecting boundary conditions) I
+        ql = {30.0, 20.0};
+        qr = {0.0, 0.0};
+        bl = -30.0;
+        br = 50.0;
+        exresult_adq_positive = {0.0, 0.0};
+        exresult_adq_negative = {-20, 343.1034829319};
+        double lambda = 17.1551741466;      //Reflection
+        exresult = {-lambda, lambda, exresult_adq_positive, exresult_adq_negative};
+        comparefresult(FCore::compute_netupdates(ql, qr, bl, br), exresult);
+
+        //Dry cells remain dry (Reflecting boundary conditions) II
+        //This test uses the exact values, but the scenario is flipped (Parameters of compute_netupdates are intentionally flipped)
+        exresult_adq_positive = {20, 343.1034829319};
+        exresult_adq_negative = {0.0, 0.0};
+        exresult = {-lambda, lambda, exresult_adq_positive, exresult_adq_negative};
+        comparefresult(FCore::compute_netupdates(qr, ql, br, bl), exresult);
+
+
+        //Output for manual verification TODO: Remove after verification
+        //std::cout << std::fixed;
+        //std::cout << std::setprecision(10);
+        //result = FCore::compute_netupdates(ql, qr, bl, br);
+        //std::cout << std::endl << "l1 " << result.lambda_1 << std::endl;
+        //std::cout << "l2 " << result.lambda_2 << std::endl;
+        //std::cout << "a+ " << std::setprecision(3) << result.adq_positive.x1 << " , " << result.adq_positive.x2 << std::endl;
+        //std::cout << "a- " << result.adq_negative.x1 << " , " << result.adq_negative.x2 << std::endl;
+    }
 };
