@@ -254,7 +254,6 @@ public:
         double bl;
 
         //Output parameters
-        struct fresult result;      //fresult computed by solver TODO: remove
         struct fresult exresult;    //Expected result
         struct vector2 exresult_adq_positive;
         struct vector2 exresult_adq_negative;
@@ -302,6 +301,7 @@ public:
 
 
         //Output for manual verification TODO: Remove after verification
+        //struct fresult result;
         //std::cout << std::fixed;
         //std::cout << std::setprecision(10);
         //result = FCore::compute_netupdates(ql, qr, bl, br);
