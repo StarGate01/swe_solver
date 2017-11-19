@@ -68,22 +68,22 @@ public:
     */
     void test_avg_height(void)
     {
-        /** @brief Scenario 1: @f[ \frac{3.0 + 1.0}{2.0} \overset{!}{=} 2.0 @f] */
+        /** @brief Scenario 1: @f$ \frac{3.0 + 1.0}{2.0} \overset{!}{=} 2.0 @f$ */
         vector2 ql = {1.0, 2.0};
         vector2 qr = {3.0, 4.0};
         TS_ASSERT(std::abs(FCalc::avg_height(ql, qr) - 2.0) < ZERO_PRECISION);
 
-        /** @brief Scenario 2: @f[ \frac{-3.0+5.0}{2.0} \overset{!}{=} 1.0 @f] */
+        /** @brief Scenario 2: @f$ \frac{-3.0+5.0}{2.0} \overset{!}{=} 1.0 @f$ */
         ql = {-3.0, 2.0};
         qr = {5.0, 4.0};
         TS_ASSERT(std::abs(FCalc::avg_height(ql, qr) - 1.0) < ZERO_PRECISION);
 
-        /** @brief Scenario 3: @f[ \frac{0.0 + 0.0}{2.0} \overset{!}{=} 0.0 @f] */
+        /** @brief Scenario 3: @f$ \frac{0.0 + 0.0}{2.0} \overset{!}{=} 0.0 @f$ */
         ql = {0.0, 0.0};
         qr = {0.0, 4.0};
         TS_ASSERT(std::abs(FCalc::avg_height(ql, qr)) < ZERO_PRECISION); //Test zero input for zero output
 
-        /** @brief Scenario 4: @f[ \frac{NaN + 5.0}{2.0} \overset{!}{=} NaN @f] */
+        /** @brief Scenario 4: @f$ \frac{NaN + 5.0}{2.0} \overset{!}{=} NaN @f$ */
         ql = {std::numeric_limits<double>::quiet_NaN(), 0.0};
         qr = {5.0, 4.0};
         TS_ASSERT(std::isnan(FCalc::avg_height(ql, qr)));
@@ -207,24 +207,24 @@ public:
     }
 
     /**
-     * @test Verify implementation of FCalc::froude_number
+     * @test Verify implementation of solver::FCalc::froude_number
      * by testing against a set of predetermined values
     */
     void test_froude(void)
     {
-        //Scenario 1: numerator equal to denominator
+         /** @brief Scenario 1: numerator equal to denominator */
         double u,h;
         u = G_CONST;
         h = G_CONST;
         TS_ASSERT_DELTA(FCalc::froude_number(u, h), 1, ZERO_PRECISION);
 
-        //Scenario 2: numerator = 0 results in output 0
+         /** @brief Scenario 2: numerator = 0 results in output 0 */
         u = 0;
         TS_ASSERT_DELTA(FCalc::froude_number(u, h), 0, ZERO_PRECISION);
     }
 
     /**
-     * @brief Compares two FStructs::fresult structs to be equal in regard to ZERO_PRECISION
+     * @brief Compares two solver::FStructs::fresult structs to be equal in regard to #ZERO_PRECISION
     */
     void comparefresult(struct fresult r1, struct fresult r2)
     {
@@ -242,7 +242,7 @@ public:
     }
 
     /**
-     * @test Verify implementation of FCore::compute_netupdates
+     * @test Verify implementation of solver::FCore::compute_netupdates
      * by testing against a set of predetermined values
     */
     void test_compute_netupdates(void)
@@ -261,7 +261,7 @@ public:
         //NaN
         double nan = std::numeric_limits<double>::quiet_NaN();
 
-        //Trivial test: All values zero
+        /** @brief Scenario 1: Trivial test: All values zero */
         ql = {0.0, 0.0};
         qr = {0.0, 0.0};
         br = 0;
@@ -272,7 +272,7 @@ public:
         exresult = {0.0, 0.0, exresult_adq_positive, exresult_adq_negative};
         comparefresult(FCore::compute_netupdates(ql, qr, bl, br), exresult);
 
-        //Special case: Speeds zero, heights and bathy equal
+        /** @brief Scenario 2: Special case: Speeds zero, heights and bathy equal **/
         ql = {10.0, 0.0};
         qr = {10.0, 0.0};
         br = -10.0;
@@ -281,7 +281,7 @@ public:
         exresult = {0.0, 0.0, exresult_adq_positive, exresult_adq_negative};
         comparefresult(FCore::compute_netupdates(ql, qr, bl, br), exresult);
 
-        //Dry cells remain dry (Reflecting boundary conditions) I
+        /** @brief Scenario 3: Dry cells remain dry (Reflecting boundary conditions) */
         ql = {30.0, 20.0};
         qr = {0.0, 0.0};
         bl = -30.0;
@@ -292,8 +292,11 @@ public:
         exresult = {-lambda, lambda, exresult_adq_positive, exresult_adq_negative};
         comparefresult(FCore::compute_netupdates(ql, qr, bl, br), exresult);
 
-        //Dry cells remain dry (Reflecting boundary conditions) II
-        //This test uses the exact values, but the scenario is flipped (Parameters of compute_netupdates are intentionally flipped)
+        /** 
+         * @brief Scenario 4: Dry cells remain dry (Reflecting boundary conditions) II
+         * 
+         * This test uses the exact values, but the scenario is flipped (Parameters of solver::FCore::compute_netupdates are intentionally flipped) 
+         */
         exresult_adq_positive = {20, 343.1034829319};
         exresult_adq_negative = {0.0, 0.0};
         exresult = {-lambda, lambda, exresult_adq_positive, exresult_adq_negative};
@@ -310,4 +313,5 @@ public:
         //std::cout << "a+ " << std::setprecision(3) << result.adq_positive.x1 << " , " << result.adq_positive.x2 << std::endl;
         //std::cout << "a- " << result.adq_negative.x1 << " , " << result.adq_negative.x2 << std::endl;
     }
+
 };
