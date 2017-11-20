@@ -1,38 +1,18 @@
-# Compilation, Testing and Building the Documentation
-
-## Compilation of the Framework System
+# Compilation {#compilepage}
 
 ### Required packages:
- - g++
- - scons
+ - `g++`
+ - `scons`
+ - Additional compilers depending on your SWE configuration
 
-Use this project as a submodule of https://gitlab.lrz.de/ChristophHonal/SWE1D or https://gitlab.lrz.de/ChristophHonal/SWE. Compile with `scons` or `scons --dbg` for debug symbol support to `build/SWE1D`. Run this command in the root directory of the parent repository.
+#### SWE1D
 
-## Unit Testing
+Compile with `scons` or `scons --dbg` for debug symbol support to `build/SWE1D`. Run this command in the root directory of the framework repository.
 
-### Required packages:
- - cxxtest
+#### SWE
 
-Compile and run tests with `scons check`.
+Compile with `scons buildVariablesFile=build/options/SWE_gnu.py` or `scons buildVariablesFile=build/options/SWE_gnu.py compileMode=debug` for debug symbol support to `build/SWE_gnu_debug_none_fwave`.
 
-## Building the Documentation
+Run this command in the root directory of the framework repository. There are several build variable files provided in `build/options`.
 
-### Required packages:
- - doxygen
- - perl
- - graphviz
- - git
- - latex 
- - Additional required packages depending on you latex installation
-
-Compile with `doxygen ../documentation/doxygen.cfg` in directory `src` to `documentation/build/html/index.html`
-
-Build PDF with `make` in directory `documentation/build/latex` to `documentation/build/latex/refman.pdf`
-
-## Building the presentation slides
-
-### Required packages:
- - xelatex
- - Additional required packages depending on you latex installation
-
-Compile with `xelatex assignment1.tex` in directory `documentation/presentation1` to `presentation1.pdf`
+See [Linking The Documentation](@ref adddocpage) for additional information.
