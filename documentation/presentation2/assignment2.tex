@@ -104,7 +104,6 @@
 	\end{figure}
 \end{frame}
 
-
 \begin{frame}{Demonstration of bathymetry}
 	\begin{figure}
 		\includegraphics[clip, width=\imgfullscale\linewidth]{img/Bathymetry_simple.png}
@@ -158,6 +157,17 @@
 			\includegraphics[clip, width=\imgfullscale\linewidth]{img/3d_bathy.png}
 	\end{figure}
 	Observation of similar effects to the 2d implementation
+\end{frame}
+
+\begin{frame}{Macro to demonstrate dimensional splitting}
+	\texttt{\#define DIMSPLIT\_SELECT\_X 1\\
+		\#define DIMSPLIT\_SELECT\_Y 2\\
+		\#define DIMSPLIT\_SELECT\_XY 4\\
+		\#define DIMSPLIT\_SELECT DIMSPLIT\_SELECT\_XY}
+	\begin{figure}
+		\includegraphics[clip, width=0.5\linewidth]{img/2d_bathy_x.png}
+	\end{figure}
+	Only the x sweep calculated
 \end{frame}
 
 \begin{frame}{Dimensional splitting: extension of radial dam-break}
