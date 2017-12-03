@@ -71,6 +71,7 @@
 \newcommand{\imgvoffset}{-20pt}
 \newcommand{\texthoffset}{20pt}
 \newcommand{\imgfullscale}{0.75}
+\newcommand{\imgcolscale}{0.9}
 
 \captionsetup[subfigure]{labelformat=empty}		%Disable enumeration of subfigures
 %####################################################################
@@ -91,10 +92,10 @@
 \begin{frame}{Overview}
 	\begin{figure}
 		\subfloat[File parsing]{\includegraphics[clip,width=0.3\linewidth]
-			{img/dummy_image.jpg}}
+			{img/CDLcode.jpg}}
 		\hspace{40pt}
-		\subfloat[Checkpointing]{\includegraphics[clip,width=0.3\linewidth]
-			{img/dummy_image.jpg}}
+		\subfloat[Checkpointing]{\includegraphics[clip,width=0.3\linewidth, trim={0 55pt 0 55pt}]
+			{img/checkpointcharlie.jpeg}}
 		\hspace{0pt}\vspace{20pt}\\
 		\subfloat[Simulation]{\includegraphics[clip,width=0.3\linewidth]
 			{img/dummy_image.jpg}}
@@ -102,23 +103,52 @@
 \end{frame}
 
 \begin{frame}{Implementation: CDL File Parser}
+	\begin{itemize}
+		\item Stream based (large files supported)
+		\item Using tokenizer and custom static data format
+	\end{itemize}
 	%TODO: Add content
 \end{frame}
 
 \begin{frame}{Implementation: Checkpointing}
+	\begin{multicols}{2}
+		\begin{figure}
+			\includegraphics[width=\imgcolscale\linewidth]{img/checkpointcharlie.jpeg}
+		\end{figure}
+		
+	\columnbreak
+	
+		\begin{itemize}
+			\item When do we save files?
+			\item Recovery covered?
+		\end{itemize}
+\end{multicols}		
 	%TODO: Add content
+	
+	%------ Footer -------
+	\vfill
+	\flushleft
+	{\fontsize{3.5}{3.5} \selectfont 
+	https://s14-eu5.ixquick.com/cgi-bin/serveimage?url=https:\%2F\%2Fupload.wikimedia.org\%2Fwikipedia\%2Fcommons\%2Ff\%2Ffd\%2FCheckpoint\_Charlie\_2005\_072.JPG\&sp=2e324a64264464092e90a3097598e060}
 \end{frame}
 
 \begin{frame}{Simulation: Scenario Tohoku (2010)}
+	\begin{figure}
+		\includegraphics[width=\imgfullscale\linewidth]{img/dummy_image.jpg}
+	\end{figure}
 	\begin{itemize}
 		\item How long does it take for the main wave to leave the domain?
 		\item Cell size?
 		\item Arrival of the wave in Sõma? Comparison with our data
 	\end{itemize}
+	%TODO: Add content
 \end{frame}
 
 \begin{frame}{Simulation: Scenario Chile (2011)}
 	%TODO:Add content
+	\begin{figure}
+		\includegraphics[width=\imgfullscale\linewidth]{img/dummy_image.jpg}
+	\end{figure}
 	\begin{itemize}
 		\item How long does it take for the main wave to leave the domain?
 		\item Cell size?
