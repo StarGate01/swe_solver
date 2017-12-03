@@ -84,9 +84,9 @@ namespace solver
          */
         static fresult compute_netupdates(vector2 ql, vector2 qr, double bl, double br)
         {
-            //Handle special case, where inputs are zero or heights are equal and wave speed is zero
+            //Handle special case, where inputs are zero or heights are equal and wave speed is zero and also bl and br are the same (as otherwise bathymetry slopes are missed in initial condition)
             if((ql.x1 < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x1 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION)
-                || (std::abs(ql.x1 - qr.x1) < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION))
+                || (std::abs(ql.x1 - qr.x1) < ZERO_PRECISION && ql.x2 < ZERO_PRECISION && qr.x2 < ZERO_PRECISION && std::abs(bl - br) < ZERO_PRECISION))
             {
                 return {0.0, 0.0, {0.0, 0.0}, {0.0, 0.0}}; //Return output struct, where all values are zero 
             }
