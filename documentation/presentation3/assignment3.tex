@@ -102,28 +102,33 @@
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Implementation: CDL File Parser}
+\begin{frame}{Implementation: File parsing}
+	Implementation of file reader
 	\begin{itemize}
-		\item Stream based (large files supported)
-		\item Using tokenizer and custom static data format
+		\item \textit{NetCDFDataReader} can read bathymetry and displacement files
+		\item \textit{NetCDFReader} supports meta data
 	\end{itemize}
-	%TODO: Add content
+	\vspace{20pt}
+	Implementation of file writer
+	\begin{itemize}
+		\item Flag: Append to or create new file
+	\end{itemize}
 \end{frame}
 
-\begin{frame}{Implementation: Checkpointing}
-	\begin{multicols}{2}
-		\begin{figure}
-			\includegraphics[width=\imgcolscale\linewidth]{img/checkpointcharlie.jpeg}
-		\end{figure}
-		
-	\columnbreak
+\begin{frame}{Implementation: Checkpointing}	
+	\begin{figure}
+		\includegraphics[width=0.3\linewidth]{img/checkpointcharlie.jpeg}
+	\end{figure}
 	
+	\begin{itemize}
+		\item Implemented netCDF-Parser for debugging purposes
+		\item Enhanced \textit{NetCDFWriter} wo save meta data
+		\item Implemented \textit{NetCDFDataReader}
 		\begin{itemize}
-			\item When do we save files?
-			\item Recovery covered?
+			\item Customizable via command line options
+			\item Can simulate crash of the application
 		\end{itemize}
-\end{multicols}		
-	%TODO: Add content
+	\end{itemize}
 	
 	%------ Footer -------
 	\vfill
@@ -133,15 +138,30 @@
 \end{frame}
 
 \begin{frame}{Simulation: Scenario Tohoku (2010)}
-	\begin{figure}
-		\includegraphics[width=\imgfullscale\linewidth]{img/dummy_image.jpg}
-	\end{figure}
-	\begin{itemize}
-		\item How long does it take for the main wave to leave the domain?
-		\item Cell size?
-		\item Arrival of the wave in Sõma? Comparison with our data
-	\end{itemize}
-	%TODO: Add content
+	\only<1>{
+		\begin{figure}
+			\includegraphics[width=0.4\linewidth]{img/dummy_image.jpg}
+		\end{figure}
+	}
+	
+	\only<2>{
+		\begin{itemize}
+			\item $v \approx \sqrt{gh}$ estimates arrival after $16$ minutes
+			\item UNESCO reports arrival time after $14$ minutes (maximum amplitude)
+			\item Simulation calculates arrival after $XX$ minutes
+			\item Wave leaves the domain as follows
+			\begin{itemize}
+				\item N: $9000$ seconds
+				\item E: $11000$ seconds
+				\item S: $28000$ seconds
+			\end{itemize}
+			\item Cell size?
+		\end{itemize}
+		\vfill
+		\flushleft
+		{\fontsize{5}{5} \selectfont Data from: http://itic.ioc-unesco.org/images/docs/japan\_jma\_11mar11\_tsuobservations.pdf}	
+	}
+	
 \end{frame}
 
 \begin{frame}{Simulation: Scenario Chile (2011)}
