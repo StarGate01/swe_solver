@@ -38,10 +38,17 @@ The following tasks are registered in the IDE's task runner
 - Build Debug Binaries
 - Build Release Binaries
 - Clean Binaries
-- Regenerate Data
-- Run Tests
-- Build Documentation
-- Clean Documentation
+- Clean And Regenerate Data
+- Clean And Regenerate Data And Simulate Failure
+- Continue Data From Checkpoint
+- Run Tsunami Script
+- Build Solver Documentation
+- Clean Solver Documentation
+- Build All Framework Documentation
+- Build Fragment Framework Documentation
+- Clean Framework Documentation
+- Run Solver Tests
+- Run Framework Tests
 - Build Presentation
 - Clean Presentation
 

@@ -15,4 +15,4 @@ Compile with `scons buildVariablesFile=build/options/SWE_gnu.py` or `scons build
 
 Run this command in the root directory of the framework repository. There are several build variable files provided in `build/options`.
 
-See [Linking The Documentation](@ref adddocpage) for additional information.
+See the SWE documentation for additional information.
