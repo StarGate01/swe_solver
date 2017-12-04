@@ -98,7 +98,7 @@
 			{img/checkpointcharlie.jpeg}}
 		\hspace{0pt}\vspace{20pt}\\
 		\subfloat[Simulation]{\includegraphics[clip,width=0.3\linewidth]
-			{img/dummy_image.jpg}}
+			{img/chile_middle_600.png}}
 	\end{figure}
 \end{frame}
 
@@ -138,39 +138,59 @@
 \end{frame}
 
 \begin{frame}{Simulation: Scenario Tohoku (2010)}
-	\only<1>{
-		\begin{figure}
-			\includegraphics[width=0.4\linewidth]{img/dummy_image.jpg}
-		\end{figure}
-	}
-	
-	\only<2>{
+	\begin{figure}
+		\only<1>{
+			\includegraphics[width=\imgfullscale\linewidth]{img/tohoku_middle_50.png}
+		}
+		\only<2>{
+			\includegraphics[width=\imgfullscale\linewidth]{img/tohoku_middle_200.png}
+		}
+		\only<3>{
+			\includegraphics[width=\imgfullscale\linewidth]{img/tohoku_middle_600.png}
+		}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Simulation: Scenario Tohoku (2010)}
 		\begin{itemize}
 			\item $v \approx \sqrt{gh}$ estimates arrival after $16$ minutes
 			\item UNESCO reports arrival time after $14$ minutes (maximum amplitude)
 			\item Simulation calculates arrival after $XX$ minutes
 			\item Wave leaves the domain as follows
 			\begin{itemize}
-				\item N: $9000$ seconds
-				\item E: $11000$ seconds
-				\item S: $28000$ seconds
+				\item N: $\approx 8500$ seconds
+				\item E: $\approx 27000$ seconds
+				\item S: $\approx 11000$ seconds
+				\item W: $\approx 5500$ seconds
 			\end{itemize}
 			\item Cell size?
 		\end{itemize}
 		\vfill
 		\flushleft
 		{\fontsize{5}{5} \selectfont Data from: http://itic.ioc-unesco.org/images/docs/japan\_jma\_11mar11\_tsuobservations.pdf}	
-	}
-	
+\end{frame}
+
+\begin{frame}{Simulation: Scenario Chile (2011)}
+	\begin{figure}
+		\only<1>{
+			\includegraphics[width=\imgfullscale\linewidth]{img/chile_middle_50.png}
+		}
+		\only<2>{
+			\includegraphics[width=\imgfullscale\linewidth]{img/chile_middle_200.png}
+		}
+		\only<3>{
+			\includegraphics[width=\imgfullscale\linewidth]{img/chile_middle_600.png}
+		}
+	\end{figure}
 \end{frame}
 
 \begin{frame}{Simulation: Scenario Chile (2011)}
 	%TODO:Add content
 	\begin{figure}
-		\includegraphics[width=\imgfullscale\linewidth]{img/dummy_image.jpg}
+		\includegraphics[width=0.6\linewidth]{img/chile_initial.png}
 	\end{figure}
 	\begin{itemize}
-		\item How long does it take for the main wave to leave the domain?
+		\item Leaves the domain in the south at $\approx 16500$ seconds and dissipates before reaching the west boundary
 		\item Cell size?
 	\end{itemize}
 \end{frame}	
