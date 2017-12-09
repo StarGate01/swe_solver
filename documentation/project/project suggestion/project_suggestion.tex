@@ -1,10 +1,15 @@
-\documentclass[paper=a4]{article}
+\documentclass[paper=a4]{proc}
+
+\usepackage[ngerman]{babel}
+
+\pagenumbering{gobble}		%Disable page numbers
 
 \title{Graphical Data Visualisation Tool}
 \author{George Bellamy, Christoph Honal, Felix Wieser}
 
 \begin{document}
 	\maketitle
+	\thispagestyle{plain}	%Disable page numbers
 	\section{Outline}
 		This project is about implementing a GUI-Interface to interactively visualize the output of SWE-Tsunami-Simulation and provide basic analyzing functions for the Tsunami. Additionally, the ability to export images, videos and graphs (i.e. cross-sections) are planned as well. The project is intended to be a standalone application.
 	\section{Description}
