@@ -13,7 +13,7 @@ The solver documentation is configured to generate a doxygen _tagfile_, which ca
 
 #### SWE1D
 
-In fact, a full doxygen documentation is available for SWE1D.
+In fact, a full doxygen documentation is available for SWE1D and a partial one is available for SWE.
 
 Compile with `doxygen ../documentation/doxygen.cfg` in framework directory `src` to `documentation/build/html/index.html`
 
@@ -25,7 +25,4 @@ This documentation is configured to link to the generated tagfile of this submod
 
 The original documentation is available where our fork originates: https://github.com/TUM-I5/SWE/wiki.
 
-However, we added several extensions:
-
-- The boolean `dimsplit` compiler configuration option, which enables the dimensional splitting approach. This is enabled by default.
-- A scenario which tests this functionality.
+See the SWE documentation for additional information.

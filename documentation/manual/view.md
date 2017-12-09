@@ -20,6 +20,4 @@ Run the program with `../SWE_gnu_debug_none_fwave -x 50 -y 50 -o swe` inside the
 
 You can of course choose different parameters according to `../SWE_gnu_debug_none_fwave -h`
 
-Load the state `build/swe.pvsm` into paraview, and select `search files under specified directory` in the opening dialog.
-
-The state has two layouts. The first one displays four two-dimensional heightmaps, corresponding to the water height, the fluxes in horizontal and vertical direction, and the bathymetry. The second layout displays a 3D-rendering of the water height and the bathymetry in one.
+You can then use the generated data with paraview.
