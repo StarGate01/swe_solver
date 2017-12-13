@@ -16,3 +16,6 @@ site_scons/site_tools/cxxtest.pyc
 
 # test data
 src/unit_tests/middle_states.csv
+
+#JetBrains
+.idea/
