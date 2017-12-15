@@ -55,16 +55,27 @@ namespace solver
          */
         static double avg_particle_velocity(const vector2 ql, const vector2 qr)
         {
-            
+#ifndef CUSTOM_OPT
             if(std::isnan(ql.x1) || std::isnan(ql.x2) || std::isnan(qr.x1) || std::isnan(qr.x2))
                 return std::numeric_limits<double>::quiet_NaN();
+#endif
                 
             assert(ql.x1 > ZERO_PRECISION && qr.x1 > ZERO_PRECISION); //Assert h values of ql and qr are positive
 
+#ifndef CUSTOM_OPT
+            double s_ql = sqrt(ql.x1);
+            double s_qr = sqrt(qr.x1);
+            return (
+                ((ql.x2 / ql.x1) * s_ql)
+                 + ((qr.x2 / qr.x1) * s_qr)
+            ) / (s_ql + s_qr);
+#else
             return (
                 ((ql.x2 / ql.x1) * sqrt(ql.x1))
                  + ((qr.x2 / qr.x1) * sqrt(qr.x1))
             ) / (sqrt(ql.x1) + sqrt(qr.x1));
+#endif
+          
         };
 
         /**
