@@ -1,0 +1,8 @@
+\frametitle{HPC: Performance analysis (Overview)}
+Analysis overview
+^^I\begin{itemize}
+^^I^^I\item HPC $\leftrightarrow$ PC
+^^I^^I\item \verb|GCC| $\leftrightarrow$ Intel
+^^I^^I\item OpenMP: Basic \verb|for| parallelisation
+^^I^^I\item OpenMP: \verb|assert|, thread workload optimisation, \dots
+^^I\end{itemize}

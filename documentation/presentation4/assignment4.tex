@@ -5,11 +5,13 @@
 % enable unicode
 %\usepackage[utf8]{inputenc}
 \usepackage{fontspec}
+\usepackage{anyfontsize}		%TODO: Who uses this package???? -> Remove
 
 %Images
 \usepackage{graphicx, svg}
 \usepackage{caption}
 
+%TODO: Clean up packages
 \usepackage{animate}
 \usepackage{array}
 \usepackage{subfig}
@@ -17,6 +19,11 @@
 \usepackage{color}
 \usepackage{pgfplots}
 \usepackage{xmpmulti}
+\usepackage{verbatim}
+
+%Tikz
+\usepackage{tikz}
+
 
 \usepackage{algorithm,algpseudocode}  %for algorithm environmenstacle in the bathymetry to show the effect of the soruce terms in 2D.t
 
@@ -65,7 +72,6 @@
 %----------------------------------------------------------------------------------
 
 
-
 %############### Self defined commands ##############################
 \newcommand{\imgvoffset}{-20pt}
 \newcommand{\texthoffset}{20pt}
@@ -75,15 +81,17 @@
 \captionsetup[subfigure]{labelformat=empty}		%Disable enumeration of subfigures
 %####################################################################
 
-\usepackage{anyfontsize}
-
+%############### Title information ###############
 \title[{Tsunami simulation}]{Assignment 3}
-
 \author[Bellamy, Honal, Wieser]{Gruppe 03\\George Bellamy, Christoph Honal, Felix Wieser\\\vspace{10pt}{\small Bachelorpraktikum}}
-
 \institute[TU M\"unchen]{Technical University of Munich}
-
 \date{5. December 2017}
+%#################################################
+
+%############### Tikz picture configuration ###############
+\newcommand{\pgfglobalscale}{0.7}
+\newcommand{\pgfglobalheadervspace}{\vspace{5pt}\\}
+%##########################################################
 
 \begin{document}
 \maketitle
@@ -104,14 +112,46 @@
 	%TODO Add content
 \end{frame}
 
-\begin{frame}{HPC: Compiler}
-	%TODO Add content
+\begin{frame}[fragile]{HPC: Performance analysis (Overview)}
+	Analysis overview
+	\begin{itemize}
+		\item HPC $\leftrightarrow$ PC
+		\item \verb|GCC| $\leftrightarrow$ Intel
+		\item OpenMP: Basic \verb|for| parallelisation
+		\item OpenMP: \verb|assert|, thread workload optimisation, \dots
+	\end{itemize}
 \end{frame}
 
-\begin{frame}{HPC: Performance analysis}
-	%TODO Add content
+\begin{frame}{HPC: Performance analysis (HPC $\leftrightarrow$ PC)}
+	Computation time analysis\pgfglobalheadervspace
+	\begin{tikzpicture}[scale=\pgfglobalscale]
+		\begin{axis}[
+			xbar, xmin=0,
+			width=10cm, height=3cm, enlarge y limits=0.6,
+			xlabel={Computation time [s]},
+			symbolic y coords={PC,HPC},
+			ytick=data,
+			nodes near coords, nodes near coords align={horizontal},
+		]
+			\addplot coordinates {(3600,PC) (800,HPC)};
+		\end{axis}
+	\end{tikzpicture}
+	
+	Impact on performance\pgfglobalheadervspace
+	\begin{tikzpicture}[scale=\pgfglobalscale]
+		\begin{axis}[
+			xbar, xmin=0,
+			width=10cm, height=4cm, enlarge y limits=0.3,
+			xlabel={Computation time [\%]},
+			symbolic y coords={mov, add, sub, div},
+			ytick=data,
+			nodes near coords, nodes near coords align={horizontal},
+			nodes near coords=\pgfmathprintnumber{\pgfplotspointmeta}\%,
+		]
+			\addplot coordinates {(1,mov) (5,add) (8,sub) (80,div)};
+		\end{axis}
+	\end{tikzpicture}
 \end{frame}
-
 \begin{frame}{HPC: OpenMP}
 	Questions to answer:
 	\begin{itemize}
