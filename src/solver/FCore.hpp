@@ -107,10 +107,15 @@ namespace solver
                 ql.x2 = -qr.x2;     //hu_r = -hu_l
                 bl = br;            //b_l = b_r
             }
-            assert(FCalc::avg_height(ql, qr) > ZERO_PRECISION); //Assert avg_height(ql, qr) is positive
+            #ifndef NDEBUG
+                assert(FCalc::avg_height(ql, qr) > ZERO_PRECISION); //Assert avg_height(ql, qr) is positive
+            #endif
 
             vector2 eigenvalues = compute_eigenvalues(ql, qr); //Compute Roe eigenvalues
-            assert(std::abs(eigenvalues.x2 - eigenvalues.x1) > ZERO_PRECISION); //Assert lambda_2 - lambda_1 != 0 (potential division by zero) 
+
+            #ifndef NDEBUG
+                assert(std::abs(eigenvalues.x2 - eigenvalues.x1) > ZERO_PRECISION); //Assert lambda_2 - lambda_1 != 0 (potential division by zero) 
+            #endif
             
             fresult res = {eigenvalues.x1, eigenvalues.x2, {0}, {0}}; //initialise result struct
             vector2 r1 = {1, res.lambda_1}; //Create r_1 vector

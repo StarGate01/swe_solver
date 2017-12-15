@@ -3,7 +3,6 @@
  * @brief Unit tests for FCore and FCalc
 */
 
-//DEBUG
 #include <iostream>
 #include <iomanip>
 
