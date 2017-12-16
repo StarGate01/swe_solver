@@ -1,19 +1,17 @@
-\documentclass[shortpres]{beamer}
+\documentclass[shortpres,usenames,dvipsnames]{beamer}
 \usetheme{CambridgeUS}
 
 % Depending on build configuration, one of these packages will
 % enable unicode
-%\usepackage[utf8]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage{fontspec}
-\usepackage{anyfontsize}		%TODO: Who uses this package???? -> Remove
+%\usepackage{anyfontsize}		%TODO: Who uses this package???? -> Remove
+\usepackage{listings}
 
 %Images
 \usepackage{graphicx, svg}
 \usepackage{caption}
 
-%TODO: Clean up packages
-\usepackage{animate}
-\usepackage{array}
 \usepackage{subfig}
 \usepackage{multicol}
 \usepackage{color}
@@ -93,23 +91,22 @@
 \newcommand{\pgfglobalheadervspace}{\vspace{5pt}\\}
 %##########################################################
 
+\lstset{escapeinside={<@}{@>}}
+
 \begin{document}
 \maketitle
 
 \begin{frame}{Overview}
 	\begin{figure}
 		\subfloat[HPC]{\includegraphics[clip,width=0.3\linewidth]
-			{img/dummy_image.jpg}}
-		\hspace{40pt}
+			{img/lrz.png}}
+		\hspace{10pt}
 		\subfloat[Coarse computation]{\includegraphics[clip,width=0.3\linewidth]
 			{img/dummy_image.jpg}}
+		\hspace{40pt}
 		\subfloat[Project]{\includegraphics[clip,width=0.3\linewidth]
 			{img/dummy_image.jpg}}
 	\end{figure}
-\end{frame}
-
-\begin{frame}{HPC: Execution time}
-	%TODO Add content
 \end{frame}
 
 \begin{frame}[fragile]{HPC: Performance analysis (Overview)}
@@ -123,6 +120,8 @@
 \end{frame}
 
 \begin{frame}{HPC: Performance analysis (HPC $\leftrightarrow$ PC)}
+	%TODO: Add correct data
+	\centering
 	Computation time analysis\pgfglobalheadervspace
 	\begin{tikzpicture}[scale=\pgfglobalscale]
 		\begin{axis}[
@@ -151,7 +150,61 @@
 			\addplot coordinates {(1,mov) (5,add) (8,sub) (80,div)};
 		\end{axis}
 	\end{tikzpicture}
+	
+	Result
+	\begin{itemize}
+		\item result 1
+	\end{itemize}
 \end{frame}
+
+\begin{frame}{GCC $\leftrightarrow$ Intel}
+	\centering
+	Computation time analysis\pgfglobalheadervspace
+	\begin{tikzpicture}[scale=\pgfglobalscale]
+	\begin{axis}[
+	xbar, xmin=0, xmax=2200,
+	width=10cm, height=4cm, enlarge y limits=0.6,
+	xlabel={cpu time [s]},
+	x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
+	x tick label style={rotate=-45},
+	symbolic y coords={500²,1000²},
+	ytick=data,
+	ylabel=\# cells,
+	y label style={at={(axis description cs:-0.05,0.0)},anchor=west},
+	x tick label style={rotate=45},
+	nodes near coords, nodes near coords align={horizontal},
+	legend pos=south east,
+	]
+	\addplot coordinates {(13.04,500²) (1061.26,1000²)};
+	\addplot coordinates {(9.55,500²) (1777.74,1000²)};
+	\legend{gnu,intel}
+	\end{axis}
+	\end{tikzpicture}
+	\newline
+	{\tiny Runs were performed with 28 threads}
+	
+	Impact on performance\pgfglobalheadervspace
+	%TODO: Implement content
+	\begin{tikzpicture}[scale=\pgfglobalscale]
+	\begin{axis}[
+	xbar, xmin=0,
+	width=10cm, height=4cm, enlarge y limits=0.3,
+	xlabel={Computation time [\%]},
+	symbolic y coords={mov, add, sub, div},
+	ytick=data,
+	nodes near coords, nodes near coords align={horizontal},
+	nodes near coords=\pgfmathprintnumber{\pgfplotspointmeta}\%,
+	]
+	\addplot coordinates {(1,mov) (5,add) (8,sub) (80,div)};
+	\end{axis}
+	\end{tikzpicture}
+	
+	Result
+	\begin{itemize}
+		\item result 1
+	\end{itemize}
+\end{frame}
+
 \begin{frame}{HPC: OpenMP}
 	Questions to answer:
 	\begin{itemize}
@@ -161,12 +214,146 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}[containsverbatim]{OpenMP: Basic for parallelisation}
+	\begin{multicols}{2}
+		\begin{lstlisting}[
+			language=C++,
+			basicstyle=\tiny, numbers=left, stepnumber=1, keywordstyle=\color{blue}\ttfamily,
+			stringstyle=\color{red}\ttfamily,
+			commentstyle=\color{ForestGreen}\ttfamily,
+			xleftmargin=.04\textwidth, xrightmargin=.2\textwidth,
+			tabsize=3,
+			gobble=9,
+			]
+			for(int y = 0; y < numRows(); y++)
+			{
+				//Parallelisation of inner loop
+				<@\texttt{\textcolor{orange}{\#pragma parallel for}}@>
+				for(int x = 0; x < numCols(); x++)
+				{
+					doSomething(x,y);
+				}
+			}
+		\end{lstlisting}
+			
+		\begin{itemize}
+			\item Each thread processes one \begin{verbatim}doSomething(x,y)\end{verbatim}
+			\item Many context switches
+			\item Short thread lifetime
+			\item[$\Rightarrow$] Bad performance 
+		\end{itemize}
+		
+	\columnbreak
+	
+		\begin{lstlisting}[
+			language=C++,
+			basicstyle=\tiny, numbers=left, stepnumber=1, keywordstyle=\color{blue}\ttfamily,
+			stringstyle=\color{red}\ttfamily,
+			commentstyle=\color{ForestGreen}\ttfamily,
+			xleftmargin=.04\textwidth, xrightmargin=.2\textwidth,
+			tabsize=3,
+			gobble=9,
+			]
+			//Parallelisation of outer loop
+			<@\texttt{\textcolor{orange}{\#pragma parallel for}}@>
+			for(int y = 0; y < numRows(); y++)
+			{
+				for(int x = 0; x < numCols(); x++)
+				{
+					doSomething(x,y);
+				}
+			}
+		\end{lstlisting}
+		
+		\begin{itemize}
+			\item Each thread executes one row
+			\item Less context switches
+			\item Increased thread lifetime
+			\item[$\Rightarrow$] Better performance
+		\end{itemize}
+	\end{multicols}
+\end{frame}
+
+\begin{frame}{OpenMP: Advanced parallelisation}
+	%TODO: Implement content
+	\centering
+	Computation time analysis\pgfglobalheadervspace
+	\begin{tikzpicture}[scale=\pgfglobalscale]
+	\begin{axis}[
+	xbar, xmin=0, xmax=950,
+	width=10cm, height=4cm, enlarge y limits=0.6,
+	xlabel={cpu time [s]},
+	x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
+	x tick label style={rotate=0},
+	symbolic y coords={500²,1000²},
+	ytick=data,
+	ylabel=\# cells,
+	y label style={at={(axis description cs:-0.05,0.0)},anchor=west},
+	nodes near coords, nodes near coords align={horizontal},
+	legend style={at={(0.7,0.3)},anchor=west},
+	]
+	\addplot coordinates {(4.30,500²) (777.25,1000²)};
+	\addplot coordinates {(4.35,500²) (789.90,1000²)};
+	\legend{Optimized,Original}
+	\end{axis}
+	\end{tikzpicture}
+	\newline
+	{\tiny 56 threads, gnu compiler}
+	
+	Impact on performance\pgfglobalheadervspace
+	%TODO: Implement content
+	\begin{tikzpicture}[scale=\pgfglobalscale]
+	\begin{axis}[
+	xbar, xmin=0,
+	width=10cm, height=4cm, enlarge y limits=0.3,
+	xlabel={Computation time [\%]},
+	symbolic y coords={mov, add, sub, div},
+	ytick=data,
+	nodes near coords, nodes near coords align={horizontal},
+	nodes near coords=\pgfmathprintnumber{\pgfplotspointmeta}\%,
+	]
+	\addplot coordinates {(1,mov) (5,add) (8,sub) (80,div)};
+	\end{axis}
+	\end{tikzpicture}
+	
+	Result
+	\begin{itemize}
+		\item result 1
+	\end{itemize}
+\end{frame}
+
 \begin{frame}{Coarse computation}
-	%TODO Add content
+	\begin{multicols}{2}
+		Features
+		\begin{itemize}
+			\item List
+			\item of
+			\item key
+			\item features
+		\end{itemize}
+	\columnbreak
+		 Bild
+	\end{multicols}
+	
 \end{frame}
 
 \begin{frame}{Project}
-	%TODO Add content
+	Development of a graphical data analyzer
+	\begin{itemize}
+		\item Standalone visualization of the SWE simulation output
+		\item Analysis functionality
+		\begin{itemize}
+			\item Cell data extraction and visualization over time
+			\item Cross-section visualization
+			\item Coastal damage assessment (max. wave height and speed)
+		\end{itemize}
+		\item Data export
+		\begin{itemize}
+			\item Images
+			\item Graphs (i.e. cross-sections)
+			\item Video
+		\end{itemize}
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{}
