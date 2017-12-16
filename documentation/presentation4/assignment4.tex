@@ -237,7 +237,7 @@
 		\end{lstlisting}
 			
 		\begin{itemize}
-			\item Each thread processes one \begin{verbatim}doSomething(x,y)\end{verbatim}
+			\item Each thread processes one \verb|doSomething()|
 			\item Many context switches
 			\item Short thread lifetime
 			\item[$\Rightarrow$] Bad performance 
@@ -274,6 +274,13 @@
 	\end{multicols}
 \end{frame}
 
+\begin{frame}[fragile]{OpenMP: Advanced parallelisation}
+	Further improvements
+	\begin{itemize}
+		\item Thread scheduling improvements
+		\item Toggle for \verb|assert| statements
+	\end{itemize}
+\end{frame}
 \begin{frame}{OpenMP: Advanced parallelisation}
 	%TODO: Implement content
 	\centering
@@ -315,11 +322,6 @@
 	\addplot coordinates {(1,mov) (5,add) (8,sub) (80,div)};
 	\end{axis}
 	\end{tikzpicture}
-	
-	Result
-	\begin{itemize}
-		\item result 1
-	\end{itemize}
 \end{frame}
 
 \begin{frame}{Coarse computation}

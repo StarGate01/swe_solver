@@ -10,12 +10,15 @@ documentation/build
 *.toc
 *.synctex.gz
 
-# scons stuff
+# scons
 site_scons/site_tools/cxxtest.pyc
 .sconsign.dblite
 
 # test data
 src/unit_tests/middle_states.csv
 
-#JetBrains
+# JetBrains
 .idea/
+
+# Tex
+*.vrb
