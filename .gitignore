@@ -22,3 +22,5 @@ src/unit_tests/middle_states.csv
 
 # Tex
 *.vrb
+*.fls
+*.fdb_latexmk
