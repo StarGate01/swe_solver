@@ -257,6 +257,7 @@
 
 \begin{frame}[containsverbatim]{OpenMP: Basic for parallelisation}
 	\begin{multicols}{2}
+		\textbf{Inner loop parallelisation}
 		\begin{lstlisting}[
 		language=C++,
 		basicstyle=\tiny, numbers=left, stepnumber=1, keywordstyle=\color{blue}\ttfamily,
@@ -286,6 +287,7 @@
 		
 		\columnbreak
 		
+		\textbf{Outer loop parallelisation}
 		\begin{lstlisting}[
 		language=C++,
 		basicstyle=\tiny, numbers=left, stepnumber=1, keywordstyle=\color{blue}\ttfamily,
@@ -316,7 +318,7 @@
 \end{frame}
 
 \begin{frame}[fragile]{OpenMP: Advanced parallelisation}
-	Custom thread scheduling
+	\textbf{Custom thread scheduling}
 	\begin{itemize}
 		\item TODO
 	\end{itemize}
@@ -324,7 +326,7 @@
 	
 	\vspace{20pt}
 	
-	Further improvements
+	\textbf{Further improvements}
 	\begin{itemize}
 		\item Toggle for \verb|assert| statements
 	\end{itemize}
@@ -332,7 +334,7 @@
 \begin{frame}{OpenMP: Advanced parallelisation}
 	%TODO: Implement content
 	\centering
-	Computation time analysis\pgfglobalheadervspace
+	\textbf{Computation time analysis}\pgfglobalheadervspace
 	\begin{tikzpicture}[scale=\pgfglobalscale]
 	\begin{axis}[
 	xbar, xmin=0, xmax=950,
@@ -340,15 +342,15 @@
 	xlabel={cpu time [s]},
 	x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
 	x tick label style={rotate=0},
-	symbolic y coords={500²,1000²},
+	symbolic y coords={light,heavy},
 	ytick=data,
-	ylabel=\# cells,
+	ylabel=Profile,
 	y label style={at={(axis description cs:-0.05,0.0)},anchor=west},
 	nodes near coords, nodes near coords align={horizontal},
 	legend style={at={(0.7,0.3)},anchor=west},
 	]
-	\addplot coordinates {(4.30,500²) (777.25,1000²)};
-	\addplot coordinates {(4.35,500²) (789.90,1000²)};
+	\addplot coordinates {(4.30,light) (777.25,heavy)};
+	\addplot coordinates {(4.35,light) (789.90,heavy)};
 	\legend{Optimized,Original}
 	\end{axis}
 	\end{tikzpicture}
@@ -374,7 +376,7 @@
 
 \begin{frame}{Coarse computation}
 	\begin{multicols}{2}
-		Features
+		\textbf{Features}
 		\begin{itemize}
 			\item List
 			\item of
@@ -382,13 +384,16 @@
 			\item features
 		\end{itemize}
 		\columnbreak
-		Bild
+		
+		\begin{figure}
+			\includegraphics[clip,width=0.95\linewidth]{img/tuhoku_mixed.png}
+		\end{figure}
 	\end{multicols}
 	
 \end{frame}
 
 \begin{frame}{Project}
-	Development of a graphical data analyzer
+	\textbf{Development of a graphical data analyzer}
 	\begin{itemize}
 		\item Standalone visualization of the SWE simulation output
 		\item Analysis functionality
