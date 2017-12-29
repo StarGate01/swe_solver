@@ -96,288 +96,325 @@
 	\begin{document}
 		\maketitle
 		
-		\begin{frame}{Overview}
-			\begin{figure}
-				\subfloat[HPC]{\includegraphics[clip,width=0.3\linewidth]
-					{img/lrz.png}}
-				\hspace{20pt}
-				\subfloat[Coarse computation]{\includegraphics[clip,width=0.3\linewidth]
-					{img/tuhoku_mixed.png}}
-				\hspace{40pt}\vspace{10pt}\\
-				\subfloat[Project*]{\includegraphics[clip,width=0.3\linewidth]
-					{img/oszi.jpg}}
-				\vfill
-				\flushleft
-				{\fontsize{5}{5} \selectfont *Image: https://commons.wikimedia.org/wiki/File:1tt.jpg}
-			\end{figure}
-		\end{frame}
+\begin{frame}{Overview}
+	\begin{figure}
+		\subfloat[HPC]{\includegraphics[clip,width=0.3\linewidth]
+			{img/lrz.png}}
+		\hspace{20pt}
+		\subfloat[Coarse computation]{\includegraphics[clip,width=0.3\linewidth]
+			{img/tuhoku_mixed.png}}
+		\hspace{40pt}\vspace{10pt}\\
+		\subfloat[Project*]{\includegraphics[clip,width=0.3\linewidth]
+			{img/oszi.jpg}}
+		\vfill
+		\flushleft
+		{\fontsize{5}{5} \selectfont *Image: https://commons.wikimedia.org/wiki/File:1tt.jpg}
+	\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]{HPC: Performance analysis (Overview)}
+	\textbf{Analysis overview}
+	\begin{itemize}
+		\item HPC $\leftrightarrow$ PC
+		\item \verb|GCC| $\leftrightarrow$ Intel
+		\item OpenMP: Basic \verb|for| parallelisation
+		\item OpenMP: \verb|assert|, thread workload optimisation, math, \dots
+	\end{itemize}
+	
+	\vspace{10pt}
+	\textbf{Performance profiles}\\
+	\begin{tabular}{lllll}
+		name & scenario & cells & comp. time [s] & checkpoints\\
+		\hline
+		light & Tuhoku & 500² & 1000 & 300\\
+		heavy & Tuhoku & 5000² & 30000 & 1000\\
+	\end{tabular}
+	
+	%TODO: CPU-time & wall-time
+\end{frame}
 		
-		\begin{frame}[fragile]{HPC: Performance analysis (Overview)}
-			\textbf{Analysis overview}
-			\begin{itemize}
-				\item HPC $\leftrightarrow$ PC
-				\item \verb|GCC| $\leftrightarrow$ Intel
-				\item OpenMP: Basic \verb|for| parallelisation
-				\item OpenMP: \verb|assert|, thread workload optimisation, math, \dots
-			\end{itemize}
-			
-			\vspace{10pt}
-			\textbf{Performance profiles}\\
-			\begin{tabular}{lllll}
-				name & scenario & cells & comp. time [s] & checkpoints\\
-				\hline
-				light & Tuhoku & 500² & 1000 & 300\\
-				heavy & Tuhoku & 5000² & 30000 & 1000\\
-			\end{tabular}
-			
-			%TODO: CPU-time & wall-time
-		\end{frame}
-		
-		\begin{frame}{HPC: Performance analysis (HPC $\leftrightarrow$ PC)}
-			\centering
-			\textbf{Computation time analysis}\pgfglobalheadervspace\hspace{-30pt}
-			\begin{tikzpicture}[scale=\pgfglobalscale]
-			\begin{axis}[
-			xbar, xmin=0, xmax=30,
-			width=13cm, height=3.5cm, enlarge y limits=0.6,
-			xlabel={cpu time [s]},
-			xlabel style={at={(axis description cs:0.5,-0.22)}, anchor=south},
-			x tick label style={rotate=0},
-			xtick distance=5,
-			symbolic y coords={light},
-			ytick=data,
-			ylabel=Profile,
-			ylabel style={at={(axis description cs:-0.05,0.2)},anchor=west},
-			nodes near coords, nodes near coords align={horizontal},
-			legend pos=south east,
-			]
-			\addplot coordinates {(5.38,light)};	%28 threads
-			\addplot coordinates {(14.2,light)};	%28 threads
-			\addplot coordinates {(4.3,light)};		%56 threads
-			\legend{PC (28 threads),HPC (28 threads),HPC (56 threads)}
-			\end{axis}
-			\end{tikzpicture}\vspace{15pt}
-			\begin{tikzpicture}[scale=\pgfglobalscale]
-			\begin{axis}[
-			xbar, xmin=0, xmax=3500,
-			width=13cm, height=3.5cm, enlarge y limits=0.6,
-			xlabel={cpu time [s]},
-			xlabel style={at={(axis description cs:0.5,-0.22)}, anchor=south},
-			x tick label style={rotate=0},
-			xtick distance=500,
-			symbolic y coords={light,heavy},
-			ytick=data,
-			ylabel=Profile,
-			ylabel style={at={(axis description cs:-0.05,0.2)},anchor=west},
-			nodes near coords, nodes near coords align={horizontal},
-			legend pos=south east,
-			]
-			\addplot coordinates {(1447.47,heavy)};	%28 threads
-			\addplot coordinates {(1042.64,heavy)};	%28 threads
-			\addplot coordinates {(777.25,heavy)};	%56 threads
-			\legend{PC (28 threads),HPC (28 threads),HPC (56 threads)}
-			\end{axis}
-			\end{tikzpicture}
-			\newline
-			{\tiny GNU, all optimizations, release}\\\vspace{15pt}
-			Result
-			\begin{itemize}
-				\item Vgl. heavy 
-			\end{itemize}
-		\end{frame}
-		
-		\begin{frame}{GCC $\leftrightarrow$ Intel}
-			\centering
-			Computation time analysis\pgfglobalheadervspace
-			\begin{tikzpicture}[scale=\pgfglobalscale]
-			\begin{axis}[
-			xbar, xmin=0, xmax=2200,
-			width=10cm, height=4cm, enlarge y limits=0.6,
-			xlabel={cpu time [s]},
-			x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
-			x tick label style={rotate=-45},
-			symbolic y coords={light,heavy},
-			ytick=data,
-			ylabel=Profile,
-			y label style={at={(axis description cs:-0.05,0.2)},anchor=west},
-			x tick label style={rotate=45},
-			nodes near coords, nodes near coords align={horizontal},
-			legend pos=south east,
-			]
-			\addplot coordinates {(13.04,light) (1061.26,heavy)};
-			\addplot coordinates {(9.55,light) (1777.74,heavy)};
-			\legend{gnu,intel}
-			\end{axis}
-			\end{tikzpicture}
-			\newline
-			{\tiny Runs were performed with 28 threads}
-			
-			Result
-			\begin{itemize}
-				\item result 1
-			\end{itemize}
-		\end{frame}
-		
-		\begin{frame}[containsverbatim]{OpenMP: Basic for parallelisation}
-			\begin{multicols}{2}
-				\begin{lstlisting}[
-				language=C++,
-				basicstyle=\tiny, numbers=left, stepnumber=1, keywordstyle=\color{blue}\ttfamily,
-				stringstyle=\color{red}\ttfamily,
-				commentstyle=\color{ForestGreen}\ttfamily,
-				xleftmargin=.04\textwidth, xrightmargin=.2\textwidth,
-				tabsize=3,
-				gobble=9,
-				]
-				for(int y = 0; y < numRows(); y++)
-				{
-				//Parallelisation of inner loop
-				<@\texttt{\textcolor{orange}{\#pragma parallel for}}@>
-				for(int x = 0; x < numCols(); x++)
-				{
+\begin{frame}{HPC: Performance analysis (HPC $\leftrightarrow$ PC)}
+	\centering
+	\textbf{Computation time analysis}\pgfglobalheadervspace\hspace{-30pt}
+	\begin{tikzpicture}[scale=\pgfglobalscale]
+	\begin{axis}[
+	xbar, xmin=0, xmax=30,
+	width=13cm, height=3.5cm, enlarge y limits=0.6,
+	xlabel={cpu time [s]},
+	xlabel style={at={(axis description cs:0.5,-0.25)}, anchor=south},
+	x tick label style={rotate=0},
+	xtick distance=5,
+	symbolic y coords={light},
+	ytick=data,
+	%ylabel=Profile,
+	ylabel style={at={(axis description cs:-0.05,0.2)},anchor=west},
+	nodes near coords, nodes near coords align={horizontal},
+	legend pos=south east,
+	]
+	\addplot coordinates {(5.38,light)};	%28 threads
+	\addplot coordinates {(14.2,light)};	%28 threads
+	\addplot coordinates {(4.3,light)};		%56 threads
+	\legend{PC (28 threads),HPC (28 threads),HPC (56 threads)}
+	\end{axis}
+	\end{tikzpicture}\vspace{15pt}
+	\begin{tikzpicture}[scale=\pgfglobalscale]
+	\begin{axis}[
+	xbar, xmin=0, xmax=3500,
+	width=13cm, height=3.5cm, enlarge y limits=0.6,
+	xlabel={cpu time [s]},
+	xlabel style={at={(axis description cs:0.5,-0.25)}, anchor=south},
+	x tick label style={rotate=0},
+	xtick distance=500,
+	symbolic y coords={light,heavy},
+	ytick=data,
+	%ylabel=Profile,
+	ylabel style={at={(axis description cs:-0.05,0.2)},anchor=west},
+	nodes near coords, nodes near coords align={horizontal},
+	legend pos=south east,
+	]
+	\addplot coordinates {(1447.47,heavy)};	%28 threads
+	\addplot coordinates {(1042.64,heavy)};	%28 threads
+	\addplot coordinates {(777.25,heavy)};	%56 threads
+	\legend{PC (28 threads),HPC (28 threads),HPC (56 threads)}
+	\end{axis}
+	\end{tikzpicture}
+	\newline
+	{\tiny GNU, all optimizations, release}\\\vspace{5pt}
+\end{frame}
+
+\begin{frame}{HPC: Performance analysis (HPC $\leftrightarrow$ PC)}
+	\centering
+	\textbf{Analysis}
+	\begin{itemize}
+		\item Huge impact of context switching on execution time
+		\item Result of HPC and PC are identical
+	\end{itemize}
+	%TODO: Implement content
+\end{frame}
+
+\begin{frame}{HPC: Performance analysis (GCC $\leftrightarrow$ Intel)}
+	\centering
+	\textbf{Computation time analysis}\pgfglobalheadervspace\hspace{-24pt}
+	\begin{tikzpicture}[scale=\pgfglobalscale]
+	\begin{axis}[
+	xbar, xmin=0, xmax=28,
+	width=13cm, height=4cm, enlarge y limits=0.6,
+	xlabel={cpu time [s]},
+	x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
+	x tick label style={rotate=-45},
+	symbolic y coords={light},
+	ytick=data,
+	%ylabel=Profile,
+	y label style={at={(axis description cs:-0.05,0.2)},anchor=west},
+	x tick label style={rotate=45},
+	xtick distance=5,
+	nodes near coords, nodes near coords align={horizontal},
+	legend pos=south east,
+	]
+	\addplot coordinates {(13.04,light)};	%Gnu, 28 threads
+	\addplot coordinates {(9.55,light)};	%Intel, 28 threads
+	\addplot coordinates {(4.3,light)};	%Gnu, 56 threads
+	\addplot coordinates {(5.45,light)};	%Intel, 56 threads
+	\legend{gnu (28 threads),intel (28 threads),gnu (56 threads),intel (56 threads)}
+	\end{axis}
+	\end{tikzpicture}\\
+	\begin{tikzpicture}[scale=\pgfglobalscale]
+	\begin{axis}[
+	xbar, xmin=0, xmax=2050,
+	width=13cm, height=4cm, enlarge y limits=0.6,
+	xlabel={cpu time [s]},
+	x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
+	x tick label style={rotate=-45},
+	symbolic y coords={heavy},
+	ytick=data,
+	%ylabel=Profile,
+	y label style={at={(axis description cs:-0.05,0.2)},anchor=west},
+	x tick label style={rotate=45},
+	xtick distance=500,
+	nodes near coords, nodes near coords align={horizontal},
+	legend pos=south east,
+	]
+	\addplot coordinates {(1061.26,heavy)};	%Gnu, 28 threads
+	\addplot coordinates {(1042.64,heavy)};	%Intel, 28 threads
+	\addplot coordinates {(777.25,heavy)};	%Gnu, 56 threads
+	\addplot coordinates {(774.32,heavy)};	%Intel, 56 threads
+	\legend{gnu (28 threads),intel (28 threads),gnu (56 threads),intel (56 threads)}
+	\end{axis}
+	\end{tikzpicture}
+	\newline
+	{\tiny Runs were performed with 28 threads}
+\end{frame}
+
+\begin{frame}{HPC: Performance analysis (GCC $\leftrightarrow$ Intel)}
+	\textbf{Analysis}
+	\begin{itemize}
+		\item
+		\item 
+		\item
+		%TODO: Implement content
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]{OpenMP: Basic for parallelisation}
+	\begin{multicols}{2}
+		\begin{lstlisting}[
+		language=C++,
+		basicstyle=\tiny, numbers=left, stepnumber=1, keywordstyle=\color{blue}\ttfamily,
+		stringstyle=\color{red}\ttfamily,
+		commentstyle=\color{ForestGreen}\ttfamily,
+		xleftmargin=.04\textwidth, xrightmargin=.2\textwidth,
+		tabsize=3,
+		gobble=6,
+		]
+		for(int y = 0; y < numRows(); y++)
+		{
+			//Parallelisation of inner loop
+			<@\texttt{\textcolor{orange}{\#pragma parallel for}}@>
+			for(int x = 0; x < numCols(); x++)
+			{
 				doSomething(x,y);
-				}
-				}
-				\end{lstlisting}
-				
-				\begin{itemize}
-					\item Each thread processes one \verb|doSomething()|
-					\item Many context switches
-					\item Short thread lifetime
-					\item[$\Rightarrow$] Bad performance 
-				\end{itemize}
-				
-				\columnbreak
-				
-				\begin{lstlisting}[
-				language=C++,
-				basicstyle=\tiny, numbers=left, stepnumber=1, keywordstyle=\color{blue}\ttfamily,
-				stringstyle=\color{red}\ttfamily,
-				commentstyle=\color{ForestGreen}\ttfamily,
-				xleftmargin=.04\textwidth, xrightmargin=.2\textwidth,
-				tabsize=3,
-				gobble=9,
-				]
-				//Parallelisation of outer loop
-				<@\texttt{\textcolor{orange}{\#pragma parallel for}}@>
-				for(int y = 0; y < numRows(); y++)
-				{
-				for(int x = 0; x < numCols(); x++)
-				{
+			}
+		}
+		\end{lstlisting}
+		
+		\begin{itemize}
+			\item Each thread processes one \verb|doSomething()|
+			\item Many context switches
+			\item Short thread lifetime
+			\item[$\Rightarrow$] Bad performance 
+		\end{itemize}
+		
+		\columnbreak
+		
+		\begin{lstlisting}[
+		language=C++,
+		basicstyle=\tiny, numbers=left, stepnumber=1, keywordstyle=\color{blue}\ttfamily,
+		stringstyle=\color{red}\ttfamily,
+		commentstyle=\color{ForestGreen}\ttfamily,
+		xleftmargin=.04\textwidth, xrightmargin=.2\textwidth,
+		tabsize=3,
+		gobble=6,
+		]
+		//Parallelisation of outer loop
+		<@\texttt{\textcolor{orange}{\#pragma parallel for}}@>
+		for(int y = 0; y < numRows(); y++)
+		{
+			for(int x = 0; x < numCols(); x++)
+			{
 				doSomething(x,y);
-				}
-				}
-				\end{lstlisting}
-				
-				\begin{itemize}
-					\item Each thread executes one row
-					\item Less context switches
-					\item Increased thread lifetime
-					\item[$\Rightarrow$] Better performance
-				\end{itemize}
-			\end{multicols}
-		\end{frame}
+			}
+		}
+		\end{lstlisting}
 		
-		\begin{frame}[fragile]{OpenMP: Advanced parallelisation}
-			Custom thread scheduling
-			\begin{itemize}
-				\item TODO
-			\end{itemize}
-			%TODO: Enhance content
-			
-			\vspace{20pt}
-			
-			Further improvements
-			\begin{itemize}
-				\item Toggle for \verb|assert| statements
-			\end{itemize}
-		\end{frame}
-		\begin{frame}{OpenMP: Advanced parallelisation}
-			%TODO: Implement content
-			\centering
-			Computation time analysis\pgfglobalheadervspace
-			\begin{tikzpicture}[scale=\pgfglobalscale]
-			\begin{axis}[
-			xbar, xmin=0, xmax=950,
-			width=10cm, height=4cm, enlarge y limits=0.6,
-			xlabel={cpu time [s]},
-			x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
-			x tick label style={rotate=0},
-			symbolic y coords={500²,1000²},
-			ytick=data,
-			ylabel=\# cells,
-			y label style={at={(axis description cs:-0.05,0.0)},anchor=west},
-			nodes near coords, nodes near coords align={horizontal},
-			legend style={at={(0.7,0.3)},anchor=west},
-			]
-			\addplot coordinates {(4.30,500²) (777.25,1000²)};
-			\addplot coordinates {(4.35,500²) (789.90,1000²)};
-			\legend{Optimized,Original}
-			\end{axis}
-			\end{tikzpicture}
-			\newline
-			{\tiny 56 threads, gnu compiler}
-			
-			Impact on performance\pgfglobalheadervspace
-			%TODO: Implement content
-			\begin{tikzpicture}[scale=\pgfglobalscale]
-			\begin{axis}[
-			xbar, xmin=0,
-			width=10cm, height=4cm, enlarge y limits=0.3,
-			xlabel={Computation time [\%]},
-			symbolic y coords={mov, add, sub, div},
-			ytick=data,
-			nodes near coords, nodes near coords align={horizontal},
-			nodes near coords=\pgfmathprintnumber{\pgfplotspointmeta}\%,
-			]
-			\addplot coordinates {(1,mov) (5,add) (8,sub) (80,div)};
-			\end{axis}
-			\end{tikzpicture}
-		\end{frame}
-		
-		\begin{frame}{Coarse computation}
-			\begin{multicols}{2}
-				Features
-				\begin{itemize}
-					\item List
-					\item of
-					\item key
-					\item features
-				\end{itemize}
-				\columnbreak
-				Bild
-			\end{multicols}
-			
-		\end{frame}
-		
-		\begin{frame}{Project}
-			Development of a graphical data analyzer
-			\begin{itemize}
-				\item Standalone visualization of the SWE simulation output
-				\item Analysis functionality
-				\begin{itemize}
-					\item Cell data extraction and visualization over time
-					\item Cross-section visualization
-					\item Coastal damage assessment (max. wave height and speed)
-				\end{itemize}
-				\item Data export
-				\begin{itemize}
-					\item Images
-					\item Graphs (i.e. cross-sections)
-					\item Video
-				\end{itemize}
-			\end{itemize}
-		\end{frame}
-		
-		\begin{frame}{}
-			\begin{figure}
-				\includegraphics[clip, width=\imgfullscale\linewidth]{img/tsunami.jpg}
-			\end{figure}
-			\centering
-			Thank you for your attention
-			\\
-			\vfill
-			\flushleft
-			{\fontsize{5}{5} \selectfont http://userscontent2.emaze.com/images/88c09d66-4283-49c0-9f80-9eb8fd05e30f/16101782-ea98-4b06-b114-4637be705926.jpg}
-		\end{frame}
+		\begin{itemize}
+			\item Each thread executes one row
+			\item Less context switches
+			\item Increased thread lifetime
+			\item[$\Rightarrow$] Better performance
+		\end{itemize}
+	\end{multicols}
+\end{frame}
+
+\begin{frame}[fragile]{OpenMP: Advanced parallelisation}
+	Custom thread scheduling
+	\begin{itemize}
+		\item TODO
+	\end{itemize}
+	%TODO: Enhance content
+	
+	\vspace{20pt}
+	
+	Further improvements
+	\begin{itemize}
+		\item Toggle for \verb|assert| statements
+	\end{itemize}
+\end{frame}
+\begin{frame}{OpenMP: Advanced parallelisation}
+	%TODO: Implement content
+	\centering
+	Computation time analysis\pgfglobalheadervspace
+	\begin{tikzpicture}[scale=\pgfglobalscale]
+	\begin{axis}[
+	xbar, xmin=0, xmax=950,
+	width=10cm, height=4cm, enlarge y limits=0.6,
+	xlabel={cpu time [s]},
+	x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
+	x tick label style={rotate=0},
+	symbolic y coords={500²,1000²},
+	ytick=data,
+	ylabel=\# cells,
+	y label style={at={(axis description cs:-0.05,0.0)},anchor=west},
+	nodes near coords, nodes near coords align={horizontal},
+	legend style={at={(0.7,0.3)},anchor=west},
+	]
+	\addplot coordinates {(4.30,500²) (777.25,1000²)};
+	\addplot coordinates {(4.35,500²) (789.90,1000²)};
+	\legend{Optimized,Original}
+	\end{axis}
+	\end{tikzpicture}
+	\newline
+	{\tiny 56 threads, gnu compiler}
+	
+	Impact on performance\pgfglobalheadervspace
+	%TODO: Implement content
+	\begin{tikzpicture}[scale=\pgfglobalscale]
+	\begin{axis}[
+	xbar, xmin=0,
+	width=10cm, height=4cm, enlarge y limits=0.3,
+	xlabel={Computation time [\%]},
+	symbolic y coords={mov, add, sub, div},
+	ytick=data,
+	nodes near coords, nodes near coords align={horizontal},
+	nodes near coords=\pgfmathprintnumber{\pgfplotspointmeta}\%,
+	]
+	\addplot coordinates {(1,mov) (5,add) (8,sub) (80,div)};
+	\end{axis}
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Coarse computation}
+	\begin{multicols}{2}
+		Features
+		\begin{itemize}
+			\item List
+			\item of
+			\item key
+			\item features
+		\end{itemize}
+		\columnbreak
+		Bild
+	\end{multicols}
+	
+\end{frame}
+
+\begin{frame}{Project}
+	Development of a graphical data analyzer
+	\begin{itemize}
+		\item Standalone visualization of the SWE simulation output
+		\item Analysis functionality
+		\begin{itemize}
+			\item Cell data extraction and visualization over time
+			\item Cross-section visualization
+			\item Coastal damage assessment (max. wave height and speed)
+		\end{itemize}
+		\item Data export
+		\begin{itemize}
+			\item Images
+			\item Graphs (i.e. cross-sections)
+			\item Video
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{}
+	\begin{figure}
+		\includegraphics[clip, width=\imgfullscale\linewidth]{img/tsunami.jpg}
+	\end{figure}
+	\centering
+	Thank you for your attention
+	\\
+	\vfill
+	\flushleft
+	{\fontsize{5}{5} \selectfont http://userscontent2.emaze.com/images/88c09d66-4283-49c0-9f80-9eb8fd05e30f/16101782-ea98-4b06-b114-4637be705926.jpg}
+\end{frame}
 	\end{document}
