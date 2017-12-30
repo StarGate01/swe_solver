@@ -22,6 +22,7 @@
 
 %Tikz
 \usepackage{tikz}
+\usepackage{environ}
 \usetikzlibrary{positioning}
 
 
@@ -582,15 +583,33 @@
 	\begin{multicols}{2}
 		\textbf{Features}
 		\begin{itemize}
-			\item List
+			\item $4\cdot\text{scale}$ neighboring cells are merged
 			\item of
 			\item key
 			\item features
 		\end{itemize}
 		\columnbreak
 		
+		\definecolor{blue1}{RGB}{0,0,100}
+		\definecolor{blue2}{RGB}{0,0,150}
+		\definecolor{blue3}{RGB}{0,0,200}
+		\definecolor{blue4}{RGB}{0,0,250}
+		\definecolor{blueavg}{RGB}{0,0,175}
+		
 		\begin{figure}
-			\includegraphics[clip,width=0.95\linewidth]{img/tuhoku_mixed.png}
+					\only<1>{
+						\begin{tikzpicture}[scale=(\textwidth/4cm)*0.9]
+						\filldraw[fill=blue1,draw=none] (0,0) rectangle (1,1);
+						\filldraw[fill=blue2,draw=none] (1,0) rectangle (2,1);
+						\filldraw[fill=blue3,draw=none] (0,1) rectangle (1,2);
+						\filldraw[fill=blue4,draw=none] (1,1) rectangle (2,2);
+						\end{tikzpicture}
+					}\only<2>{
+						\begin{tikzpicture}[scale=(\textwidth/4cm)*0.9]
+						\filldraw[fill=blueavg,draw=none] (0,0) rectangle (2,2);
+						\end{tikzpicture}
+					}
+					\caption*{Merge of 4 cells}
 		\end{figure}
 	\end{multicols}
 	
