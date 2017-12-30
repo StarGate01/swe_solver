@@ -10,6 +10,7 @@
 %Images
 \usepackage{graphicx, svg}
 \usepackage{caption}
+\usepackage{adjustbox}
 
 %Mixed
 \usepackage{subfig}
@@ -21,6 +22,7 @@
 
 %Tikz
 \usepackage{tikz}
+\usetikzlibrary{positioning}
 
 
 \usepackage{algorithm,algpseudocode}  %for algorithm environmenstacle in the bathymetry to show the effect of the soruce terms in 2D.t
@@ -132,54 +134,115 @@
 	
 	%TODO: CPU-time & wall-time
 \end{frame}
-		
+
 \begin{frame}{HPC: Performance analysis (HPC $\leftrightarrow$ PC)}
 	\centering
-	\textbf{Computation time analysis}\pgfglobalheadervspace\hspace{-30pt}
-	\begin{tikzpicture}[scale=\pgfglobalscale]
-	\begin{axis}[
-	xbar, xmin=0, xmax=30,
-	width=13cm, height=3.5cm, enlarge y limits=0.6,
-	xlabel={cpu time [s]},
-	xlabel style={at={(axis description cs:0.5,-0.25)}, anchor=south},
-	x tick label style={rotate=0},
-	xtick distance=5,
-	symbolic y coords={light},
-	ytick=data,
-	%ylabel=Profile,
-	ylabel style={at={(axis description cs:-0.05,0.2)},anchor=west},
-	nodes near coords, nodes near coords align={horizontal},
-	legend pos=south east,
-	]
-	\addplot coordinates {(5.38,light)};	%28 threads
-	\addplot coordinates {(14.2,light)};	%28 threads
-	\addplot coordinates {(4.3,light)};		%56 threads
-	\legend{PC (28 threads),HPC (28 threads),HPC (56 threads)}
-	\end{axis}
-	\end{tikzpicture}\vspace{15pt}
-	\begin{tikzpicture}[scale=\pgfglobalscale]
-	\begin{axis}[
-	xbar, xmin=0, xmax=3500,
-	width=13cm, height=3.5cm, enlarge y limits=0.6,
-	xlabel={cpu time [s]},
-	xlabel style={at={(axis description cs:0.5,-0.25)}, anchor=south},
-	x tick label style={rotate=0},
-	xtick distance=500,
-	symbolic y coords={light,heavy},
-	ytick=data,
-	%ylabel=Profile,
-	ylabel style={at={(axis description cs:-0.05,0.2)},anchor=west},
-	nodes near coords, nodes near coords align={horizontal},
-	legend pos=south east,
-	]
-	\addplot coordinates {(1447.47,heavy)};	%28 threads
-	\addplot coordinates {(1042.64,heavy)};	%28 threads
-	\addplot coordinates {(777.25,heavy)};	%56 threads
-	\legend{PC (28 threads),HPC (28 threads),HPC (56 threads)}
-	\end{axis}
+	\begin{tikzpicture}
+		\node[](h){\textbf{Wall clock time analysis}};
+		\node[below=5pt of h.south](A){
+			\begin{tikzpicture}[scale=\pgfglobalscale]
+			\begin{axis}[
+			xbar, xmin=0, xmax=15,
+			width=13cm, height=3.5cm, enlarge y limits=0.6,
+			xlabel={wall clock time [s]},
+			xlabel style={at={(axis description cs:0.5,-0.25)}, anchor=south},
+			x tick label style={rotate=0},
+			xtick distance=5,
+			symbolic y coords={light},
+			ytick=data,
+			%ylabel=Profile,
+			ylabel style={at={(axis description cs:-0.05,0.2)},anchor=west},
+			nodes near coords, nodes near coords align={horizontal},
+			legend pos=south east,
+			]
+			\addplot coordinates {(9,light)};	%28 threads
+			\addplot coordinates {(7,light)};	%28 threads
+			\addplot coordinates {(7,light)};	%56 threads
+			\legend{PC (28 threads),HPC (28 threads),HPC (56 threads)}
+			\end{axis}
+			\end{tikzpicture}
+		};
+		\node[below=10pt of A.south](B){
+			\begin{tikzpicture}[scale=\pgfglobalscale]
+			\begin{axis}[
+			xbar, xmin=0, xmax=600,
+			width=13cm, height=3.5cm, enlarge y limits=0.6,
+			xlabel={wall clock time [s]},
+			xlabel style={at={(axis description cs:0.5,-0.25)}, anchor=south},
+			x tick label style={rotate=0},
+			xtick distance=50,
+			symbolic y coords={light,heavy},
+			ytick=data,
+			%ylabel=Profile,
+			ylabel style={at={(axis description cs:-0.05,0.2)},anchor=west},
+			nodes near coords, nodes near coords align={horizontal},
+			legend pos=south east,
+			]
+			\addplot coordinates {(342,heavy)};	%28 threads
+			\addplot coordinates {(134,heavy)};	%28 threads
+			\addplot coordinates {(163,heavy)};	%56 threads
+			\legend{PC (28 threads),HPC (28 threads),HPC (56 threads)}
+			\end{axis}
+			\end{tikzpicture}
+		};
 	\end{tikzpicture}
 	\newline
-	{\tiny GNU, all optimizations, release}\\\vspace{5pt}
+	{\tiny GNU, all optimizations, release}
+\end{frame}
+
+\begin{frame}{HPC: Performance analysis (HPC $\leftrightarrow$ PC)}
+	\centering
+	\begin{tikzpicture}
+		\node[](h){\textbf{Computation time analysis}};
+		\node[below=5pt of h.south](A){
+			\begin{tikzpicture}[scale=\pgfglobalscale]
+			\begin{axis}[
+			xbar, xmin=0, xmax=30,
+			width=13cm, height=3.5cm, enlarge y limits=0.6,
+			xlabel={cpu time [s]},
+			xlabel style={at={(axis description cs:0.5,-0.25)}, anchor=south},
+			x tick label style={rotate=0},
+			xtick distance=5,
+			symbolic y coords={light},
+			ytick=data,
+			%ylabel=Profile,
+			ylabel style={at={(axis description cs:-0.05,0.2)},anchor=west},
+			nodes near coords, nodes near coords align={horizontal},
+			legend pos=south east,
+			]
+			\addplot coordinates {(5.38,light)};	%28 threads
+			\addplot coordinates {(14.2,light)};	%28 threads
+			\addplot coordinates {(4.3,light)};		%56 threads
+			\legend{PC (28 threads),HPC (28 threads),HPC (56 threads)}
+			\end{axis}
+			\end{tikzpicture}
+		};
+		\node[below=10pt of A.south](B){
+			\begin{tikzpicture}[scale=\pgfglobalscale]
+			\begin{axis}[
+			xbar, xmin=0, xmax=3500,
+			width=13cm, height=3.5cm, enlarge y limits=0.6,
+			xlabel={cpu time [s]},
+			xlabel style={at={(axis description cs:0.5,-0.25)}, anchor=south},
+			x tick label style={rotate=0},
+			xtick distance=500,
+			symbolic y coords={light,heavy},
+			ytick=data,
+			%ylabel=Profile,
+			ylabel style={at={(axis description cs:-0.05,0.2)},anchor=west},
+			nodes near coords, nodes near coords align={horizontal},
+			legend pos=south east,
+			]
+			\addplot coordinates {(1447.47,heavy)};	%28 threads
+			\addplot coordinates {(1042.64,heavy)};	%28 threads
+			\addplot coordinates {(777.25,heavy)};	%56 threads
+			\legend{PC (28 threads),HPC (28 threads),HPC (56 threads)}
+			\end{axis}
+			\end{tikzpicture}
+		};
+	\end{tikzpicture}
+	\newline
+	{\tiny GNU, all optimizations, release}
 \end{frame}
 
 \begin{frame}{HPC: Performance analysis (HPC $\leftrightarrow$ PC)}
@@ -194,55 +257,120 @@
 
 \begin{frame}{HPC: Performance analysis (GCC $\leftrightarrow$ Intel)}
 	\centering
-	\textbf{Computation time analysis}\pgfglobalheadervspace\hspace{-24pt}
-	\begin{tikzpicture}[scale=\pgfglobalscale]
-	\begin{axis}[
-	xbar, xmin=0, xmax=28,
-	width=13cm, height=4cm, enlarge y limits=0.6,
-	xlabel={cpu time [s]},
-	x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
-	x tick label style={rotate=-45},
-	symbolic y coords={light},
-	ytick=data,
-	%ylabel=Profile,
-	y label style={at={(axis description cs:-0.05,0.2)},anchor=west},
-	x tick label style={rotate=45},
-	xtick distance=5,
-	nodes near coords, nodes near coords align={horizontal},
-	legend pos=south east,
-	]
-	\addplot coordinates {(13.04,light)};	%Gnu, 28 threads
-	\addplot coordinates {(9.55,light)};	%Intel, 28 threads
-	\addplot coordinates {(4.3,light)};	%Gnu, 56 threads
-	\addplot coordinates {(5.45,light)};	%Intel, 56 threads
-	\legend{gnu (28 threads),intel (28 threads),gnu (56 threads),intel (56 threads)}
-	\end{axis}
-	\end{tikzpicture}\\
-	\begin{tikzpicture}[scale=\pgfglobalscale]
-	\begin{axis}[
-	xbar, xmin=0, xmax=2050,
-	width=13cm, height=4cm, enlarge y limits=0.6,
-	xlabel={cpu time [s]},
-	x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
-	x tick label style={rotate=-45},
-	symbolic y coords={heavy},
-	ytick=data,
-	%ylabel=Profile,
-	y label style={at={(axis description cs:-0.05,0.2)},anchor=west},
-	x tick label style={rotate=45},
-	xtick distance=500,
-	nodes near coords, nodes near coords align={horizontal},
-	legend pos=south east,
-	]
-	\addplot coordinates {(1061.26,heavy)};	%Gnu, 28 threads
-	\addplot coordinates {(1042.64,heavy)};	%Intel, 28 threads
-	\addplot coordinates {(777.25,heavy)};	%Gnu, 56 threads
-	\addplot coordinates {(774.32,heavy)};	%Intel, 56 threads
-	\legend{gnu (28 threads),intel (28 threads),gnu (56 threads),intel (56 threads)}
-	\end{axis}
+	\begin{tikzpicture}
+		\node[](h){\textbf{Wall clock time analysis}};
+		\node[below=5pt of h.south](A){
+			\begin{tikzpicture}[scale=\pgfglobalscale]
+			\begin{axis}[
+			xbar, xmin=0, xmax=12,
+			width=13cm, height=4cm, enlarge y limits=0.6,
+			xlabel={wall clock time [s]},
+			x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
+			x tick label style={rotate=-45},
+			symbolic y coords={light},
+			ytick=data,
+			%ylabel=Profile,
+			y label style={at={(axis description cs:-0.05,0.2)},anchor=west},
+			x tick label style={rotate=45},
+			xtick distance=2,
+			nodes near coords, nodes near coords align={horizontal},
+			legend pos=south east,
+			]
+			\addplot coordinates {(7,light)};	%Gnu, 28 threads
+			\addplot coordinates {(7,light)};	%Intel, 28 threads
+			\addplot coordinates {(7,light)};	%Gnu, 56 threads
+			\addplot coordinates {(6,light)};	%Intel, 56 threads
+			\legend{gnu (28 threads),intel (28 threads),gnu (56 threads),intel (56 threads)}
+			\end{axis}
+			\end{tikzpicture}
+		};
+		\node[below=10pt of A.south](B){
+			\begin{tikzpicture}[scale=\pgfglobalscale]
+			\begin{axis}[
+			xbar, xmin=0, xmax=300,
+			width=13cm, height=4cm, enlarge y limits=0.6,
+			xlabel={wall clock time [s]},
+			x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
+			x tick label style={rotate=-45},
+			symbolic y coords={heavy},
+			ytick=data,
+			%ylabel=Profile,
+			y label style={at={(axis description cs:-0.05,0.2)},anchor=west},
+			x tick label style={rotate=45},
+			xtick distance=50,
+			nodes near coords, nodes near coords align={horizontal},
+			legend pos=south east,
+			]
+			\addplot coordinates {(138,heavy)};	%Gnu, 28 threads
+			\addplot coordinates {(134,heavy)};	%Intel, 28 threads
+			\addplot coordinates {(163,heavy)};	%Gnu, 56 threads
+			\addplot coordinates {(152,heavy)};	%Intel, 56 threads
+			\legend{gnu (28 threads),intel (28 threads),gnu (56 threads),intel (56 threads)}
+			\end{axis}
+			\end{tikzpicture}
+		};
 	\end{tikzpicture}
 	\newline
-	{\tiny Runs were performed with 28 threads}
+	{\tiny All optimisations, release}
+\end{frame}
+
+\begin{frame}{HPC: Performance analysis (GCC $\leftrightarrow$ Intel)}
+	\centering
+	\begin{tikzpicture}
+		\node[](h){\textbf{Computation time analysis}};
+		\node[below=5pt of h.south](A){
+			\begin{tikzpicture}[scale=\pgfglobalscale]
+			\begin{axis}[
+			xbar, xmin=0, xmax=28,
+			width=13cm, height=4cm, enlarge y limits=0.6,
+			xlabel={cpu time [s]},
+			x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
+			x tick label style={rotate=-45},
+			symbolic y coords={light},
+			ytick=data,
+			%ylabel=Profile,
+			y label style={at={(axis description cs:-0.05,0.2)},anchor=west},
+			x tick label style={rotate=45},
+			xtick distance=5,
+			nodes near coords, nodes near coords align={horizontal},
+			legend pos=south east,
+			]
+			\addplot coordinates {(13.04,light)};	%Gnu, 28 threads
+			\addplot coordinates {(9.55,light)};	%Intel, 28 threads
+			\addplot coordinates {(4.3,light)};	%Gnu, 56 threads
+			\addplot coordinates {(5.45,light)};	%Intel, 56 threads
+			\legend{gnu (28 threads),intel (28 threads),gnu (56 threads),intel (56 threads)}
+			\end{axis}
+			\end{tikzpicture}
+		};
+		\node[below=10pt of A.south](B){
+			\begin{tikzpicture}[scale=\pgfglobalscale]
+			\begin{axis}[
+			xbar, xmin=0, xmax=2050,
+			width=13cm, height=4cm, enlarge y limits=0.6,
+			xlabel={cpu time [s]},
+			x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
+			x tick label style={rotate=-45},
+			symbolic y coords={heavy},
+			ytick=data,
+			%ylabel=Profile,
+			y label style={at={(axis description cs:-0.05,0.2)},anchor=west},
+			x tick label style={rotate=45},
+			xtick distance=500,
+			nodes near coords, nodes near coords align={horizontal},
+			legend pos=south east,
+			]
+			\addplot coordinates {(1061.26,heavy)};	%Gnu, 28 threads
+			\addplot coordinates {(1042.64,heavy)};	%Intel, 28 threads
+			\addplot coordinates {(777.25,heavy)};	%Gnu, 56 threads
+			\addplot coordinates {(774.32,heavy)};	%Intel, 56 threads
+			\legend{gnu (28 threads),intel (28 threads),gnu (56 threads),intel (56 threads)}
+			\end{axis}
+			\end{tikzpicture}
+		};
+	\end{tikzpicture}
+	\newline
+	{\tiny All optimisations, release}
 \end{frame}
 
 \begin{frame}{HPC: Performance analysis (GCC $\leftrightarrow$ Intel)}
@@ -331,47 +459,123 @@
 		\item Toggle for \verb|assert| statements
 	\end{itemize}
 \end{frame}
+
 \begin{frame}{OpenMP: Advanced parallelisation}
-	%TODO: Implement content
 	\centering
-	\textbf{Computation time analysis}\pgfglobalheadervspace
-	\begin{tikzpicture}[scale=\pgfglobalscale]
-	\begin{axis}[
-	xbar, xmin=0, xmax=950,
-	width=10cm, height=4cm, enlarge y limits=0.6,
-	xlabel={cpu time [s]},
-	x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
-	x tick label style={rotate=0},
-	symbolic y coords={light,heavy},
-	ytick=data,
-	ylabel=Profile,
-	y label style={at={(axis description cs:-0.05,0.0)},anchor=west},
-	nodes near coords, nodes near coords align={horizontal},
-	legend style={at={(0.7,0.3)},anchor=west},
-	]
-	\addplot coordinates {(4.30,light) (777.25,heavy)};
-	\addplot coordinates {(4.35,light) (789.90,heavy)};
-	\legend{Optimized,Original}
-	\end{axis}
+	\begin{tikzpicture}
+		\node[](h){\textbf{Wall clock time analysis}};
+		\node[below=5pt of h.south](A){
+			\begin{tikzpicture}[scale=\pgfglobalscale]
+			\begin{axis}[
+			xbar, xmin=0, xmax=15,
+			width=13cm, height=4cm, enlarge y limits=0.6,
+			xlabel={cpu time [s]},
+			x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
+			x tick label style={rotate=-45},
+			symbolic y coords={light},
+			ytick=data,
+			%ylabel=Profile,
+			y label style={at={(axis description cs:-0.05,0.2)},anchor=west},
+			x tick label style={rotate=45},
+			xtick distance=5,
+			nodes near coords, nodes near coords align={horizontal},
+			legend pos=south east,
+			]
+			\addplot coordinates {(7,light)};	%Original, 28 threads
+			\addplot coordinates {(7,light)};	%Optimized, 28 threads
+			\addplot coordinates {(7,light)};		%Original, 56 threads
+			\addplot coordinates {(7,light)};	%Optimized, 56 threads
+			\legend{original (28 threads),optimized (28 threads),original (56 threads),optimized (56 threads)}
+			\end{axis}
+			\end{tikzpicture}
+		};
+		\node[below=10pt of A.south](B){
+			\begin{tikzpicture}[scale=\pgfglobalscale]
+			\begin{axis}[
+			xbar, xmin=0, xmax=350,
+			width=13cm, height=4cm, enlarge y limits=0.6,
+			xlabel={cpu time [s]},
+			x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
+			x tick label style={rotate=-45},
+			symbolic y coords={heavy},
+			ytick=data,
+			%ylabel=Profile,
+			y label style={at={(axis description cs:-0.05,0.2)},anchor=west},
+			x tick label style={rotate=45},
+			xtick distance=50,
+			nodes near coords, nodes near coords align={horizontal},
+			legend pos=south east,
+			]
+			\addplot coordinates {(138,heavy)};	%Original, 28 threads
+			\addplot coordinates {(134,heavy)};	%Optimized, 28 threads
+			\addplot coordinates {(163,heavy)};	%Original, 56 threads
+			\addplot coordinates {(163,heavy)};	%Optimized, 56 threads
+			\legend{original (28 threads),optimized (28 threads),original (56 threads),optimized (56 threads)}
+			\end{axis}
+			\end{tikzpicture}
+		};
 	\end{tikzpicture}
 	\newline
-	{\tiny 56 threads, gnu compiler}
-	
-	Impact on performance\pgfglobalheadervspace
-	%TODO: Implement content
-	\begin{tikzpicture}[scale=\pgfglobalscale]
-	\begin{axis}[
-	xbar, xmin=0,
-	width=10cm, height=4cm, enlarge y limits=0.3,
-	xlabel={Computation time [\%]},
-	symbolic y coords={mov, add, sub, div},
-	ytick=data,
-	nodes near coords, nodes near coords align={horizontal},
-	nodes near coords=\pgfmathprintnumber{\pgfplotspointmeta}\%,
-	]
-	\addplot coordinates {(1,mov) (5,add) (8,sub) (80,div)};
-	\end{axis}
+	{\tiny GNU, release}
+\end{frame}
+
+\begin{frame}{OpenMP: Advanced parallelisation}
+	\centering
+	\begin{tikzpicture}
+		\node[](h){\textbf{Computation time analysis}};
+		\node[below=5pt of h.south](A){
+			\begin{tikzpicture}[scale=\pgfglobalscale]
+			\begin{axis}[
+			xbar, xmin=0, xmax=28,
+			width=13cm, height=4cm, enlarge y limits=0.6,
+			xlabel={cpu time [s]},
+			x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
+			x tick label style={rotate=-45},
+			symbolic y coords={light},
+			ytick=data,
+			%ylabel=Profile,
+			y label style={at={(axis description cs:-0.05,0.2)},anchor=west},
+			x tick label style={rotate=45},
+			xtick distance=5,
+			nodes near coords, nodes near coords align={horizontal},
+			legend pos=south east,
+			]
+			\addplot coordinates {(13.04,light)};	%Original, 28 threads
+			\addplot coordinates {(14.20,light)};	%Optimized, 28 threads
+			\addplot coordinates {(4.35,light)};		%Original, 56 threads
+			\addplot coordinates {(4.30,light)};	%Optimized, 56 threads
+			\legend{original (28 threads),optimized (28 threads),original (56 threads),optimized (56 threads)}
+			\end{axis}
+			\end{tikzpicture}
+		};
+		\node[below=10pt of A.south](B){
+			\begin{tikzpicture}[scale=\pgfglobalscale]
+			\begin{axis}[
+			xbar, xmin=0, xmax=2500,
+			width=13cm, height=4cm, enlarge y limits=0.6,
+			xlabel={cpu time [s]},
+			x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
+			x tick label style={rotate=-45},
+			symbolic y coords={heavy},
+			ytick=data,
+			%ylabel=Profile,
+			y label style={at={(axis description cs:-0.05,0.2)},anchor=west},
+			x tick label style={rotate=45},
+			xtick distance=500,
+			nodes near coords, nodes near coords align={horizontal},
+			legend pos=south east,
+			]
+			\addplot coordinates {(1061.26,heavy)};	%Original, 28 threads
+			\addplot coordinates {(1042.64,heavy)};	%Optimized, 28 threads
+			\addplot coordinates {(789.90,heavy)};	%Original, 56 threads
+			\addplot coordinates {(777.25,heavy)};	%Optimized, 56 threads
+			\legend{original (28 threads),optimized (28 threads),original (56 threads),optimized (56 threads)}
+			\end{axis}
+			\end{tikzpicture}
+		};
 	\end{tikzpicture}
+	\newline
+	{\tiny GNU, release}
 \end{frame}
 
 \begin{frame}{Coarse computation}
