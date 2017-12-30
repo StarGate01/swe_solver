@@ -251,7 +251,7 @@
 	\textbf{Analysis}
 	\begin{itemize}
 		\item Huge impact of context switching on execution time
-		\item Result of HPC and PC are identical
+		\item Computed data of HPC and PC are identical
 	\end{itemize}
 	%TODO: Implement content
 \end{frame}
@@ -470,7 +470,7 @@
 			\begin{axis}[
 			xbar, xmin=0, xmax=15,
 			width=13cm, height=4cm, enlarge y limits=0.6,
-			xlabel={cpu time [s]},
+			xlabel={wall clock time [s]},
 			x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
 			x tick label style={rotate=-45},
 			symbolic y coords={light},
@@ -495,7 +495,7 @@
 			\begin{axis}[
 			xbar, xmin=0, xmax=350,
 			width=13cm, height=4cm, enlarge y limits=0.6,
-			xlabel={cpu time [s]},
+			xlabel={wall clock time [s]},
 			x label style={at={(axis description cs:0.5,-0.22)}, anchor=south},
 			x tick label style={rotate=-45},
 			symbolic y coords={heavy},
@@ -583,11 +583,12 @@
 	\begin{multicols}{2}
 		\textbf{Features}
 		\begin{itemize}
-			\item $4\cdot\text{scale}$ neighboring cells are merged
-			\item of
-			\item key
-			\item features
+			\item $n*n$ cells are merged into one
+			\item Internal use of the high definition model
+			\item Automatic downscale on export into file
 		\end{itemize}
+		
+		\vfill
 		\columnbreak
 		
 		\definecolor{blue1}{RGB}{0,0,100}
@@ -604,12 +605,21 @@
 						\filldraw[fill=blue3,draw=none] (0,1) rectangle (1,2);
 						\filldraw[fill=blue4,draw=none] (1,1) rectangle (2,2);
 						\end{tikzpicture}
+						\caption*{Merge of 4 cells}
 					}\only<2>{
 						\begin{tikzpicture}[scale=(\textwidth/4cm)*0.9]
 						\filldraw[fill=blueavg,draw=none] (0,0) rectangle (2,2);
 						\end{tikzpicture}
+						\caption*{Merge of 4 cells}
 					}
-					\caption*{Merge of 4 cells}
+					\only<3>{
+						\includegraphics[clip,width=\linewidth]{img/tohoku_prod_sc_200.png}
+						\caption*{Tuhoku scenario downscaled}
+					}
+					\only<4>{
+						\includegraphics[clip,width=\linewidth]{img/tuhoku_mixed.png}
+						\caption*{Tuhoku HD / downscaled}
+					}
 		\end{figure}
 	\end{multicols}
 	
