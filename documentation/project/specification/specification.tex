@@ -1,0 +1,65 @@
+\documentclass[paper=a4]{proc}
+\usepackage[ngerman]{babel}
+
+\pagenumbering{gobble}		%Disable page numbers
+
+\title{Graphical Data Visualization Tool}
+\author{George Bellamy, Christoph Honal, Felix Wieser}
+
+\begin{document}
+	\maketitle
+	\thispagestyle{plain}	%Disable page numbers
+	\section{Outline}
+		This project is about implementing a graphical user interface to interactively visualize the output of the SWE-tsunami-simulation and provide basic analyzing functions for the tsunami waves. Additionally, the ability to export images, videos and graphs (i.e. cross-sections) are planned as well. The project is intended to be a standalone application which loads pre-calculated datasets.
+	\section{Description}
+		\subsection{GUI}
+			The GUI consists of a 2D renderer and some control elements. It should support zoom/pan of the map and multiple layers of data to allow overlays.
+			\subsubsection{General UI}
+			Most of the screen space is used by the rendered image in the middle of the screen. 
+			
+			Above the image (via toolbar) is a play and pause button as well as a display for the current time. to the right the play speed can be changed in relation with real time via a speed up and down button. Also there is a reset button to jump to the beginning of the simulation. After this on the top are the zoom buttons. The last button is a sticky selection pan button to move the current selection in the renderer. 
+			
+			On the top right next to the image is a data field to display data from the simulation of a specific point. Below this one can select different data layers and below that one can choose the action on clicking (Which analysis method used) on the renderer (sticky selection). Below that are the image export functions.
+			
+			\subsubsection{Data layers}
+			Surface height only (before and after earthquake): \newline
+			This shows the bathymetry without water of the scenario before or after the 			earthquake so the effect of this can be seen. color gradients are uesd for 				height.
+			
+			Water and land height: \newline
+			Water and land is colored in different colors (Land green to gray, water blue to red) and displayed together, 					different color gradients indicate different height.
+			
+			Coastal damage estimation: \newline
+		 This probes all coastal regions and outputs the maximum wave height over time at each location as a color gradient on the land to water boarders. the exact value can be seen by mouseover in the data field 
+		 %TODO this might be hard to implement, there may be an easier solutiuon
+ 		\subsection{Data analysis}
+			The following analysis-tools are planned at this time:
+			\subsubsection*{Cell probe}
+				The user can select a point on the renderer (by mouseover) of which the values are shown in a data field next to the rendered image. It contains bathymetry and water height as well as coordinates. Once a position is clicked this becomes saved and over time values are shown such as maximum water height.
+			\subsubsection*{Arrival time calculator}
+				Works as with the cell probe above but upon the arrival time of this position is shown in the data field with a sensible change in water height (both 1/10 wave height and peak arrival time and height can be displayed)
+			
+			\subsection*{Cross-section analysis}
+				In order to visualize a vertical profile, cross-sections can be very helpful. Two points must be selected on the map to specify the line along which the vertical profile of bathymetry and water height is then plotted as a 2D graph in a separate window with close and export options.
+		\subsection{Export}
+			For increased usability the application should be capable to export images and maybe even videos of the scenario and graphs.
+	\section{Implementation steps}
+		The project is partitioned into several milestones, the essentials being the first three, and all others being additional features.
+		\begin{itemize}
+			\item Framework
+			\begin{itemize}
+				\item Using \emph{gtkmm} (with \emph{glade})
+			\end{itemize}
+			\item Height-map renderer
+			\begin{itemize}
+				\item Using \emph{openGL} pixelshaders
+			\end{itemize}
+			\item Data analysis functions
+			\item Interactive GUI-Elements
+			\item Add zoom/pan of the map
+			\item Layer-based rendering
+			\item Image and video export
+			\begin{itemize}
+				\item Using \emph{ffmpeg}
+			\end{itemize}
+		\end{itemize}
+\end{document}
