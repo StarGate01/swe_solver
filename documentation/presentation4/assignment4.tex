@@ -132,8 +132,6 @@
 		light & Tuhoku & 500² & 1000 & 300\\
 		heavy & Tuhoku & 5000² & 30000 & 1000\\
 	\end{tabular}
-	
-	%TODO: CPU-time & wall-time
 \end{frame}
 
 \begin{frame}{HPC: Performance analysis (HPC $\leftrightarrow$ PC)}
@@ -611,12 +609,10 @@
 						\filldraw[fill=blueavg,draw=none] (0,0) rectangle (2,2);
 						\end{tikzpicture}
 						\caption*{Merge of 4 cells}
-					}
-					\only<3>{
+					}\only<3>{
 						\includegraphics[clip,width=\linewidth]{img/tohoku_prod_sc_200.png}
 						\caption*{Tuhoku scenario downscaled}
-					}
-					\only<4>{
+					}\only<4>{
 						\includegraphics[clip,width=\linewidth]{img/tuhoku_mixed.png}
 						\caption*{Tuhoku HD / downscaled}
 					}
