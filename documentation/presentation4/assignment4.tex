@@ -618,7 +618,11 @@
 					}
 		\end{figure}
 	\end{multicols}
-	
+\end{frame}
+
+\begin{frame}{Project}
+	\centering
+	Stay tuned for the project...
 \end{frame}
 
 \begin{frame}{Project}
@@ -638,6 +642,69 @@
 			\item Video
 		\end{itemize}
 	\end{itemize}
+\end{frame}
+
+%--- GUI colors ---
+\definecolor{guitoolbar}{HTML}{565656}
+\definecolor{guidata}{HTML}{76323F}
+\definecolor{guiexport}{HTML}{C09F80}
+
+\begin{frame}{Project}
+	\textbf{User Interface}
+	\begin{multicols}{2}
+		\begin{itemize}
+			\item Interactive scenario map rendering
+			\begin{itemize}
+				\item Pan \& Zoom
+				\item Multi-layer support
+				\item Cursor as data probe
+			\end{itemize}
+			\item \textcolor{guitoolbar}{Toolbar}
+			\item \textcolor{guidata}{Raw data display}
+			\item \textcolor{guiexport}{Image export tools}
+		\end{itemize}
+		
+	\columnbreak
+		\centering
+		\begin{figure}
+			\includegraphics[clip,width=\linewidth]{img/GUI.png}
+		\end{figure}	
+	\end{multicols}
+\end{frame}
+
+\begin{frame}{Project}
+	\textbf{Data analysis}
+	\begin{itemize}
+		\item Cell probe
+		\item Arrival time calculator
+		\item Cross-section analysis
+	\end{itemize}
+	
+	\textbf{Export functionality}
+	\begin{itemize}
+		\item Images of the map
+		\item Graphs (i.e. cross-sections)
+		\item Videos
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Project}
+	\textbf{External libraries}\\\vspace{5pt}
+	\begin{tabular}{ll}
+		Framework & \textit{gtkmm} and \textit{glade}\\
+		Renderer & \textit{openGL} pixelshader\\
+		Image and video export & ffmpeg
+	\end{tabular}
+	\\\vspace{15pt}
+	\textbf{Implementation}
+	\begin{enumerate}
+		\item Framework
+		\item Height-map renderer
+		\item Data analysis functionality
+		\item Interactive GUI elements
+		\item Zoom/pan of the map
+		\item Image and video export
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}{}
