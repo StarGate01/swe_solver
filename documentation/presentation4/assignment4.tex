@@ -8,6 +8,7 @@
 \usepackage{listings}
 
 %Images
+\usepackage{graphics}
 \usepackage{graphicx, svg}
 \usepackage{caption}
 \usepackage{adjustbox}
@@ -15,10 +16,14 @@
 %Mixed
 \usepackage{subfig}
 \usepackage{multicol}
-\usepackage{color}
+\usepackage{xcolor}
+\usepackage{colortbl}
 \usepackage{pgfplots}
 \usepackage{xmpmulti}
 \usepackage{verbatim}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{cprotect}
 
 %Tikz
 \usepackage{tikz}
@@ -128,10 +133,10 @@
 	\vspace{10pt}
 	\textbf{Performance profiles}\\
 	\begin{tabular}{lllll}
-		name & scenario & cells & comp. time [s] & checkpoints\\
+		name & scenario & cells & domain time & checkpoints\\
 		\hline
-		light & Tuhoku & 500² & 1000 & 300\\
-		heavy & Tuhoku & 5000² & 30000 & 1000\\
+		light & Tohoku & 500² & 1000 s & 300\\
+		heavy & Tohoku & 5000² & 30000 s & 1000\\
 	\end{tabular}
 \end{frame}
 
@@ -250,7 +255,7 @@
 	\textbf{Analysis}
 	\begin{itemize}
 		\item Wall clock time: 56 threads perform worse than 28 threads on the \textit{heavy} profile
-		\item The overall computation time decreases with nr. of threads
+		\item The overall computation time increases when \#threads $>$ \#cores
 		\item[$\Rightarrow$] Impact on performance due to overhead of context switching, etc.
 		\item Computed data of HPC and PC are identical
 	\end{itemize}
@@ -412,7 +417,8 @@
 		
 		\begin{itemize}
 			\item Each thread processes one \verb|doSomething()|
-			\item Many context switches
+			\item Context switches
+			\item Thread synchronization
 			\item Short thread lifetime
 			\item[$\Rightarrow$] Bad performance 
 		\end{itemize}
@@ -449,19 +455,70 @@
 	\end{multicols}
 \end{frame}
 
+\definecolor{thread1}{HTML}{EAAA00}
+\definecolor{thread2}{HTML}{F0521D}
+\definecolor{thread3}{HTML}{941919}
+
 \begin{frame}[fragile]{OpenMP: Advanced parallelisation}
+	\only<1>{\vspace{-3.6cm}}
+	\only<4>{\vspace{-23pt}}
 	\textbf{Custom thread scheduling}
 	\begin{itemize}
-		\item TODO
+		\only<1->{\item Idea: Minimizing time waste due to thread synchronization}
+		\only<2->{\item[$\Rightarrow$] Improving the outer loop parallelization}
+		\only<3->{
+			\item Subdevision of the outer loop according to nr. of threads
+			\item[$\Rightarrow$] Each thread computes a complete subdivision instead of a single line or column
+		}
 	\end{itemize}
-	%TODO: Enhance content
 	
-	\vspace{20pt}
+	\only<2>{
+		\vfill
+		\begin{table}
+			\centering
+			\vspace{45pt}
+			\resizebox{0.5\linewidth}{!}{
+				\begin{tabularx}{\textwidth}{XXXXXXXXX}
+					\cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} \\
+					\cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} \\
+					\cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} \\
+					\cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} \\
+					\cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} \\
+					\cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} \\
+					\cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} \\
+					\cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread3} \\
+				\end{tabularx}
+			}
+		\end{table}
+	}
 	
-	\textbf{Further improvements}
-	\begin{itemize}
-		\item Toggle for \verb|assert| statements
-	\end{itemize}
+	\only<3>{
+		\vfill
+		\begin{table}
+			\centering
+			\resizebox{0.5\linewidth}{!}{
+				\begin{tabularx}{\textwidth}{XXXXXXXXX}
+					\cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread3} & \cellcolor{thread3} \\
+					\cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread3} & \cellcolor{thread3} \\
+					\cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread3} & \cellcolor{thread3} \\
+					\cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread3} & \cellcolor{thread3} \\
+					\cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread3} & \cellcolor{thread3} \\
+					\cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread3} & \cellcolor{thread3} \\
+					\cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread3} & \cellcolor{thread3} \\
+					\cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread1} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread2} & \cellcolor{thread3} & \cellcolor{thread3} & \cellcolor{thread3} \\	
+				\end{tabularx}	
+			}
+		\end{table}	
+	}
+	
+	\only<4>{
+		\vspace{20pt}
+		\textbf{Further improvements}
+		\begin{itemize}
+			\item Toggle for \texttt{assert} statements
+		\end{itemize}	
+	}
+	
 \end{frame}
 
 \begin{frame}{OpenMP: Advanced parallelisation}
@@ -582,6 +639,21 @@
 	{\tiny GNU, release}
 \end{frame}
 
+\begin{frame}[fragile]{Optimisation reports}
+	\textbf{Inlining}
+	\begin{itemize}
+		\item Call of \verb|FWave| inlined
+		\item Call of \verb|FCore| \textbf{not} inlined
+		\item Most calls in \verb|FCore| inlined
+	\end{itemize}
+	\vspace{10pt}
+	\textbf{Vectorisation}
+	\begin{itemize}
+ 		\item Timestep loop not vectorized
+ 		\item DimensionalSplitting parallelized with \verb|openMP|
+	\end{itemize}
+\end{frame}
+
 \begin{frame}{Coarse computation}
 	\begin{multicols}{2}
 		\textbf{Features}
@@ -616,10 +688,10 @@
 						\caption*{Merge of 4 cells}
 					}\only<3>{
 						\includegraphics[clip,width=\linewidth]{img/tohoku_prod_sc_200.png}
-						\caption*{Tuhoku scenario downscaled}
+						\caption*{Tohoku scenario downscaled}
 					}\only<4>{
 						\includegraphics[clip,width=\linewidth]{img/tuhoku_mixed.png}
-						\caption*{Tuhoku HD / downscaled}
+						\caption*{Tohoku HD / downscaled}
 					}
 		\end{figure}
 	\end{multicols}
@@ -672,7 +744,7 @@
 			\end{itemize}
 			\item \textcolor{guitoolbar}{Toolbar}
 			\item \textcolor{guidata}{Raw data display}
-			\item \textcolor{guiexport}{Image export tools}
+			\item \textcolor{guiexport}{List of sample points}
 		\end{itemize}
 		
 	\columnbreak
@@ -690,7 +762,7 @@
 		\item Arrival time calculator
 		\item Cross-section analysis
 	\end{itemize}
-	
+	\vspace{10pt}
 	\textbf{Export functionality}
 	\begin{itemize}
 		\item Images of the map
@@ -706,8 +778,9 @@
 		Renderer & \textit{openGL} pixelshader\\
 		Image and video export & ffmpeg
 	\end{tabular}
-	\\\vspace{15pt}
-	\textbf{Implementation}
+	\\\vspace{5pt}
+	\textbf{Implementation}\\
+	The roadmap for implementation looks as follows. Minor features may be canceled if remaining time is not sufficient!
 	\begin{enumerate}
 		\item Framework
 		\item Height-map renderer
@@ -716,6 +789,7 @@
 		\item Zoom/pan of the map
 		\item Image and video export
 	\end{enumerate}
+	
 \end{frame}
 
 \begin{frame}{}
