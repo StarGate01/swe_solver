@@ -38,7 +38,8 @@ The following tasks are registered in the IDE's task runner
 - Build Debug Binaries
 - Build Release Binaries
 - Clean Binaries
-- Clean And Regenerate Data
+- Clean And Regenerate Data (debug)
+- Clean And Regenerate Data (release)
 - Clean And Regenerate Data And Simulate Failure
 - Continue Data From Checkpoint
 - Run Tsunami Script
@@ -51,6 +52,11 @@ The following tasks are registered in the IDE's task runner
 - Run Framework Tests
 - Build Presentation
 - Clean Presentation
+- Build Project Suggestion
+- Clean Project Suggestion
+- Build Project Specification
+- Clean Project Specification
+- Run Tsunami Script
 
 ## Debug targets
 
